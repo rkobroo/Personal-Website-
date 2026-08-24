@@ -1435,6 +1435,14 @@ input, textarea { font-family: inherit; }
   padding: clamp(12px, 2vw, 20px);
 }
 
+/* Tall panel for phone-screenshot preview — shows the FULL image, large */
+.project-preview.pv-shot { aspect-ratio: auto; }
+.project-preview.pv-shot .project-shot {
+  width: auto;
+  height: clamp(340px, 42vw, 440px);
+  margin-inline: auto;
+}
+
 .pv-tv-logo {
   position: relative;
   z-index: 1;
@@ -1731,20 +1739,28 @@ input, textarea { font-family: inherit; }
   color: var(--muted-2);
   margin-bottom: 16px;
 }
+.f-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
 .f-links a,
-.say-mail {
+.say-mail,
+.loc-box {
   position: relative;
   display: block;
   font-size: 0.92rem;
   color: var(--muted);
   padding: 9px 15px;
-  margin-bottom: 8px;
+  margin-bottom: 0;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.03);
   transition: color 0.3s ease, transform 0.3s var(--ease-out);
 }
+.say-mail { margin-bottom: 8px; }
 .f-links a::before,
-.say-mail::before {
+.say-mail::before,
+.loc-box::before {
   content: '';
   position: absolute;
   inset: -1px;
