@@ -1775,7 +1775,7 @@ input, textarea { font-family: inherit; }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr;
   align-items: start;
   gap: clamp(20px, 3vw, 36px);
   padding-block: clamp(36px, 5vw, 52px) 28px;
@@ -1817,6 +1817,13 @@ input, textarea { font-family: inherit; }
 .loc-box {
   display: inline-block;
   width: fit-content;
+}
+/* footer quick links laid out horizontally */
+.f-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
 }
 .f-links a::before,
 .say-mail::before,
