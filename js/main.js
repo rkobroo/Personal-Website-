@@ -464,6 +464,39 @@
     } catch (err) { /* map is decorative — fail silently */ }
   }
 
+  /* ---------------- Fullscreen screenshot viewer ---------------- */
+  const lb = document.getElementById('lightbox');
+  if (lb) {
+    const lbImg = $('.lb-img', lb);
+    let lbOpen = false;
+
+    function openLb(src, alt) {
+      lbImg.src = src;
+      lbImg.alt = alt || '';
+      lb.classList.add('open');
+      lb.classList.remove('zoomed');
+      lbOpen = true;
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLb() {
+      if (!lbOpen) return;
+      lb.classList.remove('open', 'zoomed');
+      lbOpen = false;
+      document.body.style.overflow = '';
+    }
+
+    $$('.project-shot').forEach(img =>
+      img.addEventListener('click', () => openLb(img.src, img.alt)));
+
+    $('.lb-close', lb).addEventListener('click', closeLb);
+    lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
+    lbImg.addEventListener('click', () => {
+      lb.classList.toggle('zoomed');
+      if (!lb.classList.contains('zoomed')) lb.scrollTo(0, 0);
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
+  }
+
   if (mapEl) {
     if ('IntersectionObserver' in window) {
       // don't pay the tile/JS cost until the contact section is near
