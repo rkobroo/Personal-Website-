@@ -385,21 +385,43 @@
       const btn = $('#cf-submit');
       if (!valid || !btn || btn.classList.contains('sending')) return;
 
-      // Demo submit — wire your backend / Formspree endpoint here.
+      // Real delivery via FormSubmit (AJAX endpoint, stays on page)
+      const payload = Object.fromEntries(new FormData(form).entries());
+      delete payload._honey; // honeypot: silently drop bots
+
       const label = $('.btn-label', btn);
       btn.classList.add('sending');
       label.textContent = 'Sending…';
 
-      setTimeout(() => {
+      const done = () => {
         btn.classList.remove('sending');
         label.textContent = 'Send Message';
-        const okMsg = $('#formSuccess');
-        if (okMsg) {
-          okMsg.classList.add('show');
-          setTimeout(() => okMsg.classList.remove('show'), 6000);
-        }
-        form.reset();
-      }, 1400);
+      };
+      const fail = () => {
+        done();
+        alert('Could not send right now — please email rkobro112@gmail.com directly.');
+      };
+
+      fetch('https://formsubmit.co/ajax/rkobro112@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(r => r.json())
+        .then(res => {
+          if (res && res.success === 'true') {
+            form.reset();
+            const okMsg = $('#formSuccess');
+            if (okMsg) {
+              okMsg.classList.add('show');
+              setTimeout(() => okMsg.classList.remove('show'), 6000);
+            }
+            done();
+          } else {
+            fail();
+          }
+        })
+        .catch(fail);
     });
 
     $$('input, textarea', form).forEach(f =>

@@ -17,7 +17,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
-  <link rel="stylesheet" href="css/style.css?v=20260831" />
+  <link rel="stylesheet" href="css/style.css?v=20260901" />
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body class="loading">
@@ -498,7 +498,11 @@
             </div>
           </div>
 
-          <form class="card contact-form" id="contactForm" novalidate data-reveal style="--d:.15s">
+          <form class="card contact-form" id="contactForm" action="https://formsubmit.co/rkobro112@gmail.com" method="POST" novalidate data-reveal style="--d:.15s">
+            <input type="hidden" name="_subject" value="New message from RKO BRO portfolio" />
+            <input type="hidden" name="_captcha" value="false" />
+            <input type="hidden" name="_template" value="table" />
+            <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off" />
             <div class="form-row">
               <div class="field">
                 <label for="cf-name" class="mono">Your Name</label>
@@ -587,6 +591,6 @@
   </button>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
-  <script src="js/main.js?v=20260831" defer></script>
+  <script src="js/main.js?v=20260901" defer></script>
 </body>
 </html>
