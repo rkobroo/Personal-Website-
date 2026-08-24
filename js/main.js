@@ -11,6 +11,7 @@
 
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = window.matchMedia('(pointer: fine)').matches;
+  const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
 
   /* ---------------- Preloader ---------------- */
   const preloader = $('#preloader');
@@ -77,7 +78,7 @@
     const mouse = { x: -9999, y: -9999 };
 
     function resize() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, coarsePointer ? 1.5 : 2);
       W = window.innerWidth;
       H = window.innerHeight;
       canvas.width = W * dpr;
@@ -89,7 +90,10 @@
     }
 
     function seed() {
-      const n = Math.max(34, Math.min(85, Math.floor(W / 17)));
+      // fewer particles on touch devices — the link loop is O(n²)
+      const n = coarsePointer
+        ? Math.max(22, Math.min(40, Math.floor(W / 30)))
+        : Math.max(34, Math.min(85, Math.floor(W / 17)));
       parts = Array.from({ length: n }, () => ({
         x: Math.random() * W,
         y: Math.random() * H,
@@ -130,19 +134,22 @@
         ctx.fill();
       }
 
-      for (let i = 0; i < parts.length; i++) {
-        for (let j = i + 1; j < parts.length; j++) {
-          const a = parts[i], b = parts[j];
-          const dx = a.x - b.x, dy = a.y - b.y;
-          const d = Math.hypot(dx, dy);
-          if (d < LINK_DIST) {
-            const alpha = (1 - d / LINK_DIST) * 0.14;
-            ctx.strokeStyle = 'rgba(' + a.c + ',' + alpha.toFixed(3) + ')';
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
+      // skip the O(n²) link-drawing pass entirely on touch devices
+      if (!coarsePointer) {
+        for (let i = 0; i < parts.length; i++) {
+          for (let j = i + 1; j < parts.length; j++) {
+            const a = parts[i], b = parts[j];
+            const dx = a.x - b.x, dy = a.y - b.y;
+            const d = Math.hypot(dx, dy);
+            if (d < LINK_DIST) {
+              const alpha = (1 - d / LINK_DIST) * 0.14;
+              ctx.strokeStyle = 'rgba(' + a.c + ',' + alpha.toFixed(3) + ')';
+              ctx.lineWidth = 1;
+              ctx.beginPath();
+              ctx.moveTo(a.x, a.y);
+              ctx.lineTo(b.x, b.y);
+              ctx.stroke();
+            }
           }
         }
       }
@@ -153,11 +160,23 @@
     rafId = requestAnimationFrame(step);
     window.addEventListener('resize', resize);
     window.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
-    document.addEventListener('visibilitychange', () => {
-      running = !document.hidden;
-      if (running && !rafId) rafId = requestAnimationFrame(step);
-      if (!running && rafId) { cancelAnimationFrame(rafId); rafId = null; }
-    });
+    function setRunning(on) {
+      running = on;
+      if (on && !rafId) rafId = requestAnimationFrame(step);
+      if (!on && rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    }
+
+    document.addEventListener('visibilitychange', () =>
+      setRunning(!document.hidden));
+
+    // pause the whole field while the hero is off-screen
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(entries => {
+        const en = entries[0];
+        if (!en) return;
+        setRunning(en.isIntersecting && !document.hidden);
+      }, { threshold: 0 }).observe(canvas);
+    }
   }
 
   /* ---------------- Cursor glow ---------------- */
@@ -231,7 +250,9 @@
           ro.unobserve(en.target);
         }
       });
-    }, { threshold: 0.14, rootMargin: '0px 0px -40px 0px' });
+      // positive bottom margin pre-triggers below the viewport so fast
+      // scrolling never shows blank text waiting to animate in
+    }, { threshold: 0.05, rootMargin: '0px 0px 18% 0px' });
     revealEls.forEach(el => ro.observe(el));
   } else {
     revealEls.forEach(el => el.classList.add('in-view'));
@@ -385,9 +406,11 @@
       f.addEventListener('input', () => f.classList.remove('invalid')));
   }
 
-  /* ---------------- Leaflet map (Nepal) ---------------- */
+  /* ---------------- Leaflet map (Nepal) — lazy init ---------------- */
   const mapEl = document.getElementById('map');
-  if (mapEl && typeof window.L !== 'undefined') {
+
+  function initMap() {
+    if (!mapEl || typeof window.L === 'undefined') return;
     try {
       const map = window.L.map(mapEl, {
         center: [28.08, 82.50],
@@ -417,5 +440,20 @@
       map.on('click', () => map.scrollWheelZoom.enable());
       map.on('mouseout', () => map.scrollWheelZoom.disable());
     } catch (err) { /* map is decorative — fail silently */ }
+  }
+
+  if (mapEl) {
+    if ('IntersectionObserver' in window) {
+      // don't pay the tile/JS cost until the contact section is near
+      const mio = new IntersectionObserver(entries => {
+        if (entries.some(en => en.isIntersecting)) {
+          mio.disconnect();
+          initMap();
+        }
+      }, { rootMargin: '400px 0px' });
+      mio.observe(mapEl);
+    } else {
+      initMap();
+    }
   }
 })();

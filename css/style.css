@@ -35,6 +35,11 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* touch devices / small screens: heavy backdrop blur is a scroll-killer */
+@media (pointer: coarse), (max-width: 768px) {
+  :root { --glass-blur: 6px; }
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--nav-h) + 16px);
@@ -1927,16 +1932,24 @@ input, textarea { font-family: inherit; }
 /* ---------- Reveal-on-scroll (JS-gated) ---------- */
 .js [data-reveal] {
   opacity: 0;
-  transform: translateY(36px);
+  transform: translateY(24px);
   transition:
-    opacity 0.85s var(--ease-out),
-    transform 0.85s var(--ease-out);
-  transition-delay: var(--d, 0s);
+    opacity 0.55s var(--ease-out),
+    transform 0.55s var(--ease-out);
+  transition-delay: calc(var(--d, 0s) * 0.6);
   will-change: opacity, transform;
 }
 .js [data-reveal].in-view {
   opacity: 1;
   transform: none;
+}
+/* lighter motion on touch devices — kills the "slow text" feel on fast scroll */
+@media (pointer: coarse), (max-width: 768px) {
+  .js [data-reveal] {
+    transform: translateY(16px);
+    transition-duration: 0.38s, 0.38s;
+    transition-delay: 0s;
+  }
 }
 
 /* ---------- Responsive ---------- */
@@ -1960,6 +1973,12 @@ input, textarea { font-family: inherit; }
   :root { --nav-h: 68px; }
 
   .hamburger { display: flex; }
+
+  /* swap header corners on mobile: hamburger left, logo right */
+  .nav-wrap {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
 
   .nav-cv { display: none; }
   .nav-cta-mobile { display: block; margin-top: 8px; }
