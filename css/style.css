@@ -1473,6 +1473,41 @@ input, textarea { font-family: inherit; }
   margin-top: 2px;
   flex: none;
 }
+/* emoji badge used when a project has no logo image yet */
+.project-mini-icon {
+  display: grid;
+  place-items: center;
+  font-size: 26px;
+  background: linear-gradient(135deg, #0ea5e9, #8b5cf6);
+}
+/* placeholder panel until a real screenshot is added */
+.pv-soon {
+  aspect-ratio: auto;
+  height: clamp(340px, 42vw, 440px);
+}
+.pv-placeholder {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  border-radius: 18px;
+  padding: 28px;
+}
+.pv-ph-emoji {
+  font-size: 46px;
+  filter: drop-shadow(0 8px 22px rgba(139, 92, 246, 0.5));
+}
+/* non-clickable "Release Soon" pill */
+.btn-soon {
+  pointer-events: none;
+  cursor: default;
+}
 
 .project-features {
   margin-top: 14px;
