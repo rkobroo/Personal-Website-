@@ -122,6 +122,39 @@ input, textarea { font-family: inherit; }
     inset 0 0 0 1px rgba(139, 92, 246, 0.08);
 }
 
+/* Animated RGB gradient border on every card */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: 2;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(90deg, #ff004c, #ff8a00, #ffe600, #22ff66, #00e5ff, #2979ff, #c85eff, #ff004c);
+  background-size: 600% 100%;
+  animation: rgbFlow 5s linear infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask-composite: exclude;
+  pointer-events: none;
+}
+
+@keyframes rgbFlow {
+  to { background-position: 600% 0; }
+}
+
+.rgb-text {
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: linear-gradient(90deg, #ff004c, #ff8a00, #ffe600, #22ff66, #00e5ff, #2979ff, #c85eff, #ff004c);
+  background-size: 600% 100%;
+  -webkit-background-clip: text;
+          background-clip: text;
+  color: transparent !important;
+  animation: rgbFlow 3.5s linear infinite;
+}
+
 /* Section headers */
 .section-head { text-align: center; margin-bottom: clamp(48px, 7vw, 72px); }
 
@@ -372,6 +405,8 @@ input, textarea { font-family: inherit; }
 }
 
 .logo {
+  display: inline-flex;
+  align-items: center;
   font-family: var(--font-head);
   font-size: 1.55rem;
   font-weight: 800;
@@ -379,6 +414,19 @@ input, textarea { font-family: inherit; }
   letter-spacing: -0.03em;
 }
 .logo span { color: var(--primary); }
+.logo-img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(139, 92, 246, 0.55);
+  box-shadow: 0 0 16px rgba(139, 92, 246, 0.4);
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease;
+}
+.logo:hover .logo-img {
+  transform: scale(1.06);
+  box-shadow: 0 0 22px rgba(139, 92, 246, 0.6);
+}
 
 .nav-links {
   display: flex;
@@ -1303,6 +1351,31 @@ input, textarea { font-family: inherit; }
   margin-top: 4px;
 }
 
+.project-title-row {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+.project-mini-logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 8px 20px rgba(2, 6, 23, 0.5);
+}
+.project-mini-logo.logo-placeholder {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1.5px dashed rgba(255, 255, 255, 0.28);
+}
+.project-titles { min-width: 0; }
+.project-titles p {
+  margin-top: 2px;
+  flex: none;
+}
+
 .project-features {
   margin-top: 14px;
   display: grid;
@@ -1321,15 +1394,6 @@ input, textarea { font-family: inherit; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
-
-.project-logo {
-  position: relative;
-  z-index: 1;
-  width: clamp(110px, 45%, 170px);
-  border-radius: 22px;
-  animation: floatY 5.5s ease-in-out infinite alternate;
-  filter: drop-shadow(0 18px 34px rgba(2, 6, 23, 0.55));
 }
 
 .project-links {
@@ -1615,17 +1679,40 @@ input, textarea { font-family: inherit; }
   transform: translateX(4px);
 }
 
+.f-social-icons {
+  display: flex;
+  gap: 10px;
+}
+.f-social-icons a {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  padding-block: 0;
+  border-radius: 50%;
+  color: var(--muted);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  transition: color 0.3s ease, transform 0.3s var(--ease-out), border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.f-social-icons a:hover {
+  color: #fff;
+  transform: translateY(-4px);
+  border-color: rgba(139, 92, 246, 0.6);
+  box-shadow: 0 10px 24px rgba(139, 92, 246, 0.25);
+}
+
 .f-bottom {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   gap: 10px;
   padding-block: 20px;
   border-top: 1px solid rgba(255,255,255,0.06);
   font-size: 0.82rem;
   color: var(--muted-2);
+  text-align: center;
 }
-.f-made { font-size: 0.74rem; }
 
 /* ---------- Back to top ---------- */
 #toTop {
