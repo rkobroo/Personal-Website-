@@ -123,8 +123,7 @@ input, textarea { font-family: inherit; }
 }
 
 /* Animated RGB gradient border on every card */
-.card::before,
-.rgb-box::before {
+.card::before {
   content: '';
   position: absolute;
   inset: -1px;
@@ -1409,11 +1408,6 @@ input, textarea { font-family: inherit; }
   border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: 0 8px 20px rgba(2, 6, 23, 0.5);
 }
-.project-mini-logo.logo-placeholder {
-  display: inline-block;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1.5px dashed rgba(255, 255, 255, 0.28);
-}
 .project-titles { min-width: 0; }
 .project-titles p {
   margin-top: 2px;
@@ -1439,6 +1433,16 @@ input, textarea { font-family: inherit; }
   height: 100%;
   object-fit: contain;
   padding: clamp(12px, 2vw, 20px);
+}
+
+.pv-tv-logo {
+  position: relative;
+  z-index: 1;
+  width: clamp(120px, 42%, 185px);
+  border-radius: 26px;
+  object-fit: contain;
+  animation: floatY 5.5s ease-in-out infinite alternate;
+  filter: drop-shadow(0 18px 34px rgba(2, 6, 23, 0.55));
 }
 
 .project-links {
@@ -1718,12 +1722,6 @@ input, textarea { font-family: inherit; }
   gap: clamp(28px, 4vw, 48px);
   padding-block: clamp(44px, 6vw, 64px) 36px;
 }
-.footer-grid .rgb-box {
-  position: relative;
-  padding: clamp(18px, 2.4vw, 28px);
-  border-radius: var(--r-lg);
-  background: rgba(255, 255, 255, 0.03);
-}
 .f-brand p { margin-top: 0; max-width: 280px; font-size: 0.9rem; }
 
 .footer h4 {
@@ -1733,14 +1731,41 @@ input, textarea { font-family: inherit; }
   color: var(--muted-2);
   margin-bottom: 16px;
 }
-.f-links a, .f-social a, .f-say a, .f-say p {
+.f-links a,
+.say-mail {
+  position: relative;
   display: block;
   font-size: 0.92rem;
   color: var(--muted);
-  padding-block: 5px;
+  padding: 9px 15px;
+  margin-bottom: 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.03);
   transition: color 0.3s ease, transform 0.3s var(--ease-out);
 }
-.f-links a:hover, .f-social a:hover, .f-say a:hover {
+.f-links a::before,
+.say-mail::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(90deg, #ff004c, #ff8a00, #ffe600, #22ff66, #00e5ff, #2979ff, #c85eff, #ff004c);
+  background-size: 600% 100%;
+  animation: rgbFlow 5s linear infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask-composite: exclude;
+  pointer-events: none;
+}
+.f-say p {
+  display: block;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+.f-social-icons svg { display: block; }
+.f-links a:hover, .f-say .say-mail:hover {
   color: var(--accent);
   transform: translateX(4px);
 }
@@ -1757,25 +1782,31 @@ input, textarea { font-family: inherit; }
   padding-block: 0;
   border-radius: 50%;
   color: var(--muted);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid transparent;
   background: rgba(255, 255, 255, 0.04);
-  transition: color 0.3s ease, transform 0.3s var(--ease-out), border-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+.f-social-icons a::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1.2px;
+  background: linear-gradient(90deg, #ff004c, #ff8a00, #ffe600, #22ff66, #00e5ff, #2979ff, #c85eff, #ff004c);
+  background-size: 600% 100%;
+  animation: rgbFlow 4s linear infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask-composite: exclude;
+  pointer-events: none;
 }
 .f-social-icons a:hover {
   transform: translateY(-4px);
 }
-.f-social-icons a.fb:hover {
-  border-color: rgba(24, 119, 242, 0.85);
-  box-shadow: 0 10px 26px rgba(24, 119, 242, 0.35);
-}
-.f-social-icons a.ig:hover {
-  border-color: rgba(216, 0, 185, 0.75);
-  box-shadow: 0 10px 26px rgba(216, 0, 185, 0.32);
-}
-.f-social-icons a.ml:hover {
-  border-color: rgba(255, 138, 0, 0.85);
-  box-shadow: 0 10px 26px rgba(229, 46, 113, 0.35);
-}
+.f-social-icons a.fb:hover { box-shadow: 0 10px 26px rgba(24, 119, 242, 0.35); }
+.f-social-icons a.ig:hover { box-shadow: 0 10px 26px rgba(216, 0, 185, 0.32); }
+.f-social-icons a.ml:hover { box-shadow: 0 10px 26px rgba(229, 46, 113, 0.35); }
 
 .f-bottom {
   display: flex;
