@@ -1966,17 +1966,17 @@ input, textarea { font-family: inherit; }
 .lb-img {
   max-width: min(94vw, 560px);
   max-height: 84vh;
+  margin: auto;
   border-radius: 16px;
   box-shadow: 0 40px 90px rgba(2, 4, 14, 0.8), 0 0 0 1px rgba(255,255,255,0.08);
-  transform: scale(0.95);
-  transition: transform 0.3s var(--ease-out);
-  cursor: zoom-in;
 }
-.lightbox.open .lb-img { transform: scale(1); }
+.lightbox.open .lb-img { animation: lbPop 0.3s var(--ease-out); }
+@keyframes lbPop {
+  from { transform: scale(0.96); opacity: 0.4; }
+}
 .lightbox.zoomed .lb-img {
-  transform: scale(2.05);
+  border-radius: 10px;
   cursor: zoom-out;
-  will-change: transform;
 }
 .lb-close {
   position: fixed;

@@ -473,6 +473,9 @@
     function openLb(src, alt) {
       lbImg.src = src;
       lbImg.alt = alt || '';
+      lbImg.style.width = '';
+      lbImg.style.maxWidth = '';
+      lbImg.style.maxHeight = '';
       lb.classList.add('open');
       lb.classList.remove('zoomed');
       lbOpen = true;
@@ -491,8 +494,20 @@
     $('.lb-close', lb).addEventListener('click', closeLb);
     lb.addEventListener('click', e => { if (e.target === lb) closeLb(); });
     lbImg.addEventListener('click', () => {
-      lb.classList.toggle('zoomed');
-      if (!lb.classList.contains('zoomed')) lb.scrollTo(0, 0);
+      const zoomed = lb.classList.toggle('zoomed');
+      if (zoomed && lbImg.naturalWidth) {
+        // size the element at real pixels (browser resamples from the
+        // original bitmap — stays sharp) instead of transform-scaling
+        const s = 1.9;
+        lbImg.style.maxWidth = 'none';
+        lbImg.style.maxHeight = 'none';
+        lbImg.style.width = Math.round(lbImg.naturalWidth * s) + 'px';
+      } else {
+        lbImg.style.width = '';
+        lbImg.style.maxWidth = '';
+        lbImg.style.maxHeight = '';
+        lb.scrollTo(0, 0);
+      }
     });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
   }
