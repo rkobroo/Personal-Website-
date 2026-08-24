@@ -978,13 +978,15 @@ input, textarea { font-family: inherit; }
 }
 .rgb-btn,
 .highlight-chips li,
-.hero-badge {
+.hero-badge,
+.hamburger {
   position: relative;
   isolation: isolate;
 }
 .rgb-btn::before,
 .highlight-chips li::before,
-.hero-badge::before {
+.hero-badge::before,
+.hamburger::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -1003,7 +1005,8 @@ input, textarea { font-family: inherit; }
 @media (prefers-reduced-motion: reduce) {
   .rgb-btn::before,
   .highlight-chips li::before,
-  .hero-badge::before { animation: none; }
+  .hero-badge::before,
+  .hamburger::before { animation: none; }
 }
 
 /* ---------- Skills ---------- */
@@ -1810,6 +1813,11 @@ input, textarea { font-family: inherit; }
   transition: color 0.3s ease, transform 0.3s var(--ease-out);
 }
 .say-mail { margin-bottom: 8px; }
+/* location pill hugs its text instead of stretching full-width */
+.loc-box {
+  display: inline-block;
+  width: fit-content;
+}
 .f-links a::before,
 .say-mail::before,
 .loc-box::before {
