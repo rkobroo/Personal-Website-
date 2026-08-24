@@ -390,8 +390,8 @@
   if (mapEl && typeof window.L !== 'undefined') {
     try {
       const map = window.L.map(mapEl, {
-        center: [27.7172, 85.324],
-        zoom: 11,
+        center: [28.08, 82.50],
+        zoom: 10,
         scrollWheelZoom: false,
         attributionControl: true
       });
@@ -409,9 +409,9 @@
         iconAnchor: [8, 8]
       });
 
-      window.L.marker([27.7172, 85.324], { icon })
+      window.L.marker([27.8697, 82.4897], { icon })
         .addTo(map)
-        .bindPopup('<b>Kathmandu, Nepal</b><br>Based here — working worldwide.')
+        .bindPopup('<b>Dang, Nepal</b><br>RKO BRO — building from here.')
         .openPopup();
 
       map.on('click', () => map.scrollWheelZoom.enable());
