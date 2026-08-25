@@ -580,8 +580,8 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
   function loadDownloadStats() {
     var dlEl = $('#dlDownloads');
     var tvEl = $('#tvDownloads');
-    if (dlEl) dlEl.textContent = '10K+';
-    if (tvEl) tvEl.textContent = '5K+';
+    if (dlEl) dlEl.textContent = '10';
+    if (tvEl) tvEl.textContent = '5';
   }
   var dlSection = $('#dlGrid');
   if (dlSection) {
@@ -600,10 +600,10 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
 
   /* ---- Live Service Status ---- */
   var SERVICES = [
-    { name: 'RKO Downloader API', url: 'https://rko-downloader-api.himalpaudel.workers.dev/' },
-    { name: 'RKO TV', url: 'https://rko-tv.himalpaudel.workers.dev/' },
+    { name: 'RKO Downloader', url: 'https://rko-downloader.pages.dev/' },
     { name: 'RKO API', url: 'https://rko-api.pages.dev/' },
-    { name: 'WWE Highlights', url: 'https://wwe.hightlights.workers.dev/' }
+    { name: 'WWE Highlights', url: 'https://wwe-web.hightlights.workers.dev/' },
+    { name: 'WWE Highlights API', url: 'https://wwe.hightlights.workers.dev/' }
   ];
 
   function loadServiceStatus() {
