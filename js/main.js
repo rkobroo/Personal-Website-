@@ -544,4 +544,89 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       loadLeaflet(initMap);
     }
   }
+
+  /* ---- GitHub Activity ---- */
+  var GH_USER = 'rkobroo';
+  var LANG_COLORS = {
+    JavaScript: '#f1e05a', TypeScript: '#3178c6', Dart: '#00b4ab',
+    HTML: '#e34c26', CSS: '#563d7c', Python: '#3572A5',
+    Kotlin: '#A97BFF', Java: '#b07219', Shell: '#89e051',
+    Vue: '#41b883', Svelte: '#ff3e00', 'C++': '#f34b7d',
+    C: '#555555', PHP: '#4F5D95', Ruby: '#701516', Go: '#00ADD8'
+  };
+
+  function loadGitHub() {
+    var statsEl = $('#ghStats');
+    var gridEl = $('#ghReposGrid');
+    if (!statsEl || !gridEl) return;
+
+    fetch('https://api.github.com/users/' + GH_USER)
+      .then(function(r) { return r.json(); })
+      .then(function(u) {
+        $('#ghReposCount').textContent = u.public_repos || 0;
+        $('#ghFollowers').textContent = u.followers || 0;
+      })
+      .catch(function() {
+        $('#ghReposCount').textContent = '0';
+        $('#ghFollowers').textContent = '0';
+      });
+
+    fetch('https://api.github.com/users/' + GH_USER + '/repos?per_page=100&sort=updated')
+      .then(function(r) { return r.json(); })
+      .then(function(repos) {
+        if (!Array.isArray(repos)) return;
+
+        var stars = 0, langs = {};
+        repos.forEach(function(r) {
+          stars += r.stargazers_count || 0;
+          if (r.language) langs[r.language] = (langs[r.language] || 0) + 1;
+        });
+        $('#ghStars').textContent = stars;
+        $('#ghLangs').textContent = Object.keys(langs).length;
+
+        var pinned = repos
+          .filter(function(r) { return !r.fork; })
+          .sort(function(a, b) {
+            return (b.stargazers_count + b.forks_count) -
+                   (a.stargazers_count + a.forks_count);
+          })
+          .slice(0, 6);
+
+        gridEl.innerHTML = '';
+        pinned.forEach(function(r) {
+          var langDot = r.language
+            ? '<span class="gh-lang-dot" style="background:' +
+              (LANG_COLORS[r.language] || '#ccc') + '"></span> ' + r.language
+            : '';
+          var desc = r.description
+            ? '<p class="gh-repo-desc">' + r.description.slice(0, 80) + '</p>'
+            : '';
+          gridEl.innerHTML +=
+            '<a class="gh-repo glass" href="' + r.html_url +
+            '" target="_blank" rel="noopener">' +
+            '<span class="gh-repo-name">' + r.name + '</span>' +
+            desc +
+            '<span class="gh-repo-meta">' +
+            '<span>' + langDot + '</span>' +
+            (r.stargazers_count ? '<span>&#9733; ' + r.stargazers_count + '</span>' : '') +
+            (r.forks_count ? '<span>&#9741; ' + r.forks_count + '</span>' : '') +
+            '</span></a>';
+        });
+      })
+      .catch(function() {});
+  }
+
+  if ($('#ghStats')) {
+    if ('IntersectionObserver' in window) {
+      var ghObs = new IntersectionObserver(function(entries) {
+        if (entries.some(function(e) { return e.isIntersecting; })) {
+          ghObs.disconnect();
+          loadGitHub();
+        }
+      }, { rootMargin: '400px 0px' });
+      ghObs.observe($('#ghStats'));
+    } else {
+      loadGitHub();
+    }
+  }
 })();

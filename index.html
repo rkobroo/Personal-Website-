@@ -25,7 +25,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/style.css?v=20260909" />
+  <link rel="stylesheet" href="css/style.css?v=20260910" />
   <script>document.documentElement.classList.add('js');</script>
 </head>
 <body class="loading">
@@ -62,6 +62,7 @@
         <li><a href="#skills">Skills</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#experience">Experience</a></li>
+        <li><a href="#github">GitHub</a></li>
         <li><a href="#contact">Contact</a></li>
         <li class="nav-cta-mobile"><a href="assets/Himal-Paudel-CV.pdf" class="btn btn-primary btn-sm" download>Download CV</a></li>
       </ul>
@@ -539,6 +540,38 @@
       </div>
     </section>
 
+    <!-- GITHUB -->
+    <section id="github" class="github section">
+      <div class="container">
+        <header class="section-head" data-reveal>
+          <p class="eyebrow mono">// code</p>
+          <h2>GitHub <span class="grad-text">Activity</span></h2>
+          <p class="head-desc">Open source contributions, pinned repos and live stats from my GitHub profile.</p>
+        </header>
+
+        <div class="gh-stats" id="ghStats" data-reveal style="--d:.08s">
+          <div class="gh-stat glass">
+            <span class="gh-num" id="ghReposCount">-</span>
+            <span class="gh-label">Public Repos</span>
+          </div>
+          <div class="gh-stat glass">
+            <span class="gh-num" id="ghStars">-</span>
+            <span class="gh-label">Total Stars</span>
+          </div>
+          <div class="gh-stat glass">
+            <span class="gh-num" id="ghFollowers">-</span>
+            <span class="gh-label">Followers</span>
+          </div>
+          <div class="gh-stat glass">
+            <span class="gh-num" id="ghLangs">-</span>
+            <span class="gh-label">Languages</span>
+          </div>
+        </div>
+
+        <div class="gh-grid" id="ghReposGrid" data-reveal style="--d:.12s"></div>
+      </div>
+    </section>
+
     <!-- CONTACT -->
     <section id="contact" class="contact section">
       <div class="container">
@@ -617,6 +650,7 @@
         <a href="#skills">Skills</a>
         <a href="#projects">Projects</a>
         <a href="#experience">Experience</a>
+        <a href="#github">GitHub</a>
         <a href="#contact">Contact</a>
       </nav>
       <div class="f-social">
@@ -669,6 +703,6 @@
     <p class="lb-hint mono">click image to zoom · Esc to close</p>
   </div>
 
-  <script src="js/main.js?v=20260909" defer></script>
+  <script src="js/main.js?v=20260910" defer></script>
 </body>
 </html>

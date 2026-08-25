@@ -1635,6 +1635,97 @@ input, textarea { font-family: inherit; }
   color: var(--primary);
 }
 
+/* ---------- GitHub Activity ---------- */
+.gh-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 18px;
+  margin-bottom: 36px;
+}
+
+.gh-stat {
+  text-align: center;
+  padding: 22px 14px;
+  border-radius: var(--r-md);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.gh-stat:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(139, 92, 246, 0.18);
+}
+
+.gh-num {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.gh-label {
+  display: block;
+  font-size: 0.82rem;
+  color: var(--muted-2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.gh-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 18px;
+}
+
+.gh-repo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px;
+  border-radius: var(--r-md);
+  transition: transform .3s ease, box-shadow .3s ease;
+  text-decoration: none;
+}
+.gh-repo:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(139, 92, 246, 0.15);
+}
+
+.gh-repo-name {
+  font-family: var(--font-head);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.gh-repo-desc {
+  font-size: 0.85rem;
+  color: var(--muted-2);
+  line-height: 1.45;
+  flex: 1;
+}
+
+.gh-repo-meta {
+  display: flex;
+  gap: 14px;
+  font-size: 0.78rem;
+  color: var(--muted-2);
+  font-family: var(--font-mono);
+}
+
+.gh-repo-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gh-lang-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
 /* ---------- Contact ---------- */
 .contact-grid {
   display: grid;
@@ -2171,7 +2262,7 @@ input, textarea { font-family: inherit; }
 }
 
 /* render below-fold sections only when near the viewport */
-.about, .skills, .projects, .experience, .contact {
+.about, .skills, .projects, .experience, .github, .contact {
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
 }
