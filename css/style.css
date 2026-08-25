@@ -38,11 +38,20 @@
 /* touch devices / small screens: heavy backdrop blur is a scroll-killer */
 @media (pointer: coarse), (max-width: 768px) {
   :root { --glass-blur: 6px; }
+  /* footer blur is the last layer rasterized during a fast fling — drop it */
+  .footer {
+    background: rgba(3, 6, 18, 0.95);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
 
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--nav-h) + 16px);
+  /* unpainted tiles during fast flings use the ROOT background —
+     without this, Android shows white flashes (esp. near the footer) */
+  background: #050816;
 }
 
 body {
