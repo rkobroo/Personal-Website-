@@ -2146,47 +2146,9 @@ input, textarea { font-family: inherit; }
     0%, 55% { background-position: 130% 0; }
     85%, 100% { background-position: 130% 0; }
   }
-  /* fixed body background forces a full-viewport repaint on every scroll
-     frame — let it scroll with the page instead (orbs still give ambience) */
-  body { background-attachment: scroll; }
-
-  /* scrolled navbar: more opaque bg so the blur can be much cheaper */
-  .navbar.scrolled {
-    background: rgba(5, 8, 22, 0.9);
-    backdrop-filter: blur(10px) saturate(140%);
-    -webkit-backdrop-filter: blur(10px) saturate(140%);
-  }
-
-  /* open mobile menu: nearly solid, no backdrop sampling at all */
-  .nav-links {
-    background: rgba(7, 11, 28, 0.97);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
+  .navbar { backdrop-filter: blur(10px) saturate(140%); -webkit-backdrop-filter: blur(10px) saturate(140%); }
+  .nav-links { backdrop-filter: blur(12px) saturate(140%); -webkit-backdrop-filter: blur(12px) saturate(140%); }
   .lightbox { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-
-  /* ambient orbs & portrait halo become static glows (no per-frame compositing) */
-  .orb, .portrait-halo { animation: none !important; }
-
-  /* floating chips keep their gentle float but stop re-blurring what's behind */
-  .mini-chip, .float-chip {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-
-  /* glass panels: solid tint instead of live blur while scrolling */
-  .glass {
-    background: rgba(17, 24, 48, 0.55);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
-
-  /* footer strip: same treatment */
-  .footer {
-    background: rgba(3, 6, 18, 0.92);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-  }
 }
 
 /* render below-fold sections only when near the viewport */
