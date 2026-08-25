@@ -2036,7 +2036,6 @@ input, textarea { font-family: inherit; }
     opacity 0.55s var(--ease-out),
     transform 0.55s var(--ease-out);
   transition-delay: calc(var(--d, 0s) * 0.6);
-  will-change: opacity, transform;
 }
 .js [data-reveal].in-view {
   opacity: 1;
@@ -2133,6 +2132,29 @@ input, textarea { font-family: inherit; }
   .tl-head h3 { font-size: 0.98rem; }
   #toTop { right: 16px; bottom: 16px; }
   .scroll-indicator { display: none; }
+}
+
+/* ---------- Scroll performance (touch / small screens) ---------- */
+@media (pointer: coarse), (max-width: 768px) {
+  /* freeze every continuous gradient animation — the static multi-color
+     ring stays, but nothing repaints each frame while scrolling */
+  @keyframes rgbFlow {
+    from { background-position: 0% 50%; }
+    to   { background-position: 0% 50%; }
+  }
+  @keyframes pvSheen {
+    0%, 55% { background-position: 130% 0; }
+    85%, 100% { background-position: 130% 0; }
+  }
+  .navbar { backdrop-filter: blur(10px) saturate(140%); -webkit-backdrop-filter: blur(10px) saturate(140%); }
+  .nav-links { backdrop-filter: blur(12px) saturate(140%); -webkit-backdrop-filter: blur(12px) saturate(140%); }
+  .lightbox { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+}
+
+/* render below-fold sections only when near the viewport */
+.about, .skills, .projects, .experience, .contact {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
 }
 
 /* ---------- Reduced motion ---------- */

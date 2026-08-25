@@ -518,7 +518,11 @@
       const mio = new IntersectionObserver(entries => {
         if (entries.some(en => en.isIntersecting)) {
           mio.disconnect();
-          initMap();
+          // main.js now loads before leaflet — if L isn't ready yet,
+          // window 'load' guarantees all deferred scripts have run
+          if (typeof window.L !== 'undefined') initMap();
+          else if (document.readyState === 'complete') initMap();
+          else window.addEventListener('load', initMap, { once: true });
         }
       }, { rootMargin: '400px 0px' });
       mio.observe(mapEl);
