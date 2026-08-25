@@ -44,6 +44,16 @@
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }
+
+  /* stop infinite compositing of huge blurred layers while scrolling */
+  .orb, .portrait-halo { animation: none; }
+
+  /* full-width navbar blur repaints every frame - solid bar instead */
+  .navbar.scrolled {
+    background: rgba(5, 8, 22, 0.95);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
 }
 
 html {

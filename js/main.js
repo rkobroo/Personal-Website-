@@ -9,9 +9,11 @@
   const $  = (s, c) => (c || document).querySelector(s);
   const $$ = (s, c) => Array.from((c || document).querySelectorAll(s));
 
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const finePointer = window.matchMedia('(pointer: fine)').matches;
-  const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const finePointer = window.matchMedia('(pointer: fine)').matches;
+const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
+/* low-RAM phones (≤4GB): skip GPU-hungry effects so scrolling stays smooth */
+const lowRamDevice = (navigator.deviceMemory || 8) <= 4;
 
   /* ---------------- Preloader ---------------- */
   const preloader = $('#preloader');
@@ -66,9 +68,9 @@
     }
   }
 
-  /* ---------------- Particle field ---------------- */
-  const canvas = $('#particles');
-  if (canvas && !reduced && typeof canvas.getContext === 'function') {
+/* ---------------- Particle field ---------------- */
+const canvas = $('#particles');
+if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'function') {
     const ctx = canvas.getContext('2d');
     const COLORS = ['139,92,246', '59,130,246', '6,182,212'];
     const LINK_DIST = 130;
@@ -91,7 +93,7 @@
 
     function seed() {
       // fewer particles on touch devices — the link loop is O(n²)
-      const n = coarsePointer
+      const n = lowRamDevice ? 14 : coarsePointer
         ? Math.max(22, Math.min(40, Math.floor(W / 30)))
         : Math.max(34, Math.min(85, Math.floor(W / 17)));
       parts = Array.from({ length: n }, () => ({
