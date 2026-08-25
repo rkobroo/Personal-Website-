@@ -601,7 +601,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
   /* ---- Live Service Status ---- */
   var SERVICES = [
     { name: 'RKO Downloader', url: 'https://rko-downloader.pages.dev/' },
-    { name: 'RKO API', url: 'https://rko-api.pages.dev/' },
+    { name: 'RKO TV', url: 'https://tv-97x.pages.dev/' },
     { name: 'WWE Highlights', url: 'https://wwe-web.hightlights.workers.dev/' },
     { name: 'WWE Highlights API', url: 'https://wwe.hightlights.workers.dev/' }
   ];
