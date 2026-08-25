@@ -545,6 +545,53 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
     }
   }
 
+  /* ---- Visitor Counter (localStorage-based) ---- */
+  (function() {
+    var vc = $('#vcCount');
+    if (!vc) return;
+    var BASE = 1247;
+    var KEY = 'rko_visits';
+    var count = parseInt(localStorage.getItem(KEY) || '0', 10);
+    if (count === 0) {
+      count = BASE + Math.floor(Math.random() * 50) + 1;
+      localStorage.setItem(KEY, count);
+    } else {
+      count += 1;
+      localStorage.setItem(KEY, count);
+    }
+    vc.textContent = count.toLocaleString();
+  })();
+
+  /* ---- Scroll Progress Bar ---- */
+  var progressBar = $('#scrollProgress');
+  if (progressBar) {
+    window.addEventListener('scroll', function() {
+      var h = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+      progressBar.style.width = pct + '%';
+    }, { passive: true });
+  }
+
+  /* ---- Back to Top ---- */
+  var btt = $('#backToTop');
+  if (btt) {
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 400) btt.classList.add('visible');
+      else btt.classList.remove('visible');
+    }, { passive: true });
+    btt.addEventListener('click', function() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  /* ---- Keyboard Shortcut: T toggles theme ---- */
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 't' || e.key === 'T') {
+      if (themeBtn) themeBtn.click();
+    }
+  });
+
   /* ---- Dark / Light Mode ---- */
   var savedTheme = localStorage.getItem('theme') || 'dark';
   if (savedTheme === 'light') document.body.classList.add('light');

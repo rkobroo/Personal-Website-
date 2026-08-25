@@ -1635,6 +1635,88 @@ input, textarea { font-family: inherit; }
   color: var(--primary);
 }
 
+/* ---------- Scroll Progress Bar ---------- */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  z-index: 999;
+  background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent), var(--primary));
+  background-size: 300% 100%;
+  animation: progressRGB 3s linear infinite;
+  transition: width 0.1s linear;
+  pointer-events: none;
+}
+@keyframes progressRGB {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 300% 50%; }
+}
+@media (pointer: coarse) {
+  .scroll-progress { height: 2px; }
+}
+
+/* ---------- Back to Top ---------- */
+.back-to-top {
+  position: fixed;
+  bottom: 28px;
+  right: 28px;
+  z-index: 90;
+  width: 46px;
+  height: 46px;
+  border: none;
+  border-radius: 14px;
+  background: rgba(139,92,246,0.85);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition: opacity .3s ease, visibility .3s ease, transform .3s ease, background .2s;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 8px 24px rgba(139,92,246,0.3);
+}
+.back-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+.back-to-top:hover {
+  background: rgba(139,92,246,1);
+  transform: translateY(-3px);
+}
+
+/* ---------- Visitor Counter ---------- */
+.visitor-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(139,92,246,0.1);
+  border: 1px solid rgba(139,92,246,0.2);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--primary);
+  margin-top: 12px;
+}
+.visitor-counter .vc-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22C55E;
+  animation: vcPulse 2s ease-in-out infinite;
+}
+@keyframes vcPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
 /* ---------- Theme Toggle ---------- */
 .theme-toggle {
   background: none;
