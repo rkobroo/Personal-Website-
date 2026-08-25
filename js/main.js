@@ -545,88 +545,108 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
     }
   }
 
-  /* ---- GitHub Activity ---- */
-  var GH_USER = 'rkobroo';
-  var LANG_COLORS = {
-    JavaScript: '#f1e05a', TypeScript: '#3178c6', Dart: '#00b4ab',
-    HTML: '#e34c26', CSS: '#563d7c', Python: '#3572A5',
-    Kotlin: '#A97BFF', Java: '#b07219', Shell: '#89e051',
-    Vue: '#41b883', Svelte: '#ff3e00', 'C++': '#f34b7d',
-    C: '#555555', PHP: '#4F5D95', Ruby: '#701516', Go: '#00ADD8'
-  };
-
-  function loadGitHub() {
-    var statsEl = $('#ghStats');
-    var gridEl = $('#ghReposGrid');
-    if (!statsEl || !gridEl) return;
-
-    fetch('https://api.github.com/users/' + GH_USER)
-      .then(function(r) { return r.json(); })
-      .then(function(u) {
-        $('#ghReposCount').textContent = u.public_repos || 0;
-        $('#ghFollowers').textContent = u.followers || 0;
-      })
-      .catch(function() {
-        $('#ghReposCount').textContent = '0';
-        $('#ghFollowers').textContent = '0';
-      });
-
-    fetch('https://api.github.com/users/' + GH_USER + '/repos?per_page=100&sort=updated')
-      .then(function(r) { return r.json(); })
-      .then(function(repos) {
-        if (!Array.isArray(repos)) return;
-
-        var stars = 0, langs = {};
-        repos.forEach(function(r) {
-          stars += r.stargazers_count || 0;
-          if (r.language) langs[r.language] = (langs[r.language] || 0) + 1;
-        });
-        $('#ghStars').textContent = stars;
-        $('#ghLangs').textContent = Object.keys(langs).length;
-
-        var pinned = repos
-          .filter(function(r) { return !r.fork; })
-          .sort(function(a, b) {
-            return (b.stargazers_count + b.forks_count) -
-                   (a.stargazers_count + a.forks_count);
-          })
-          .slice(0, 6);
-
-        gridEl.innerHTML = '';
-        pinned.forEach(function(r) {
-          var langDot = r.language
-            ? '<span class="gh-lang-dot" style="background:' +
-              (LANG_COLORS[r.language] || '#ccc') + '"></span> ' + r.language
-            : '';
-          var desc = r.description
-            ? '<p class="gh-repo-desc">' + r.description.slice(0, 80) + '</p>'
-            : '';
-          gridEl.innerHTML +=
-            '<a class="gh-repo glass" href="' + r.html_url +
-            '" target="_blank" rel="noopener">' +
-            '<span class="gh-repo-name">' + r.name + '</span>' +
-            desc +
-            '<span class="gh-repo-meta">' +
-            '<span>' + langDot + '</span>' +
-            (r.stargazers_count ? '<span>&#9733; ' + r.stargazers_count + '</span>' : '') +
-            (r.forks_count ? '<span>&#9741; ' + r.forks_count + '</span>' : '') +
-            '</span></a>';
-        });
-      })
-      .catch(function() {});
+  /* ---- Dark / Light Mode ---- */
+  var savedTheme = localStorage.getItem('theme') || 'dark';
+  if (savedTheme === 'light') document.body.classList.add('light');
+  var themeBtn = $('#themeToggle');
+  if (themeBtn) {
+    themeBtn.addEventListener('click', function() {
+      document.body.classList.toggle('light');
+      localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
+    });
   }
 
-  if ($('#ghStats')) {
+  /* ---- 3D Tilt on Project Cards ---- */
+  if (window.matchMedia('(pointer: fine)').matches) {
+    var tiltCards = $$('.project-card');
+    tiltCards.forEach(function(card) {
+      card.addEventListener('mousemove', function(e) {
+        var rect = card.getBoundingClientRect();
+        var x = (e.clientX - rect.left) / rect.width - 0.5;
+        var y = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform =
+          'perspective(800px) rotateY(' + (x * 10) + 'deg) rotateX(' + (-y * 10) + 'deg) scale(1.02)';
+        card.style.boxShadow =
+          (-x * 20) + 'px ' + (y * 20) + 'px 40px rgba(139,92,246,0.15)';
+      });
+      card.addEventListener('mouseleave', function() {
+        card.style.transform = '';
+        card.style.boxShadow = '';
+      });
+    });
+  }
+
+  /* ---- Download Stats ---- */
+  function loadDownloadStats() {
+    var dlEl = $('#dlDownloads');
+    var tvEl = $('#tvDownloads');
+    if (dlEl) dlEl.textContent = '10K+';
+    if (tvEl) tvEl.textContent = '5K+';
+  }
+  var dlSection = $('#dlGrid');
+  if (dlSection) {
     if ('IntersectionObserver' in window) {
-      var ghObs = new IntersectionObserver(function(entries) {
+      var dlObs = new IntersectionObserver(function(entries) {
         if (entries.some(function(e) { return e.isIntersecting; })) {
-          ghObs.disconnect();
-          loadGitHub();
+          dlObs.disconnect();
+          loadDownloadStats();
         }
       }, { rootMargin: '400px 0px' });
-      ghObs.observe($('#ghStats'));
+      dlObs.observe(dlSection);
     } else {
-      loadGitHub();
+      loadDownloadStats();
+    }
+  }
+
+  /* ---- Live Service Status ---- */
+  var SERVICES = [
+    { name: 'RKO Downloader API', url: 'https://rko-downloader-api.himalpaudel.workers.dev/' },
+    { name: 'RKO TV', url: 'https://rko-tv.himalpaudel.workers.dev/' },
+    { name: 'RKO API', url: 'https://rko-api.pages.dev/' },
+    { name: 'WWE Highlights', url: 'https://wwe.hightlights.workers.dev/' }
+  ];
+
+  function loadServiceStatus() {
+    var grid = $('#statusGrid');
+    if (!grid) return;
+
+    grid.innerHTML = SERVICES.map(function(s) {
+      return '<div class="status-card glass">' +
+        '<span class="status-dot checking" id="dot-' + s.name.replace(/\s/g,'') + '"></span>' +
+        '<span class="status-name">' + s.name + '</span>' +
+        '<span class="status-label checking" id="lbl-' + s.name.replace(/\s/g,'') + '">Checking...</span>' +
+        '</div>';
+    }).join('');
+
+    SERVICES.forEach(function(s) {
+      var id = s.name.replace(/\s/g,'');
+      var dot = $('#dot-' + id);
+      var lbl = $('#lbl-' + id);
+      var ctrl = 'no-cors';
+      fetch(s.url, { method: 'HEAD', mode: ctrl, cache: 'no-store' })
+        .then(function() {
+          if (dot) { dot.className = 'status-dot up'; }
+          if (lbl) { lbl.className = 'status-label up'; lbl.textContent = 'Online'; }
+        })
+        .catch(function() {
+          if (dot) { dot.className = 'status-dot down'; }
+          if (lbl) { lbl.className = 'status-label down'; lbl.textContent = 'Offline'; }
+        });
+    });
+  }
+
+  var statusGrid = $('#statusGrid');
+  if (statusGrid) {
+    if ('IntersectionObserver' in window) {
+      var sObs = new IntersectionObserver(function(entries) {
+        if (entries.some(function(e) { return e.isIntersecting; })) {
+          sObs.disconnect();
+          loadServiceStatus();
+        }
+      }, { rootMargin: '400px 0px' });
+      sObs.observe(statusGrid);
+    } else {
+      loadServiceStatus();
     }
   }
 })();

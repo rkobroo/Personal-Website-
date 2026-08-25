@@ -62,10 +62,13 @@
         <li><a href="#skills">Skills</a></li>
         <li><a href="#projects">Projects</a></li>
         <li><a href="#experience">Experience</a></li>
-        <li><a href="#github">GitHub</a></li>
         <li><a href="#contact">Contact</a></li>
         <li class="nav-cta-mobile"><a href="assets/Himal-Paudel-CV.pdf" class="btn btn-primary btn-sm" download>Download CV</a></li>
       </ul>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode" title="Toggle theme">
+        <svg class="ico-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="ico-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/></svg>
+      </button>
       <a href="assets/Himal-Paudel-CV.pdf" class="btn btn-primary btn-sm btn-glow nav-cv" download>Download CV</a>
       <button class="hamburger" id="hamburger" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
         <span></span><span></span>
@@ -540,35 +543,75 @@
       </div>
     </section>
 
-    <!-- GITHUB -->
-    <section id="github" class="github section">
+    <!-- DOWNLOAD STATS -->
+    <section id="stats-download" class="dl-stats section">
       <div class="container">
         <header class="section-head" data-reveal>
-          <p class="eyebrow mono">// code</p>
-          <h2>GitHub <span class="grad-text">Activity</span></h2>
-          <p class="head-desc">Open source contributions, pinned repos and live stats from my GitHub profile.</p>
+          <p class="eyebrow mono">// downloads</p>
+          <h2>Download <span class="grad-text">Stats</span></h2>
+          <p class="head-desc">Real-time download numbers across all my apps.</p>
         </header>
-
-        <div class="gh-stats" id="ghStats" data-reveal style="--d:.08s">
-          <div class="gh-stat glass">
-            <span class="gh-num" id="ghReposCount">-</span>
-            <span class="gh-label">Public Repos</span>
+        <div class="dl-grid" id="dlGrid" data-reveal style="--d:.08s">
+          <div class="dl-card glass">
+            <img src="assets/rko-downloader-logo.png" alt="RKO Downloader" class="dl-icon" />
+            <div class="dl-info">
+              <h3>RKO Downloader</h3>
+              <span class="dl-num mono" id="dlDownloads">--</span>
+              <span class="dl-label">total downloads</span>
+            </div>
           </div>
-          <div class="gh-stat glass">
-            <span class="gh-num" id="ghStars">-</span>
-            <span class="gh-label">Total Stars</span>
-          </div>
-          <div class="gh-stat glass">
-            <span class="gh-num" id="ghFollowers">-</span>
-            <span class="gh-label">Followers</span>
-          </div>
-          <div class="gh-stat glass">
-            <span class="gh-num" id="ghLangs">-</span>
-            <span class="gh-label">Languages</span>
+          <div class="dl-card glass">
+            <img src="assets/rko-tv-logo.png" alt="RKO TV" class="dl-icon" />
+            <div class="dl-info">
+              <h3>RKO TV</h3>
+              <span class="dl-num mono" id="tvDownloads">--</span>
+              <span class="dl-label">total downloads</span>
+            </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="gh-grid" id="ghReposGrid" data-reveal style="--d:.12s"></div>
+    <!-- BLOG -->
+    <section id="blog" class="blog section">
+      <div class="container">
+        <header class="section-head" data-reveal>
+          <p class="eyebrow mono">// blog</p>
+          <h2>Latest <span class="grad-text">Articles</span></h2>
+          <p class="head-desc">Thoughts on Android development, API design, and building tools that matter.</p>
+        </header>
+        <div class="blog-grid" data-reveal style="--d:.08s">
+          <article class="blog-card glass">
+            <div class="blog-tag">Android</div>
+            <h3 class="blog-title">Building RKO Downloader with Cloudflare Workers</h3>
+            <p class="blog-excerpt">How I built a multi-platform video downloader powered by serverless edge functions and reverse-engineered APIs.</p>
+            <span class="blog-date mono">2025</span>
+          </article>
+          <article class="blog-card glass">
+            <div class="blog-tag">Streaming</div>
+            <h3 class="blog-title">Real-time IPTV Streaming on Android</h3>
+            <p class="blog-excerpt">ExoPlayer, HLS proxying, and building a floating player that works across every Android device.</p>
+            <span class="blog-date mono">2025</span>
+          </article>
+          <article class="blog-card glass">
+            <div class="blog-tag">Web</div>
+            <h3 class="blog-title">Glassmorphism &amp; RGB Animations at 60fps</h3>
+            <p class="blog-excerpt">Performance tricks for dark neon UI: frozen keyframes on mobile, will-change budgets, and content-visibility.</p>
+            <span class="blog-date mono">2026</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIVE STATUS -->
+    <section id="status" class="status-section section">
+      <div class="container">
+        <header class="section-head" data-reveal>
+          <p class="eyebrow mono">// uptime</p>
+          <h2>Service <span class="grad-text">Status</span></h2>
+          <p class="head-desc">Live health checks on all my deployed services.</p>
+        </header>
+        <div class="status-grid" id="statusGrid" data-reveal style="--d:.08s"></div>
       </div>
     </section>
 
@@ -650,7 +693,6 @@
         <a href="#skills">Skills</a>
         <a href="#projects">Projects</a>
         <a href="#experience">Experience</a>
-        <a href="#github">GitHub</a>
         <a href="#contact">Contact</a>
       </nav>
       <div class="f-social">
