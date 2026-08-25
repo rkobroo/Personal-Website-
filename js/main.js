@@ -545,21 +545,20 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
     }
   }
 
-  /* ---- Visitor Counter (localStorage-based) ---- */
+  /* ---- Visitor Counter (Cloudflare KV-backed) ---- */
   (function() {
     var vc = $('#vcCount');
     if (!vc) return;
-    var BASE = 1247;
-    var KEY = 'rko_visits';
-    var count = parseInt(localStorage.getItem(KEY) || '0', 10);
-    if (count === 0) {
-      count = BASE + Math.floor(Math.random() * 50) + 1;
-      localStorage.setItem(KEY, count);
-    } else {
-      count += 1;
-      localStorage.setItem(KEY, count);
-    }
-    vc.textContent = count.toLocaleString();
+    fetch('/api/counter')
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        if (d.count > 0) {
+          vc.textContent = d.count.toLocaleString();
+        } else {
+          vc.textContent = '1';
+        }
+      })
+      .catch(function() { vc.textContent = '—'; });
   })();
 
   /* ---- Scroll Progress Bar ---- */
