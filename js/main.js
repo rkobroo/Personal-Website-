@@ -428,8 +428,24 @@
       f.addEventListener('input', () => f.classList.remove('invalid')));
   }
 
-  /* ---------------- Leaflet map (Nepal) — lazy init ---------------- */
+  /* ---------------- Leaflet map (Nepal) — fully lazy ---------------- */
   const mapEl = document.getElementById('map');
+
+  // Leaflet CSS+JS load on demand — nothing map-related blocks page load
+  function loadLeaflet(cb) {
+    if (typeof window.L !== 'undefined') { cb(); return; }
+    if (!document.getElementById('leaflet-css')) {
+      const link = document.createElement('link');
+      link.id = 'leaflet-css';
+      link.rel = 'stylesheet';
+      link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      document.head.appendChild(link);
+    }
+    const s = document.createElement('script');
+    s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    s.onload = () => cb();
+    document.head.appendChild(s);
+  }
 
   function initMap() {
     if (!mapEl || typeof window.L === 'undefined') return;
@@ -518,16 +534,12 @@
       const mio = new IntersectionObserver(entries => {
         if (entries.some(en => en.isIntersecting)) {
           mio.disconnect();
-          // main.js now loads before leaflet — if L isn't ready yet,
-          // window 'load' guarantees all deferred scripts have run
-          if (typeof window.L !== 'undefined') initMap();
-          else if (document.readyState === 'complete') initMap();
-          else window.addEventListener('load', initMap, { once: true });
+          loadLeaflet(initMap);
         }
       }, { rootMargin: '400px 0px' });
       mio.observe(mapEl);
     } else {
-      initMap();
+      loadLeaflet(initMap);
     }
   }
 })();
