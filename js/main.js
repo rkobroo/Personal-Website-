@@ -960,6 +960,28 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       if (/\bcontact support\b|\bsupport\b|\bhelpline\b/.test(q)) return 'You can contact us through: 📧 Email: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a><br>📱 WhatsApp: <a href="https://wa.me/9779810911473" target="_blank">+977 9810911473</a><br>📘 Facebook: <a href="https://www.facebook.com/profile.php?id=61581151980604" target="_blank">RKO BRO</a>';
       if (/\bbye\b|\bbye bye\b|\bgoodbye\b|\bsee you\b|\bmaile janchu\b|\balvida\b/.test(q)) return 'Goodbye! 👋😊 Have a great day and visit us again! 💜 RKO BRO loves you!';
 
+      /* RKO TV Q&A */
+      if (/\brko tv\b/.test(q) && /\bwhat is\b|\babout\b|\bho\b|\bchha\b/.test(q)) return 'RKO TV is a streaming platform 📺 where you can watch live TV channels, sports ⚽, news 📰, movies 🎬, and entertainment content! <a href="https://tv-97x.pages.dev" target="_blank">Watch now</a>';
+      if (/\bis rko tv free\b|\brko tv.*free\b/.test(q)) return 'Yes! 🆓 RKO TV provides free access to many channels and content. No hidden charges! ✨';
+      if (/\bwatch live tv\b|\blive tv\b|\blive channel\b/.test(q)) return 'Open RKO TV 📺, select a channel, and tap Play ▶️ to start streaming! <a href="https://tv-97x.pages.dev" target="_blank">Try it now</a>';
+      if (/\bdo i need an account\b|\baccount\b|\bsign up\b|\blogin\b/.test(q)) return 'No account is required! 🎉 Just open RKO TV and start watching. No signup, no tracking! ✅';
+      if (/\bbuffering\b|\blag\b|\bslow video\b|\bvideo lag\b/.test(q)) return 'Buffering usually occurs due to a slow or unstable internet connection 📶. Try switching to a stronger WiFi or mobile data! 📱';
+      if (/\binternet speed\b|\bhow fast\b|\bmbps\b/.test(q)) return 'A stable connection of at least <b>5 Mbps</b> ⚡ is recommended for smooth streaming on RKO TV!';
+      if (/\bsport.*rko tv\b|\brko tv.*sport\b|\bcricket\b|\bfootball\b|\bipl\b|\bwwe\b/.test(q)) return 'Yes! 🏏⚽ RKO TV provides access to sports channels and live sports events — football, cricket, IPL, WWE and more! <a href="https://tv-97x.pages.dev" target="_blank">Watch live</a>';
+      if (/\bphone\b.*\brko tv\b|\brko tv.*phone\b|\bmobile.*rko\b|\brko.*mobile\b/.test(q)) return 'Yes! 📱 RKO TV works on Android phones and other supported devices! <a href="https://tv-97x.pages.dev/api/download-apk" target="_blank">Download now</a>';
+      if (/\bfullscreen\b/.test(q)) return 'Yes! 🖥️ You can switch to fullscreen mode while watching videos — just tap the fullscreen icon!'; 
+      if (/\brefresh.*channel\b|\bchannel.*refresh\b|\breload\b/.test(q)) return 'Close the player and reopen the channel, or use the refresh option if available! 🔄';
+      if (/\bchannel.*not working\b|\bchannel.*down\b|\bnot playing\b/.test(q)) return 'Some channels may be temporarily unavailable ⏳. Please try again later or try a different server! 📺';
+      if (/\bnews channel\b|\bnews\b/.test(q)) return 'Yes! 📰 RKO TV includes various news channels depending on availability. Stay informed! 📺';
+      if (/\bmovies\b|\bmovie\b|\bchalchitra\b/.test(q)) return 'Yes! 🎬 Movie channels and entertainment content may be available on RKO TV! <a href="https://tv-97x.pages.dev" target="_blank">Check it out</a>';
+      if (/\bsafe\b|\bsecurity\b|\bvirus\b|\bmalware\b/.test(q)) return 'Yes! 🔒 RKO TV is designed to provide a simple and secure viewing experience. No data collection! ✅';
+      if (/\breport.*channel\b|\bbroken.*channel\b|\bproblem.*channel\b/.test(q)) return 'Please contact support 📧 and provide the channel name so we can investigate! <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a>';
+      if (/\bcast\b|\bsmart tv\b|\bmiracast\b/.test(q)) return 'If your device supports casting 📡, you may be able to stream content to your TV! Try screen mirroring!';
+      if (/\bdark mode\b/.test(q)) return 'Yes! 🌙 Dark mode may be available depending on your app version. It saves battery too! 🔋';
+      if (/\bwho developed rko tv\b|\bwho made rko tv\b|\brko tv.*who\b/.test(q)) return 'RKO TV was developed by <b>RKO BRO</b> (Himal Paudel) 👨‍💻 to provide easy access to online streaming content! 💜';
+      if (/\bupdate rko tv\b|\bhow.*update\b|\bnew version\b/.test(q)) return 'Download the latest version from the official RKO website 🌐: <a href="https://tv-97x.pages.dev/api/download-apk" target="_blank">Update RKO TV</a>! 📲';
+      if (/\bcontact.*rko tv\b|\brko tv.*support\b/.test(q)) return 'Visit the Contact section on the RKO website 📞: 📧 <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> | 📱 <a href="https://wa.me/9779810911473" target="_blank">WhatsApp</a>';
+
       /* Nepali jokes — TOP priority */
       if (/\bjoke[s]?\b|\bhasauna\b|\bhaso\b|\bfunny\b|\bmazak\b|\bhasawle\b|\brofl\b|\blol\b|\blmao\b/.test(q)) {
         var jokes = [
