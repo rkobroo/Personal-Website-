@@ -946,11 +946,80 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
     function getReply(q) {
       /* greetings */
       if (/^(hi|hello|hey|namaste|hola|sup|yo)\b/.test(q)) {
-        return 'Namaste! 🙏 Welcome to RKO BRO\'s portfolio. How can I help you?';
+        return 'Namaste! 🙏 Welcome to RKO BRO\'s portfolio. Ke help chha?';
+      }
+      /* how are you / friendly */
+      if (/how are you|kasto cha|ksto cha|how r u|hru|thik cha/.test(q)) {
+        return 'Ma ekdam thik chu! 😄 Sabai badhiya chha. Tapai kasto hunuhuncha?';
+      }
+      if (/are you good|are u good|ramro cha|ramro chau/.test(q)) {
+        return 'Haami ekdam ramro chhau! 💪 Coding chha, projects chha, sabai set chha.';
+      }
+      if (/how was (your )?day|aaja ko din|din kasto/.test(q)) {
+        return 'Aaja ko din ekdam productive thiyo! 💻 New features banayo, bugs fix garyo. Every day is a coding day!';
+      }
+      if (/good morning|good afternoon|good evening|subha prabhat/.test(q)) {
+        return 'Good morning! ☀️ Aaja pani coding garna lai ready chu! K bhannu huncha?';
+      }
+      if (/thank|dhanyabad|thank you|thanks/.test(q)) {
+        return 'Tapai lai dhanyabad! 🙏 Kati help bhayo bhane dherai khusi lagchha.';
+      }
+      /* Nepali casual */
+      if (/khana vayo|khana khayo|bhoj|khaana/.test(q)) {
+        return 'Abhi khana vayo! 😋 Dal bhat power 24 hour! Tapai le khano bhayo?';
+      }
+      if (/umm|um|hmm|hmmmm|uh/.test(q)) {
+        return 'Umm... huncha huncha! 😄 Ke sochdai huncha? Bhanus, ma help garchu.';
+      }
+      if (/thik xa|thik chha|ok|okay|okey/.test(q)) {
+        return 'Thik chha! ✅ Ramro chha. Aru ke chha?';
+      }
+      if (/k garirako|k gardai|what doing|busy/.test(q)) {
+        return 'Coding gardai chu! 💻 RKO Downloader ma naya feature add garna lageko. Busy life, happy life!';
+      }
+      if (/yo|yo man|yooo|bro|dai|bhai/.test(q)) {
+        return 'Yooo! 🤙 K cha bro? K kaam chha bhanus!';
+      }
+      /* Nepali jokes */
+      if (/joke|hasauna|haso|funny|mazak|jokes/.test(q)) {
+        var jokes = [
+          ' programmer le bhanya: "Mero code ma bug chhaina!" — Tester: "Bug hoina, feature ho!" 😂',
+          'Why do programmers prefer dark mode? Because light attracts bugs! 🐛😄',
+          'Ek programmer ko bihe bhayo. Khasma usle return gareko thiyo "true"! 💍😂',
+          'WiFi nabhaye programmer: "Ma offline chu, ma sunnai sakdina!" 📵😅',
+          'Teacher: "Beta, 2+2 kitna hota hai?" Student: "Error 404: Math not found!" 😂'
+        ];
+        return jokes[Math.floor(Math.random() * jokes.length)];
+      }
+      /* status / fun */
+      if (/status|life|attitude|feeling|mood/.test(q) || /how.*feel/.test(q)) {
+        return 'Status: 💜 Coding mode ON, bugs mode OFF!\nAttitude: "Code hard, ship harder." 🚀\nLife motto: Dal Bhat + Clean Code = Perfect Day!';
+      }
+      if (/love|pyar|mohabbat/.test(q)) {
+        return 'Mero pyar? 💜 Clean code, beautiful UI, ra smooth animations! Bas yo nai enough chha life ma! 😄';
+      }
+      if (/single|committed|relationship/.test(q)) {
+        return 'Committed chhu... coding sanga! 💻 Relationship status: "In a committed relationship with JavaScript." 😂';
+      }
+      /* age */
+      if (/age|kati barsha|umr|old|young|kati janko/.test(q)) {
+        return 'RKO BRO is <b>24 years old</b> young! 🔥 Still building, still learning, still shipping!';
+      }
+      /* price / website */
+      if (/price|rate|cost|charge|money|website|web.*make|paise|paisa/.test(q)) {
+        return '<b>Website Development Price:</b><br>💰 Basic Website: <b>1K–2K NPR</b><br>💰 Business/Dashboard: <b>2K+ NPR</b><br>Depends on features. Email <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> for exact quote!';
+      }
+      /* whatsapp */
+      if (/whatsapp|contact|number|phone|call|ring/.test(q)) {
+        return '<b>WhatsApp:</b> <a href="https://wa.me/9779810911473" target="_blank">+977 9810911473</a> 📱<br>Direct message garna saknu huncha! Ma reply garchu. 😊';
+      }
+      /* photo / logo */
+      if (/photo|logo|pic|image|chitra|tasbir|face|look/.test(q)) {
+        return '<b>RKO BRO:</b><br>📸 <a href="https://rko-bro-website.pages.dev/assets/portrait.jpg" target="_blank">Click here to see RKO BRO\'s photo</a> 📷<br>Yeso nai ho — Nepal ko kunai corner bata code garne! 😎';
       }
       /* who */
       if (/who|about|intro|yourself|name/.test(q)) {
-        return 'I\'m <b>RKO BRO</b> (Himal Paudel) — a Full Stack Developer from Dang, Nepal. I build web apps, Android apps and streaming platforms. 🚀';
+        return 'I\'m <b>RKO BRO</b> (Himal Paudel) — 24, Full Stack Developer from Ghorahi, Dang, Nepal 🇳🇵. I build web apps, Android apps and streaming platforms. 🚀';
       }
       /* skills */
       if (/skill|tech|stack|know|language|tools/.test(q)) {
@@ -964,28 +1033,26 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       if (/experience|work|job|career|journey|year/.test(q)) {
         return '<b>My Journey:</b><br>• 2024–Present: Founder & Lead Developer — RKO Ecosystem<br>• 2023–2024: Full Stack Developer — Freelance (15+ projects)<br>• 2022–2023: Frontend Developer — Remote Contract<br>• 2021–2022: Self-Taught Web Development';
       }
-      /* contact */
-      if (/contact|email|reach|hire|mail|message|phone/.test(q)) {
-        return '<b>Contact me:</b><br>📧 <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a><br>📘 <a href="https://www.facebook.com/profile.php?id=61581151980604" target="_blank">Facebook</a><br>📸 <a href="https://www.instagram.com/himalpaudel_18" target="_blank">Instagram: himalpaudel_18</a><br>📍 Ghorahi, Dang, Nepal';
-      }
       /* location */
       if (/where|location|live|from|ghorahi|dang|nepal/.test(q)) {
-        return 'I\'m from <b>Ghorahi, Dang, Nepal</b> 🇳🇵 — a beautiful city in the mid-western region.';
+        return 'I\'m from <b>Ghorahi, Dang, Nepal</b> 🇳🇵 — a beautiful city in the mid-western region. Nepal bata nai code garchu!';
       }
       /* education */
       if (/education|study|university|college|school|degree/.test(q)) {
-        return 'I\'m currently pursuing <b>Civil Engineering</b> while building products on the side. Self-taught in web & mobile development!';
+        return 'I\'m currently pursuing <b>Civil Engineering</b> while building products on the side. Self-taught in web & mobile development! Padhai pani, coding pani! 📚💻';
       }
       /* availability */
       if (/available|hire|freelance|open|work together/.test(q)) {
-        return 'Yes! I\'m <b>open to work</b> and available for freelance projects. Let\'s build something amazing together! 💼';
-      }
-      /* price/rate */
-      if (/price|rate|cost|charge|money/.test(q)) {
-        return 'My rates depend on the project scope. Drop me an email at <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> with your project details and I\'ll get back to you!';
+        return 'Yes! I\'m <b>open to work</b> and available for freelance projects. Let\'s build something amazing together! 💼 Email: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a>';
       }
       /* default */
-      return 'Interesting question! 🤔 I don\'t have a specific answer for that, but you can ask me about my <b>skills</b>, <b>projects</b>, <b>experience</b>, or how to <b>contact</b> me. Or email <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> directly!';
+      var defaults = [
+        'Interesting question! 🤔 Ma bujhina ki k bhannu huncha. Ask me about skills, projects, experience, contact, price, age, WhatsApp!',
+        'Hmm, ma tyo bujhina! 😅 Try asking about my <b>projects</b>, <b>skills</b>, <b>age</b>, <b>price</b>, or <b>WhatsApp</b> number!',
+        'Ma chatbot ho, ma sabai bujhina! 😄 But I know about RKO BRO — his work, skills, contact details. Try asking!',
+        'Wah! Tyo chij ma chhodna sakdina! 😂 Ke asked garna milchha — skills, projects, price, WhatsApp, photo, jokes!'
+      ];
+      return defaults[Math.floor(Math.random() * defaults.length)];
     }
   })();
 })();

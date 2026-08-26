@@ -2611,15 +2611,33 @@ section.fade-in {
   background: rgba(11, 17, 36, 0.96);
   backdrop-filter: blur(24px) saturate(160%);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(139, 92, 246, 0.2);
+  border: 2px solid transparent;
+  border-image: linear-gradient(135deg, #ff004c, #ff8a00, #ffe600, #22ff66, #00e5ff, #2979ff, #c85eff, #ff004c) 1;
   border-radius: 20px;
-  display: flex; flex-direction: column;
   overflow: hidden;
   opacity: 0;
   visibility: hidden;
   transform: translateY(20px) scale(0.95);
   transition: opacity 0.35s var(--ease-out), visibility 0.35s ease, transform 0.35s var(--ease-out);
-  box-shadow: 0 24px 60px rgba(2, 6, 23, 0.8), 0 0 0 1px rgba(255,255,255,0.06);
+  box-shadow: 0 24px 60px rgba(2, 6, 23, 0.8), 0 0 30px rgba(139, 92, 246, 0.15), 0 0 60px rgba(59, 130, 246, 0.08);
+  display: flex; flex-direction: column;
+  isolation: isolate;
+}
+.chatbot-panel::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 20px;
+  padding: 2px;
+  background: linear-gradient(135deg, #ff004c, #ff8a00, #ffe600, #22ff66, #00e5ff, #2979ff, #c85eff, #ff004c);
+  background-size: 400% 100%;
+  animation: rgbFlow 5s linear infinite;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          mask-composite: exclude;
+  pointer-events: none;
+  z-index: 1;
 }
 .chatbot-wrap.open .chatbot-panel {
   opacity: 1; visibility: visible; transform: none;
@@ -2628,7 +2646,9 @@ section.fade-in {
 .chatbot-header {
   display: flex; align-items: center; gap: 10px;
   padding: 14px 16px;
-  background: rgba(139, 92, 246, 0.12);
+  background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent), var(--primary));
+  background-size: 300% 100%;
+  animation: rgbFlow 4s linear infinite;
   border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 .chatbot-avatar { font-size: 1.5rem; }
