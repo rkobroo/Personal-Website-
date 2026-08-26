@@ -459,24 +459,23 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
         attributionControl: true
       });
 
-      /* Pure satellite imagery */
+      /* Satellite imagery */
       window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         maxZoom: 19,
         attribution: '&copy; Esri'
       }).addTo(map);
 
-      /* OSM labels with multiply blend — white bg becomes transparent, only labels visible */
-      var osmLabels = window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      /* OSM labels — multiply blend makes white bg transparent */
+      window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         subdomains: 'abc',
         pane: 'overlayPane'
       }).addTo(map);
 
-      /* Apply multiply blend to OSM tile pane */
       var tilePane = mapEl.querySelector('.leaflet-overlay-pane');
       if (tilePane) tilePane.style.mixBlendMode = 'multiply';
 
-      /* Extra Esri labels for places/roads */
+      /* Esri extra labels */
       window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
         maxZoom: 19,
         pane: 'overlayPane'
@@ -487,7 +486,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
         pane: 'overlayPane'
       }).addTo(map);
 
-      /* Map marker */
+      /* Ghorahi pin */
       const icon = window.L.divIcon({
         className: 'map-pin',
         html: '<span class="pin-core"></span>',
@@ -497,18 +496,19 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
 
       window.L.marker([28.0553, 82.4947], { icon })
         .addTo(map)
-        .bindPopup('<b>Ghorahi, Dang</b><br>RKO BRO — building from here.')
-        .openPopup();
+        .bindPopup('<b>Ghorahi, Dang</b><br>RKO BRO — building from here.');
 
-      /* My Location button */
-      const locateBtn = document.getElementById('locate-btn');
+      /* My Location */
+      var myLocMarker = null;
+      var locateBtn = document.getElementById('locate-btn');
       if (locateBtn) {
         locateBtn.addEventListener('click', function () {
           if (!navigator.geolocation) { alert('Geolocation not supported'); return; }
           locateBtn.textContent = '⏳';
           navigator.geolocation.getCurrentPosition(function (pos) {
             map.flyTo([pos.coords.latitude, pos.coords.longitude], 16, { duration: 1.5 });
-            window.L.marker([pos.coords.latitude, pos.coords.longitude], {
+            if (myLocMarker) map.removeLayer(myLocMarker);
+            myLocMarker = window.L.marker([pos.coords.latitude, pos.coords.longitude], {
               icon: window.L.divIcon({
                 className: 'map-pin my-loc',
                 html: '<span class="pin-core my-loc-core"></span>',
@@ -524,41 +524,17 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
         });
       }
 
-      /* Home button — fly back to Ghorahi */
-      const homeBtn = document.getElementById('home-btn');
+      /* Home — back to Ghorahi */
+      var homeBtn = document.getElementById('home-btn');
       if (homeBtn) {
         homeBtn.addEventListener('click', function () {
-          map.flyTo([28.0553, 82.4947], 14, { duration: 1.5 });
+          map.flyTo([28.0553, 82.4947], 15, { duration: 1.5 });
         });
       }
 
-      /* Map rotation — contained inside map box */
-      var mapAngle = 0;
-      var tileContainer = mapEl.querySelector('.leaflet-map-pane');
-      function applyRotation(deg) {
-        mapAngle = deg % 360;
-        if (tileContainer) {
-          tileContainer.style.transform = 'rotate(' + mapAngle + 'deg) scale(1.2)';
-          tileContainer.style.transformOrigin = 'center center';
-          tileContainer.style.transition = 'transform 0.3s ease';
-        }
-      }
-
-      document.getElementById('rotate-cw').addEventListener('click', function () { applyRotation(mapAngle + 15); });
-      document.getElementById('rotate-ccw').addEventListener('click', function () { applyRotation(mapAngle - 15); });
-      document.getElementById('rotate-reset').addEventListener('click', function () { applyRotation(0); });
-
-      document.addEventListener('keydown', function (e) {
-        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-        if (e.key === 'r' || e.key === 'R') {
-          if (e.shiftKey) applyRotation(mapAngle - 15);
-          else applyRotation(mapAngle + 15);
-        }
-      });
-
-      map.on('click', () => map.scrollWheelZoom.enable());
-      map.on('mouseout', () => map.scrollWheelZoom.disable());
-    } catch (err) { /* map is decorative — fail silently */ }
+      map.on('click', function () { map.scrollWheelZoom.enable(); });
+      map.on('mouseout', function () { map.scrollWheelZoom.disable(); });
+    } catch (err) { /* fail silently */ }
   }
 
   /* ---------------- Fullscreen screenshot viewer ---------------- */
