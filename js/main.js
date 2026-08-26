@@ -1031,6 +1031,32 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       if (/\btitle.*filename\b|\bfilename.*title\b|\bfile.*name.*title\b|\btitle.*as.*name\b/.test(q)) return 'Title as Filename 📝: RKO Downloader automatically uses the video title as the filename when saving! No more "video_123.mp4" — get meaningful names! 🎯';
       if (/\bauto.*detect\b|\bauto.*link\b|\bclipboard.*detect\b|\bauto.*paste\b/.test(q)) return 'Auto Detect 🔍: RKO Downloader monitors your clipboard — when you copy a supported link and open the app, it auto-detects and starts processing! Magic! ✨';
 
+      /* Screen Mirror Q&A */
+      if (/\bscreen mirror\b|\bscreen.*mirror\b|\bmirror.*screen\b|\bphone.*mirror\b/.test(q)) return 'Screen Mirror 📲 lets you mirror and control your phone from PC! Full control with mouse & keyboard, file transfer, and high-quality streaming! <a href="https://rko-bro-website.pages.dev/#projects" target="_blank">Coming soon</a>';
+      if (/\bmirror.*control\b|\bcontrol.*phone\b|\bpc.*control\b|\bremote.*control\b/.test(q)) return 'Fully Control Mobile by PC 🖱️: Tap, swipe, type messages, open apps & settings — all with mouse & keyboard on your desktop! Exactly like using your phone on PC! 💻📱';
+      if (/\bmirror.*quality\b|\bmirror.*resolution\b|\bscreen.*quality\b|\bhigh.*quality.*mirror\b/.test(q)) return 'Better Quality Screening 🖥️: Sharp high-resolution mirror with smooth low-lag streaming! Enjoy crystal clear display on your PC! ✨';
+      if (/\bmirror.*wifi\b|\bwifi.*pair\b|\bconnect.*mirror\b|\bpair.*phone\b/.test(q)) return 'Easy Pair over Same WiFi 📶: Connect both devices in seconds — no cables needed! Just make sure phone and PC are on the same WiFi network! 🔗';
+      if (/\bfile.*transfer\b|\bfile.*send\b|\bphoto.*transfer\b|\bvideo.*transfer\b/.test(q)) return 'File, Photo & Video Send 📂: Transfer media between phone and PC instantly! Drag and drop files both ways! ⚡';
+      if (/\bmirror.*app\b|\bmirror.*download\b|\bwhere.*get.*mirror\b/.test(q)) return 'Screen Mirror has apps for both PC 💻 & Mobile 📱! Coming soon 🚧 — stay tuned for the release! 💜';
+      if (/\bmirror.*android\b|\bandroid.*mirror\b|\bmirror.*phone\b/.test(q)) return 'Yes! 📲 Screen Mirror works on Android phones! Mirror your Android screen to any Windows PC over WiFi! 💻';
+      if (/\bmirror.*lag\b|\blag.*mirror\b|\bslow.*mirror\b/.test(q)) return 'Screen Mirror uses optimized low-latency streaming ⚡ for smooth mirroring! Make sure both devices are on strong WiFi for best results! 📶';
+      if (/\bmirror.*keyboard\b|\bkeyboard.*mirror\b|\btype.*phone\b/.test(q)) return 'Yes! ⌨️ You can type messages, search and use your PC keyboard directly on your mirrored phone! Super convenient! 💬';
+      if (/\bwho.*develop.*mirror\b|\bmirror.*who\b/.test(q)) return 'Screen Mirror was developed by <b>RKO BRO</b> (Himal Paudel) 👨‍💻 — full stack + Android developer! 💜';
+
+      /* WWE Highlights Q&A */
+      if (/\bwwe highlights\b|\bwwe.*highlight\b|\bhighlight.*wwe\b/.test(q)) return 'WWE Highlights 🤼 is an Android app to watch and download WWE wrestling video highlights! Floating player, offline downloads, and auto-fullscreen! <a href="https://wwe-web.hightlights.workers.dev" target="_blank">Visit site</a>';
+      if (/\bwwe.*download\b|\bdownload.*wwe\b|\bwwe.*video.*download\b/.test(q)) return 'Yes! ⬇️ You can save any WWE highlight to your device to watch offline! Just tap the download button! 📲 <a href="https://wwe.hightlights.workers.dev/api/app.apk" target="_blank">Download APK</a>';
+      if (/\bwwe.*floating\b|\bfloating.*wwe\b|\bwwe.*pip\b/.test(q)) return 'Yes! 🪟 WWE Highlights has a floating player — video floats in a mini window while you use other apps! Watch and multitask! ⚡';
+      if (/\bwwe.*fullscreen\b|\bauto.*fullscreen\b|\blandscape.*wwe\b/.test(q)) return 'Yes! 🔄 Auto Fullscreen — automatically goes fullscreen when you rotate to landscape mode! Immersive wrestling experience! 🤼';
+      if (/\bwwe.*control\b|\bwwe.*smart\b|\bplay.*pause.*wwe\b/.test(q)) return 'Smart Controls 🎛️: Play ⏯️, Pause ⏸️, Mute 🔇, Speed ⏩, Resize 📐 and Move 🖐️ the player anywhere on screen!';
+      if (/\bwwe.*fast\b|\bwwe.*light\b|\bwwe.*small\b|\bwwe.*size\b/.test(q)) return 'Fast & Light ⚡: Small APK size 📦, quick load times 🚀, no ads 🚫 and no bloat! Just pure wrestling highlights! 💪';
+      if (/\bwwe.*safe\b|\bwwe.*private\b|\bwwe.*security\b/.test(q)) return 'Secure & Private 🔒: No data collection 🛡️, your privacy is protected! Just enjoy wrestling! 💜';
+      if (/\bwwe.*android\b|\bandroid.*wwe\b|\bwwe.*version\b/.test(q)) return 'WWE Highlights requires Android 8.0+ 📱. Works on most modern Android devices! <a href="https://wwe.hightlights.workers.dev/api/app.apk" target="_blank">Download now</a>';
+      if (/\bwwe.*website\b|\bwwe.*web\b|\bwwe.*online\b/.test(q)) return 'Yes! 🌐 You can also watch WWE Highlights on the web! <a href="https://wwe-web.hightlights.workers.dev" target="_blank">Visit WWE Highlights Web</a>';
+      if (/\bwwe.*no ads\b|\bwwe.*ads\b|\bad.*free\b/.test(q)) return 'Yes! 🚫 No ads! WWE Highlights is completely ad-free! Pure wrestling content without interruptions! 🤼💜';
+      if (/\bwho.*develop.*wwe\b|\bwwe.*who\b/.test(q)) return 'WWE Highlights was developed by <b>RKO BRO</b> (Himal Paudel) 👨‍💻! Built with love for wrestling fans! 🤼💜';
+      if (/\bwwe.*sport\b|\bwhat.*wwe\b|\bwwe.*what\b/.test(q)) return 'WWE Highlights brings you the best wrestling moments 🤼 — Raw, SmackDown, pay-per-views and more! Watch highlights anytime! 📺';
+
       /* Nepali jokes — TOP priority */
       if (/\bjoke[s]?\b|\bhasauna\b|\bhaso\b|\bfunny\b|\bmazak\b|\bhasawle\b|\brofl\b|\blol\b|\blmao\b/.test(q)) {
         var jokes = [
