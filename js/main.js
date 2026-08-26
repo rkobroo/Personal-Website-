@@ -944,6 +944,22 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
     }
 
     function getReply(q) {
+      /* Direct Q&A with emojis */
+      if (/\bhello\b/.test(q)) return 'Hello! 👋 How can I help you today? 😊';
+      if (/\bwhat can you do\b|\bwhat do you do\b/.test(q)) return 'I can help with downloads 📥, website information 🌐, and general questions! 💬 Try asking about projects, skills, jokes or status!';
+      if (/\bwho created you\b|\bwho made you\b|\bwho is your developer\b/.test(q)) return 'I was created by RKO BRO (Himal Paudel) 👨‍💻 to assist users of the RKO ecosystem! 💜';
+      if (/\bgood night\b|\bsubha ratri\b|\bgoodnyt\b/.test(q)) return 'Good night! 🌙✨ Sleep well and take care! Sweet dreams! 😴💜';
+      if (/\bcanyouspeakenglish\b|\bspeak english\b|\benglish ma\b/.test(q)) return 'Yes, I can communicate in English! 🇬🇧💬 Nepali pani bolna sakchu! 🇳🇵';
+      if (/\bcan you speak nepali\b|\bnepali ma\b|\bnepali\b/.test(q)) return 'Yes, I can communicate in Nepali as well! 🇳🇵💬 K help garna sakchu?';
+      if (/\brko downloader\b/.test(q)) return 'RKO Downloader is a platform that helps users download videos 📹 from TikTok, Facebook, Instagram and more! 📥✨ <a href="https://rko-downloader.pages.dev" target="_blank">Visit now</a>';
+      if (/\bwhich platform\b|\bsupported platform\b|\bdownload.*platform\b/.test(q)) return 'We support popular platforms such as TikTok 🎵, Facebook 📘, Instagram 📸, YouTube 🎬 and others! 🌐';
+      if (/\bis rko downloader free\b|\bfree download\b|\bfree ho\b/.test(q)) return 'Yes! Most features are available for free! 🆓✨ No hidden charges!';
+      if (/\bare you human\b|\bhuman ho\b|\bbot ho\b|\breal ho\b/.test(q)) return 'No, I am an AI-powered virtual assistant 🤖 built by RKO BRO to help you!';
+      if (/\bhelp.*download\b|\bdownload.*video\b|\bvideo.*download\b/.test(q)) return 'Yes! 📥 Paste the video link in RKO Downloader, and it will process it instantly! ⚡ <a href="https://rko-downloader.pages.dev" target="_blank">Try it now</a>';
+      if (/\bdownload.*not working\b|\bdownload.*fail\b|\bproblem.*download\b|\bnot working\b/.test(q)) return 'Please check the link 🔗 and try again. If the issue continues, contact support 📧: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a>';
+      if (/\bcontact support\b|\bsupport\b|\bhelpline\b/.test(q)) return 'You can contact us through: 📧 Email: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a><br>📱 WhatsApp: <a href="https://wa.me/9779810911473" target="_blank">+977 9810911473</a><br>📘 Facebook: <a href="https://www.facebook.com/profile.php?id=61581151980604" target="_blank">RKO BRO</a>';
+      if (/\bbye\b|\bbye bye\b|\bgoodbye\b|\bsee you\b|\bmaile janchu\b|\balvida\b/.test(q)) return 'Goodbye! 👋😊 Have a great day and visit us again! 💜 RKO BRO loves you!';
+
       /* Nepali jokes — TOP priority */
       if (/\bjoke[s]?\b|\bhasauna\b|\bhaso\b|\bfunny\b|\bmazak\b|\bhasawle\b|\brofl\b|\blol\b|\blmao\b/.test(q)) {
         var jokes = [
