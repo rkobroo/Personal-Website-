@@ -514,6 +514,14 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
         });
       }
 
+      /* Home button — fly back to Ghorahi */
+      const homeBtn = document.getElementById('home-btn');
+      if (homeBtn) {
+        homeBtn.addEventListener('click', function () {
+          map.flyTo([28.0553, 82.4947], 14, { duration: 1.5 });
+        });
+      }
+
       /* Map rotation */
       var mapAngle = 0;
       var mapContainer = mapEl;
