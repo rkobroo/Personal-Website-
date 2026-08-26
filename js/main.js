@@ -459,22 +459,17 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
         attributionControl: true
       });
 
-      /* Satellite imagery */
+      /* OpenStreetMap standard — all Nepal locations, schools, petrol pumps, offices, villages */
+      window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        subdomains: 'abc',
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(map);
+
+      /* Esri satellite underneath — visible through semi-transparent OSM at high zoom */
       window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        maxZoom: 18,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://www.esri.com/">Esri</a>'
-      }).addTo(map);
-
-      /* Places & boundaries labels */
-      window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-        maxZoom: 18,
-        pane: 'overlayPane'
-      }).addTo(map);
-
-      /* Roads & transport labels */
-      window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', {
-        maxZoom: 18,
-        pane: 'overlayPane'
+        maxZoom: 19,
+        opacity: 0.35
       }).addTo(map);
 
       /* Map marker */
