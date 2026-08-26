@@ -1082,6 +1082,17 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       if (/\bkeyboard.*shortcut\b|\bshortcut\b|\bhotkey\b/.test(q)) return 'Keyboard Shortcuts ⌨️: <b>T</b> — Toggle dark/light mode 🌙☀️ | <b>R</b> — Rotate map ↻ | <b>Shift+R</b> — Rotate map left ↺ | <b>Esc</b> — Close lightbox ❌';
       if (/\bportfolio\b|\bwebsite.*about\b|\bthis.*site\b/.test(q)) return 'This Portfolio 🌐: Built with vanilla HTML/CSS/JS! Features glassmorphism UI 💎, RGB animations 🌈, particles ✨, 3D tilt cards, chatbot 🤖, and more! Hosted on Cloudflare Pages! ⚡';
 
+      /* Casual Nepali */
+      if (/\bsanchai chu\b|\bsanchai\b|\bthik chu\b|\bustadai chu\b/.test(q)) return 'Ma pani sanchai chu! 😊 Sabai badhiya chha. Tapai k garcha aaja? 💜';
+      if (/\bk garcha\b|\bk garchu\b|\bk gardai\b/.test(q)) return 'K garcha! 😄 Ma ta coding gardai chu! Tapai le ke garcha? 💻';
+      if (/\bbistarai\b|\bali bistarai\b/.test(q)) return 'Bistarai, bistarai! 😄 Life janchha, code chalchha — sabai set chha! 💜';
+      if (/\bchiso\b|\bchiso cha\b|\btando\b|\bsardi\b/.test(q)) return 'Chiso cha! 🥶 Dang ma chiso — coding garna perfect weather! Hot coffee ☕ + laptop 💻 = heaven! 😎';
+      if (/\bkati bajyo\b|\btime\b|\bwhat time\b|\bbeluka\b/.test(q)) return 'Ma time herda sakdina 😅 — ma chatbot chu, mero time kunai chhaina! But keep coding! 💻⏰';
+
+      /* Casual English reactions */
+      if (/\bnice\b|\bcool\b|\bawesome\b|\bamazing\b|\bgreat\b/.test(q)) return 'Thanks! 😄💜 RKO BRO banako chha — quality work, guaranteed! ✨';
+      if (/\bwhat.*up\b|\bwhats up\b|\bwyd\b|\bkrna kya\b/.test(q)) return 'Yo! 🤙 Coding chalchha, projects baninchha, life set chha! Tapai k cha? 💜';
+
       /* Nepali jokes — TOP priority */
       if (/\bjoke[s]?\b|\bhasauna\b|\bhaso\b|\bfunny\b|\bmazak\b|\bhasawle\b|\brofl\b|\blol\b|\blmao\b/.test(q)) {
         var jokes = [
