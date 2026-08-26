@@ -453,8 +453,8 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
     if (!mapEl || typeof window.L === 'undefined') return;
     try {
       const map = window.L.map(mapEl, {
-        center: [28.08, 82.50],
-        zoom: 10,
+        center: [28.0553, 82.4947],
+        zoom: 14,
         scrollWheelZoom: false,
         attributionControl: true
       });
@@ -476,7 +476,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
         iconAnchor: [8, 8]
       });
 
-      window.L.marker([27.8697, 82.4897], { icon })
+      window.L.marker([28.0553, 82.4947], { icon })
         .addTo(map)
         .bindPopup('<b>Dang, Nepal</b><br>RKO BRO — building from here.')
         .openPopup();
