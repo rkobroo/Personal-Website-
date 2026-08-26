@@ -660,4 +660,332 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       loadServiceStatus();
     }
   }
+
+  /* ============================================================
+     FEATURE 1: Enhanced Timeline — line draw + dot pulse + card slide
+     ============================================================ */
+  if ('IntersectionObserver' in window) {
+    var timeline = document.querySelector('.timeline');
+    if (timeline) {
+      var tlObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(en) {
+          if (en.isIntersecting) {
+            en.target.classList.add('in-view');
+            tlObs.unobserve(en.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      tlObs.observe(timeline);
+    }
+  }
+
+  /* ============================================================
+     FEATURE 2: Skills enhanced counters (already works via skill bars)
+     ============================================================ */
+  /* Skill bars already animate on scroll via existing code above.
+     Adding glow class to active skill categories. */
+  $$('.skill-cat').forEach(function(cat) {
+    if ('IntersectionObserver' in window) {
+      var skObs = new IntersectionObserver(function(entries) {
+        entries.forEach(function(en) {
+          if (en.isIntersecting) {
+            en.target.classList.add('in-view');
+            skObs.unobserve(en.target);
+          }
+        });
+      }, { threshold: 0.35 });
+      skObs.observe(cat);
+    }
+  });
+
+  /* ============================================================
+     FEATURE 3: Easter Egg — Konami Code
+     ============================================================ */
+  (function() {
+    var konamiCode = [38,38,40,40,37,39,37,39,66,65];
+    var konamiIndex = 0;
+    var eeActive = false;
+
+    document.addEventListener('keydown', function(e) {
+      if (eeActive) return;
+      if (e.keyCode === konamiCode[konamiIndex]) {
+        konamiIndex++;
+        if (konamiIndex === konamiCode.length) {
+          konamiIndex = 0;
+          showEasterEgg();
+        }
+      } else {
+        konamiIndex = 0;
+      }
+    });
+
+    function showEasterEgg() {
+      eeActive = true;
+      var overlay = document.createElement('div');
+      overlay.className = 'easter-egg-overlay';
+      overlay.innerHTML = '<div style="text-align:center"><div class="ee-text">RKO BRO</div><div class="ee-sub">You found the secret! 🎉<br><small>↑ ↑ ↓ ↓ ← → ← → B A</small></div></div>';
+      document.body.appendChild(overlay);
+      overlay.addEventListener('click', function() {
+        overlay.style.opacity = '0';
+        overlay.style.transition = 'opacity 0.4s ease';
+        setTimeout(function() { overlay.remove(); eeActive = false; }, 400);
+      });
+      setTimeout(function() {
+        if (overlay.parentNode) {
+          overlay.style.opacity = '0';
+          overlay.style.transition = 'opacity 0.4s ease';
+          setTimeout(function() { overlay.remove(); eeActive = false; }, 400);
+        }
+      }, 6000);
+    }
+  })();
+
+  /* ============================================================
+     FEATURE 4: 3D Particle Text — "RKO BRO" floating particles
+     ============================================================ */
+  (function() {
+    var ptCanvas = document.getElementById('particleText');
+    if (!ptCanvas || reduced || lowRamDevice) return;
+    var ctx = ptCanvas.getContext('2d');
+    if (!ctx) return;
+
+    var particles = [];
+    var textCoords = [];
+    var W, H;
+    var mousePt = { x: -9999, y: -9999 };
+
+    function resizePT() {
+      var hero = document.getElementById('home');
+      if (!hero) return;
+      W = hero.offsetWidth;
+      H = hero.offsetHeight;
+      var dpr = Math.min(window.devicePixelRatio || 1, 2);
+      ptCanvas.width = W * dpr;
+      ptCanvas.height = H * dpr;
+      ptCanvas.style.width = W + 'px';
+      ptCanvas.style.height = H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      generateTextCoords();
+      initParticles();
+    }
+
+    function generateTextCoords() {
+      textCoords = [];
+      var offCanvas = document.createElement('canvas');
+      offCanvas.width = W;
+      offCanvas.height = H;
+      var offCtx = offCanvas.getContext('2d');
+      if (!offCtx) return;
+
+      var fontSize = Math.min(Math.floor(W / 7), 120);
+      offCtx.font = '800 ' + fontSize + 'px Sora, sans-serif';
+      offCtx.textAlign = 'center';
+      offCtx.textBaseline = 'middle';
+      offCtx.fillStyle = '#fff';
+      offCtx.fillText('RKO BRO', W / 2, H / 2);
+
+      var data = offCtx.getImageData(0, 0, W, H).data;
+      var gap = Math.max(3, Math.floor(fontSize / 18));
+      for (var y = 0; y < H; y += gap) {
+        for (var x = 0; x < W; x += gap) {
+          var i = (y * W + x) * 4;
+          if (data[i + 3] > 128) {
+            textCoords.push({ x: x, y: y });
+          }
+        }
+      }
+    }
+
+    function initParticles() {
+      particles = [];
+      var count = Math.min(textCoords.length, coarsePointer ? 300 : 600);
+      for (var i = 0; i < count; i++) {
+        var tc = textCoords[i];
+        if (!tc) continue;
+        particles.push({
+          x: Math.random() * W,
+          y: Math.random() * H,
+          tx: tc.x,
+          ty: tc.y,
+          vx: 0,
+          vy: 0,
+          r: Math.random() * 1.5 + 0.8,
+          c: ['139,92,246', '59,130,246', '6,182,212', '200,94,255'][Math.floor(Math.random() * 4)],
+          a: Math.random() * 0.5 + 0.4
+        });
+      }
+    }
+
+    function stepPT() {
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < particles.length; i++) {
+        var p = particles[i];
+        var dx = mousePt.x - p.x;
+        var dy = mousePt.y - p.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+        var mouseR = 100;
+        if (dist < mouseR && dist > 0) {
+          var force = (mouseR - dist) / mouseR * 2;
+          p.vx -= (dx / dist) * force;
+          p.vy -= (dy / dist) * force;
+        }
+        p.vx += (p.tx - p.x) * 0.04;
+        p.vy += (p.ty - p.y) * 0.04;
+        p.vx *= 0.92;
+        p.vy *= 0.92;
+        p.x += p.vx;
+        p.y += p.vy;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + p.c + ',' + p.a + ')';
+        ctx.fill();
+      }
+      if (!document.hidden) requestAnimationFrame(stepPT);
+    }
+
+    if ('IntersectionObserver' in window) {
+      var heroObs = new IntersectionObserver(function(entries) {
+        if (entries[0] && entries[0].isIntersecting) {
+          resizePT();
+          stepPT();
+        }
+      }, { threshold: 0.1 });
+      var heroEl = document.getElementById('home');
+      if (heroEl) heroObs.observe(heroEl);
+    } else {
+      resizePT();
+      stepPT();
+    }
+
+    window.addEventListener('resize', function() { resizePT(); });
+    document.addEventListener('mousemove', function(e) {
+      var heroEl = document.getElementById('home');
+      if (!heroEl) return;
+      var r = heroEl.getBoundingClientRect();
+      mousePt.x = e.clientX - r.left;
+      mousePt.y = e.clientY - r.top;
+    });
+  })();
+
+  /* ============================================================
+     FEATURE 5: Page Transition — fade sections on scroll
+     ============================================================ */
+  if ('IntersectionObserver' in window && !reduced) {
+    var fadeSections = $$('main section[id]');
+    var fadeObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(en) {
+        if (en.isIntersecting) {
+          en.target.classList.add('fade-in');
+          en.target.classList.remove('fade-out');
+        } else {
+          if (en.target.classList.contains('fade-in')) {
+            en.target.classList.add('fade-out');
+            en.target.classList.remove('fade-in');
+          }
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '-10% 0px' });
+    fadeSections.forEach(function(s) { fadeObs.observe(s); });
+  }
+
+  /* ============================================================
+     FEATURE 6: Chatbot Widget — Pre-programmed Q&A
+     ============================================================ */
+  (function() {
+    var wrap = document.getElementById('chatbotWrap');
+    var toggle = document.getElementById('chatbotToggle');
+    var panel = document.getElementById('chatbotPanel');
+    var close = document.getElementById('chatbotClose');
+    var messages = document.getElementById('chatMessages');
+    var form = document.getElementById('chatForm');
+    var input = document.getElementById('chatInput');
+    var suggestions = document.getElementById('chatSuggestions');
+    if (!wrap || !toggle || !panel) return;
+
+    toggle.addEventListener('click', function() {
+      wrap.classList.toggle('open');
+      if (wrap.classList.contains('open') && input) {
+        setTimeout(function() { input.focus(); }, 350);
+      }
+    });
+    close.addEventListener('click', function() { wrap.classList.remove('open'); });
+
+    /* Suggestion buttons */
+    suggestions.addEventListener('click', function(e) {
+      var btn = e.target.closest('.chat-sug');
+      if (!btn) return;
+      var q = btn.getAttribute('data-q');
+      if (q) { handleChat(q); input.value = ''; }
+    });
+
+    /* Form submit */
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var q = input.value.trim();
+      if (!q) return;
+      handleChat(q);
+      input.value = '';
+    });
+
+    function addMsg(text, isUser) {
+      var div = document.createElement('div');
+      div.className = 'chat-msg ' + (isUser ? 'user' : 'bot');
+      div.innerHTML = '<p>' + text + '</p>';
+      messages.appendChild(div);
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    function handleChat(q) {
+      addMsg(q, true);
+      var lower = q.toLowerCase();
+      var reply = getReply(lower);
+      setTimeout(function() { addMsg(reply, false); }, 400 + Math.random() * 400);
+    }
+
+    function getReply(q) {
+      /* greetings */
+      if (/^(hi|hello|hey|namaste|hola|sup|yo)\b/.test(q)) {
+        return 'Namaste! 🙏 Welcome to RKO BRO\'s portfolio. How can I help you?';
+      }
+      /* who */
+      if (/who|about|intro|yourself|name/.test(q)) {
+        return 'I\'m <b>RKO BRO</b> (Himal Paudel) — a Full Stack Developer from Dang, Nepal. I build web apps, Android apps and streaming platforms. 🚀';
+      }
+      /* skills */
+      if (/skill|tech|stack|know|language|tools/.test(q)) {
+        return '<b>My Skills:</b><br>• Frontend: React, Next.js, Tailwind CSS, JavaScript<br>• Backend: Node.js, Express, MongoDB, Cloudflare Workers<br>• Mobile: Kotlin, Android, ExoPlayer, WebView<br>• Design: Figma, Prototyping, Motion Design';
+      }
+      /* projects */
+      if (/project|work|build|app|product|made/.test(q)) {
+        return '<b>Featured Projects:</b><br>1. <a href="https://rko-downloader.pages.dev" target="_blank">RKO Downloader</a> — Video downloader (Android)<br>2. <a href="https://tv-97x.pages.dev" target="_blank">RKO TV</a> — Live sports streaming<br>3. Screen Mirror — Phone mirroring (coming soon)<br>4. WWE Highlights — Wrestling clips app';
+      }
+      /* experience */
+      if (/experience|work|job|career|journey|year/.test(q)) {
+        return '<b>My Journey:</b><br>• 2024–Present: Founder & Lead Developer — RKO Ecosystem<br>• 2023–2024: Full Stack Developer — Freelance (15+ projects)<br>• 2022–2023: Frontend Developer — Remote Contract<br>• 2021–2022: Self-Taught Web Development';
+      }
+      /* contact */
+      if (/contact|email|reach|hire|mail|message|phone/.test(q)) {
+        return '<b>Contact me:</b><br>📧 <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a><br>📘 <a href="https://www.facebook.com/profile.php?id=61581151980604" target="_blank">Facebook</a><br>📸 <a href="https://www.instagram.com/himalpaudel_18" target="_blank">Instagram: himalpaudel_18</a><br>📍 Ghorahi, Dang, Nepal';
+      }
+      /* location */
+      if (/where|location|live|from|ghorahi|dang|nepal/.test(q)) {
+        return 'I\'m from <b>Ghorahi, Dang, Nepal</b> 🇳🇵 — a beautiful city in the mid-western region.';
+      }
+      /* education */
+      if (/education|study|university|college|school|degree/.test(q)) {
+        return 'I\'m currently pursuing <b>Civil Engineering</b> while building products on the side. Self-taught in web & mobile development!';
+      }
+      /* availability */
+      if (/available|hire|freelance|open|work together/.test(q)) {
+        return 'Yes! I\'m <b>open to work</b> and available for freelance projects. Let\'s build something amazing together! 💼';
+      }
+      /* price/rate */
+      if (/price|rate|cost|charge|money/.test(q)) {
+        return 'My rates depend on the project scope. Drop me an email at <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> with your project details and I\'ll get back to you!';
+      }
+      /* default */
+      return 'Interesting question! 🤔 I don\'t have a specific answer for that, but you can ask me about my <b>skills</b>, <b>projects</b>, <b>experience</b>, or how to <b>contact</b> me. Or email <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> directly!';
+    }
+  })();
 })();

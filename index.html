@@ -753,6 +753,42 @@
     <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
 
+  <!-- Chatbot Widget -->
+  <div class="chatbot-wrap" id="chatbotWrap">
+    <button class="chatbot-toggle rgb-btn" id="chatbotToggle" aria-label="Open chat">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+    </button>
+    <div class="chatbot-panel" id="chatbotPanel">
+      <div class="chatbot-header">
+        <span class="chatbot-avatar">🤖</span>
+        <div>
+          <b>RKO BRO Bot</b>
+          <small class="mono">online</small>
+        </div>
+        <button class="chatbot-close" id="chatbotClose" aria-label="Close chat">&times;</button>
+      </div>
+      <div class="chatbot-messages" id="chatMessages">
+        <div class="chat-msg bot"><p>Hey! I'm RKO BRO's assistant. Ask me about his skills, projects, experience or how to contact him.</p></div>
+      </div>
+      <div class="chatbot-suggestions" id="chatSuggestions">
+        <button class="chat-sug" data-q="who are you">Who are you?</button>
+        <button class="chat-sug" data-q="projects">Projects</button>
+        <button class="chat-sug" data-q="skills">Skills</button>
+        <button class="chat-sug" data-q="contact">Contact</button>
+        <button class="chat-sug" data-q="experience">Experience</button>
+      </div>
+      <form class="chatbot-input" id="chatForm">
+        <input type="text" id="chatInput" placeholder="Type a message…" autocomplete="off" />
+        <button type="submit" aria-label="Send">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- 3D Particle Text Canvas (hero background) -->
+  <canvas id="particleText" aria-hidden="true"></canvas>
+
   <!-- Fullscreen image viewer -->
   <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Project screenshot viewer">
     <button class="lb-close" aria-label="Close viewer">&times;</button>
