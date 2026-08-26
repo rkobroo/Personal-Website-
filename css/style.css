@@ -2046,7 +2046,7 @@ body.light .stat-card .stat-n { color: #0F172A; }
   position: absolute; inset: 8px;
   border-radius: calc(var(--r-lg) - 10px);
   pointer-events: none;
-  box-shadow: inset 0 0 40px rgba(5, 8, 22, 0.35);
+  box-shadow: inset 0 0 30px rgba(5, 8, 22, 0.25);
 }
 .map-overlay::before {
   content: '';
