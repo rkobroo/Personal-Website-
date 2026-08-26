@@ -459,16 +459,25 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
         attributionControl: true
       });
 
+      /* Satellite imagery */
       window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         maxZoom: 18,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://www.esri.com/">Esri</a>'
       }).addTo(map);
 
+      /* Places & boundaries labels */
       window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
         maxZoom: 18,
         pane: 'overlayPane'
       }).addTo(map);
 
+      /* Roads & transport labels */
+      window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 18,
+        pane: 'overlayPane'
+      }).addTo(map);
+
+      /* Map marker */
       const icon = window.L.divIcon({
         className: 'map-pin',
         html: '<span class="pin-core"></span>',
@@ -478,8 +487,54 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
 
       window.L.marker([28.0553, 82.4947], { icon })
         .addTo(map)
-        .bindPopup('<b>Dang, Nepal</b><br>RKO BRO — building from here.')
+        .bindPopup('<b>Ghorahi, Dang</b><br>RKO BRO — building from here.')
         .openPopup();
+
+      /* My Location button */
+      const locateBtn = document.getElementById('locate-btn');
+      if (locateBtn) {
+        locateBtn.addEventListener('click', function () {
+          if (!navigator.geolocation) { alert('Geolocation not supported'); return; }
+          locateBtn.textContent = '⏳';
+          navigator.geolocation.getCurrentPosition(function (pos) {
+            map.flyTo([pos.coords.latitude, pos.coords.longitude], 16, { duration: 1.5 });
+            window.L.marker([pos.coords.latitude, pos.coords.longitude], {
+              icon: window.L.divIcon({
+                className: 'map-pin my-loc',
+                html: '<span class="pin-core my-loc-core"></span>',
+                iconSize: [18, 18],
+                iconAnchor: [9, 9]
+              })
+            }).addTo(map).bindPopup('<b>You are here</b>').openPopup();
+            locateBtn.textContent = '📍';
+          }, function () {
+            alert('Location access denied.');
+            locateBtn.textContent = '📍';
+          }, { enableHighAccuracy: true, timeout: 8000 });
+        });
+      }
+
+      /* Map rotation */
+      var mapAngle = 0;
+      var mapContainer = mapEl;
+      function applyRotation(deg) {
+        mapAngle = deg % 360;
+        mapContainer.style.transform = 'rotate(' + mapAngle + 'deg) scale(1.2)';
+        mapContainer.style.transformOrigin = 'center center';
+        mapContainer.style.transition = 'transform 0.3s ease';
+      }
+
+      document.getElementById('rotate-cw').addEventListener('click', function () { applyRotation(mapAngle + 15); });
+      document.getElementById('rotate-ccw').addEventListener('click', function () { applyRotation(mapAngle - 15); });
+      document.getElementById('rotate-reset').addEventListener('click', function () { applyRotation(0); });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        if (e.key === 'r' || e.key === 'R') {
+          if (e.shiftKey) applyRotation(mapAngle - 15);
+          else applyRotation(mapAngle + 15);
+        }
+      });
 
       map.on('click', () => map.scrollWheelZoom.enable());
       map.on('mouseout', () => map.scrollWheelZoom.disable());

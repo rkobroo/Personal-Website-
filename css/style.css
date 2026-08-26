@@ -2034,7 +2034,7 @@ body.light .stat-card .stat-n { color: #0F172A; }
 .map-wrap {
   position: relative;
   margin-top: clamp(30px, 4vw, 48px);
-  overflow: hidden;
+  overflow: visible;
   padding: 8px;
 }
 #map {
@@ -2085,6 +2085,35 @@ body.light .stat-card .stat-n { color: #0F172A; }
 @keyframes pinRadar {
   from { transform: scale(0.5); opacity: 1; }
   to   { transform: scale(1.5); opacity: 0; }
+}
+
+.map-wrap { overflow: visible; }
+#map { overflow: hidden; }
+.map-controls {
+  position: absolute;
+  top: 16px; right: 16px;
+  display: flex; flex-direction: column; gap: 6px;
+  z-index: 1000;
+}
+.map-ctrl-btn {
+  width: 36px; height: 36px;
+  border: none; border-radius: 8px;
+  background: rgba(11, 17, 36, 0.85);
+  color: #fff;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  transition: background 0.2s, transform 0.15s;
+}
+.map-ctrl-btn:hover { background: rgba(139, 92, 246, 0.4); transform: scale(1.08); }
+.map-ctrl-btn:active { transform: scale(0.95); }
+
+.my-loc-core {
+  background: #22ff66 !important;
+  border-color: #fff !important;
+  box-shadow: 0 0 18px rgba(34, 255, 102, 0.9) !important;
 }
 
 .leaflet-popup-content-wrapper {
