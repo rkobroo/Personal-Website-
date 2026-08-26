@@ -2034,7 +2034,7 @@ body.light .stat-card .stat-n { color: #0F172A; }
 .map-wrap {
   position: relative;
   margin-top: clamp(30px, 4vw, 48px);
-  overflow: visible;
+  overflow: hidden;
   padding: 8px;
 }
 #map {

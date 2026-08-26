@@ -454,7 +454,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
     try {
       const map = window.L.map(mapEl, {
         center: [28.0553, 82.4947],
-        zoom: 14,
+        zoom: 15,
         scrollWheelZoom: false,
         attributionControl: true
       });
@@ -462,16 +462,26 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       /* Pure satellite imagery */
       window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
         maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://www.esri.com/">Esri</a>'
+        attribution: '&copy; Esri'
       }).addTo(map);
 
-      /* Transparent place labels (cities, villages, schools, shops, offices) */
+      /* OSM labels with multiply blend — white bg becomes transparent, only labels visible */
+      var osmLabels = window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        subdomains: 'abc',
+        pane: 'overlayPane'
+      }).addTo(map);
+
+      /* Apply multiply blend to OSM tile pane */
+      var tilePane = mapEl.querySelector('.leaflet-overlay-pane');
+      if (tilePane) tilePane.style.mixBlendMode = 'multiply';
+
+      /* Extra Esri labels for places/roads */
       window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
         maxZoom: 19,
         pane: 'overlayPane'
       }).addTo(map);
 
-      /* Transparent road labels (highways, streets, landmarks) */
       window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', {
         maxZoom: 19,
         pane: 'overlayPane'
@@ -522,14 +532,16 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
         });
       }
 
-      /* Map rotation */
+      /* Map rotation — contained inside map box */
       var mapAngle = 0;
-      var mapContainer = mapEl;
+      var tileContainer = mapEl.querySelector('.leaflet-map-pane');
       function applyRotation(deg) {
         mapAngle = deg % 360;
-        mapContainer.style.transform = 'rotate(' + mapAngle + 'deg) scale(1.2)';
-        mapContainer.style.transformOrigin = 'center center';
-        mapContainer.style.transition = 'transform 0.3s ease';
+        if (tileContainer) {
+          tileContainer.style.transform = 'rotate(' + mapAngle + 'deg) scale(1.2)';
+          tileContainer.style.transformOrigin = 'center center';
+          tileContainer.style.transition = 'transform 0.3s ease';
+        }
       }
 
       document.getElementById('rotate-cw').addEventListener('click', function () { applyRotation(mapAngle + 15); });
