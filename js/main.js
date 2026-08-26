@@ -997,6 +997,40 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       if (/\bfloating.*not working\b|\bfloating.*problem\b|\bno floating\b/.test(q)) return 'If Floating Player is not working 🛠️: 1) Make sure you\'re on Android 8.0+ 📱 2) Grant "Display over other apps" permission ⚙️ 3) Restart the app 🔄';
       if (/\bfloating.*permission\b|\bpermission.*floating\b|\boverlay.*permission\b/.test(q)) return 'Floating Player needs "Display over other apps" permission ⚙️. Go to Settings → Apps → RKO TV → Permissions → Allow overlay! ✅';
 
+      /* RKO Downloader Q&A */
+      if (/\brko downloader\b.*\bwhat is\b|\bwhat is\b.*\brko downloader\b/.test(q)) return 'RKO Downloader is a tool 🛠️ that helps you download videos 📹, photos 📸, and audio 🎵 from supported platforms! <a href="https://rko-downloader.pages.dev" target="_blank">Try it now</a>';
+      if (/\bris rko downloader free\b/.test(q)) return 'Yes! 🆓 RKO Downloader is completely free to use. No hidden charges! ✨';
+      if (/\bhow.*download.*video\b|\bdownload.*video\b|\bvideo.*download\b/.test(q)) return 'Copy the video link 🔗, paste it into the input box 📋, and click Download ⬇️. That\'s it! Super easy! ⚡';
+      if (/\bwhich platform.*supported\b|\bsupported platform\b|\bplatform.*support\b/.test(q)) return 'RKO Downloader supports: TikTok 🎵 | Facebook 📘 | Instagram 📸 | YouTube 🎬 | and many more! 🌐';
+      if (/\bdo i need.*account\b|\baccount.*create\b|\bsignup\b/.test(q)) return 'No account needed! 🎉 Just paste the link and download. No signup, no login! ✅';
+      if (/\bdownload.*not working\b|\bdownload.*fail\b|\bnot working\b/.test(q)) return 'Check that the link is valid 🔗 and publicly accessible, then try again 🔄. If still not working, email: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> 📧';
+      if (/\bhd.*video\b|\bhd video\b|\bquality.*video\b|\bhigh quality\b|\b1080p\b|\b720p\b/.test(q)) return 'Yes! 🎬 HD quality is available when the original video supports it — up to 1080p! 🔥';
+      if (/\baudio.*only\b|\baudio.*download\b|\bdownload.*audio\b|\bmp3\b|\bmusic.*download\b/.test(q)) return 'Audio-only downloads may not be available for all supported content 🎵. Try the video download and extract audio from your device! 📱';
+      if (/\bdownload limit\b|\blimit\b|\brestriction\b/.test(q)) return 'No limit! 🆓 There is no fixed download limit for normal usage. Download as much as you want! ♾️';
+      if (/\bvideo.*quality.*low\b|\blow quality\b|\bbad quality\b/.test(q)) return 'The available quality depends on the source platform 📱 and the original upload. RKO Downloader fetches the best quality available! 🎯';
+      if (/\bprivate video\b|\bprivate.*download\b|\bprivate.*content\b/.test(q)) return 'No, RKO Downloader only works with publicly accessible content 🔓. Private videos cannot be downloaded! 🚫';
+      if (/\bdownload.*fast\b|\bspeed\b|\bhow fast\b|\bfast download\b/.test(q)) return 'Download speed ⚡ depends on your internet connection 📶 and server availability. Usually very fast! 🚀';
+      if (/\bris.*safe\b|\bsecurity\b|\bvirus\b|\bmalware\b|\bsafe to use\b/.test(q)) return 'Yes! 🔒 RKO Downloader is designed to provide a safe and simple downloading experience. No data collection! ✅';
+      if (/\bmobile.*use\b|\buse.*mobile\b|\bphone.*download\b|\bdownload.*phone\b/.test(q)) return 'Yes! 📱 RKO Downloader works on mobile phones, tablets 📲, and desktop devices 💻! <a href="https://rko-downloader.pages.dev" target="_blank">Try it now</a>';
+      if (/\binstall.*app\b|\bapp.*install\b|\bdownload.*app\b/.test(q)) return 'No app install needed! 🌐 You can use RKO Downloader directly through your web browser. But there\'s also an Android app! 📲 <a href="https://rko-downloader.pages.dev/download.html" target="_blank">Download APK</a>';
+      if (/\bdownload button.*not show\b|\bno download button\b|\bbutton.*missing\b/.test(q)) return 'Try refreshing the page 🔄 and ensure the video link is correct 🔗. If still not working, try a different link!';
+      if (/\binstagram.*download\b|\bdownload.*instagram\b|\big reel\b|\binsta\b/.test(q)) return 'Yes! 📸 Supported public Instagram photos, videos and reels can be downloaded! <a href="https://rko-downloader.pages.dev" target="_blank">Try it</a>';
+      if (/\btiktok.*download\b|\bdownload.*tiktok\b|\btiktok video\b/.test(q)) return 'Yes! 🎵 RKO Downloader supports TikTok video downloads — with or without watermark! 🔥 <a href="https://rko-downloader.pages.dev" target="_blank">Download now</a>';
+      if (/\bfacebook.*download\b|\bdownload.*facebook\b|\bfb video\b/.test(q)) return 'Yes! 📘 Public Facebook videos are supported! Just paste the link and download! ⚡ <a href="https://rko-downloader.pages.dev" target="_blank">Try it</a>';
+      if (/\byoutube.*download\b|\bdownload.*youtube\b|\byt video\b/.test(q)) return 'Please check the supported platforms list 📋 on the website for the latest information on YouTube downloads! 🎬';
+      if (/\bwhere.*saved\b|\bsaved.*folder\b|\bdownload.*folder\b|\bfile.*save\b/.test(q)) return 'Downloaded files 📂 are usually saved in your device\'s Downloads folder! Check your file manager! 📁';
+      if (/\bphoto.*download\b|\bdownload.*photo\b|\bdownload.*image\b|\bimage.*download\b/.test(q)) return 'Yes! 📸 Photo downloads are supported on compatible platforms — Facebook, Instagram and more! Just paste the link! ⚡';
+      if (/\breel.*download\b|\bdownload.*reel\b|\binstagram reel\b/.test(q)) return 'Yes! 🎬 Public reels can be downloaded from supported platforms — TikTok, Instagram, Facebook! 📲';
+      if (/\bwho.*develop\b|\bdeveloper\b|\bwho.*made\b/.test(q)) return 'RKO Downloader was developed by <b>RKO BRO</b> (Himal Paudel) 👨‍💻 — the RKO team! 💜';
+      if (/\bwhat can you do\b/.test(q)) return 'I can help you download videos 📹, photos 📸, and answer questions about RKO Downloader! 💬 Try asking about TikTok, Instagram, Facebook downloads!';
+
+      /* Share flow / Direct download Q&A */
+      if (/\bshare.*flow\b|\bshare.*download\b|\bshare.*link\b|\bshare.*to.*app\b/.test(q)) return 'Share Flow 📤: Copy a video link from any social media app → Share it to RKO Downloader → The app auto-detects the link and starts downloading! No paste needed! ⚡';
+      if (/\bdirect download\b|\bdownload.*directly\b|\bno paste\b/.test(q)) return 'Direct Download ⬇️: When you share a link from TikTok/Facebook/Instagram directly to RKO Downloader, it auto-processes and downloads — no manual paste required! 🚀';
+      if (/\btitle.*copy\b|\bcopy.*title\b|\bvideo.*title\b|\btitle.*show\b/.test(q)) return 'Title Copy 📋: When a video is detected, RKO Downloader shows the video title! You can tap to copy the title text for sharing or saving! ✅';
+      if (/\btitle.*filename\b|\bfilename.*title\b|\bfile.*name.*title\b|\btitle.*as.*name\b/.test(q)) return 'Title as Filename 📝: RKO Downloader automatically uses the video title as the filename when saving! No more "video_123.mp4" — get meaningful names! 🎯';
+      if (/\bauto.*detect\b|\bauto.*link\b|\bclipboard.*detect\b|\bauto.*paste\b/.test(q)) return 'Auto Detect 🔍: RKO Downloader monitors your clipboard — when you copy a supported link and open the app, it auto-detects and starts processing! Magic! ✨';
+
       /* Nepali jokes — TOP priority */
       if (/\bjoke[s]?\b|\bhasauna\b|\bhaso\b|\bfunny\b|\bmazak\b|\bhasawle\b|\brofl\b|\blol\b|\blmao\b/.test(q)) {
         var jokes = [
