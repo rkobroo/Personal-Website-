@@ -947,7 +947,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       /* Direct Q&A with emojis */
       if (/\bhello\b/.test(q)) return 'Hello! 👋 How can I help you today? 😊';
       if (/\bwhat can you do\b|\bwhat do you do\b/.test(q)) return 'I can help with downloads 📥, website information 🌐, and general questions! 💬 Try asking about projects, skills, jokes or status!';
-      if (/\bwho created you\b|\bwho made you\b|\bwho is your developer\b/.test(q)) return 'I was created by RKO BRO (Himal Paudel) 👨‍💻 to assist users of the RKO ecosystem! 💜';
+      if (/\bwho created you\b|\bwho made you\b|\bwho is your developer\b/.test(q)) return 'I was created by <b>RKO BRO</b> (Himal Paudel) 👨‍💻 I was created to assist users of the RKO Downloader platform! 💜';
       if (/\bgood night\b|\bsubha ratri\b|\bgoodnyt\b/.test(q)) return 'Good night! 🌙✨ Sleep well and take care! Sweet dreams! 😴💜';
       if (/\bcanyouspeakenglish\b|\bspeak english\b|\benglish ma\b/.test(q)) return 'Yes, I can communicate in English! 🇬🇧💬 Nepali pani bolna sakchu! 🇳🇵';
       if (/\bcan you speak nepali\b|\bnepali ma\b|\bnepali\b/.test(q)) return 'Yes, I can communicate in Nepali as well! 🇳🇵💬 K help garna sakchu?';
