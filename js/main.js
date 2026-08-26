@@ -1057,6 +1057,31 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       if (/\bwho.*develop.*wwe\b|\bwwe.*who\b/.test(q)) return 'WWE Highlights was developed by <b>RKO BRO</b> (Himal Paudel) 👨‍💻! Built with love for wrestling fans! 🤼💜';
       if (/\bwwe.*sport\b|\bwhat.*wwe\b|\bwwe.*what\b/.test(q)) return 'WWE Highlights brings you the best wrestling moments 🤼 — Raw, SmackDown, pay-per-views and more! Watch highlights anytime! 📺';
 
+      /* Website Features Q&A */
+      if (/\bdark mode\b|\blight mode\b|\btheme\b|\btheme.*toggle\b/.test(q)) return 'Dark/Light mode 🌙☀️: Press <b>T</b> on your keyboard to toggle themes! Or click the sun/moon icon 🌓 in the navbar! Your preference is saved! 💾';
+      if (/\bcv\b|\bresume\b|\bdownload.*cv\b|\bdownload.*resume\b/.test(q)) return 'Download RKO BRO\'s CV 📄: <a href="https://rko-bro-website.pages.dev/assets/Himal-Paudel-CV.pdf" target="_blank">Click here to download CV</a> 📋! Available in the navbar and footer! 💼';
+      if (/\bblog\b|\barticle\b|\bpost\b/.test(q) && /\bread\b|\bwhat\b|\bshow\b|\blist\b|\bcheck\b/.test(q)) return 'RKO BRO\'s Blog 📝: Check out articles on Android development 📱, streaming tech 📺, and glassmorphism UI tricks ✨! Scroll to the Blog section! 💜';
+      if (/\bservice status\b|\bstatus.*check\b|\bis.*online\b|\bserver.*status\b|\buptime\b/.test(q)) return 'Service Status 🟢: Check live health of all RKO services in the Status section! RKO Downloader, RKO TV, WWE Highlights — all monitored! 📊';
+      if (/\bvisitor.*count\b|\bhow many.*visit\b|\bvisitor\b/.test(q)) return 'Visitor Counter 👁️: Check the hero section! Live visitor count powered by Cloudflare KV! See how many people visited! 📈';
+      if (/\bdownload.*stat\b|\bstat\b|\bhow many.*download\b/.test(q)) return 'Download Stats 📊: Check the Download Stats section! Real-time download numbers for RKO Downloader and RKO TV! 📈';
+      if (/\beaster egg\b|\bsecret\b|\bkonami\b|\bhidden\b/.test(q)) return 'Easter Egg 🥚: Press <b>↑ ↑ ↓ ↓ ← → ← → B A</b> on your keyboard! A secret animation will appear! 🎉 Can you find it? 👀';
+      if (/\bparticle\b|\b3d.*text\b|\bfloating.*text\b/.test(q)) return '3D Particle Text ✨: In the hero section, "RKO BRO" is written with floating particles! Move your mouse near them and watch them scatter then reform! 🎆';
+      if (/\bmap.*feature\b|\bmap.*button\b|\bmap.*control\b/.test(q)) return 'Map Controls 🗺️: 📍 My Location — flies to your GPS position! 🏠 Home — returns to Ghorahi! The map shows satellite view with place labels! 🛰️';
+      if (/\bcontact.*form\b|\bmessage.*send\b|\bsend.*message\b/.test(q)) return 'Contact Form 📧: Fill in your name, email, subject and message — hit Send! I reply within 24 hours! Or email directly: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a>';
+      if (/\bpage.*transition\b|\banimation\b|\bscroll.*animation\b/.test(q)) return 'Page Animations 🎬: Sections fade in smoothly as you scroll! Timeline dots pulse 🟣, skill bars animate 📊, and cards tilt in 3D! ✨';
+
+      /* Tech / General Q&A */
+      if (/\btech stack\b|\bwhat.*tech\b|\bwhat.*use\b|\bwhat.*built.*with\b/.test(q)) return 'Tech Stack 🛠️: React ⚛️ | Next.js | Tailwind CSS 🎨 | Node.js 🟢 | MongoDB 🍃 | Cloudflare Workers ☁️ | Kotlin 📱 | ExoPlayer 🎬 | Figma 🎯';
+      if (/\bfeedback\b|\bsuggestion\b|\bimprove\b|\bfeature request\b/.test(q)) return 'Feedback 💬: Love to hear your thoughts! Email: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> 📧 or WhatsApp: <a href="https://wa.me/9779810911473" target="_blank">+977 9810911473</a> 📱';
+      if (/\bbug\b|\breport.*bug\b|\bproblem\b|\berror\b/.test(q)) return 'Report a Bug 🐛: Please describe the issue and send to: 📧 <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> | 📱 <a href="https://wa.me/9779810911473" target="_blank">WhatsApp</a>';
+      if (/\blanguage\b|\bnepali\b|\benglish\b|\bho\b.*\bbolna\b/.test(q)) return 'Language 🗣️: I can chat in both <b>English</b> 🇬🇧 and <b>Nepali</b> 🇳🇵! Type in whatever you prefer — ma bujhchu! 😊';
+      if (/\bprivacy\b|\bdata\b|\btracking\b/.test(q)) return 'Privacy 🔒: RKO apps do NOT collect personal data! No tracking, no ads, no hidden analytics! Your privacy is fully protected! ✅💜';
+      if (/\bhimal paudel\b|\bwho.*himal\b|\bhimal.*who\b/.test(q)) return '<b>Himal Paudel</b> 👨‍💻 is known as RKO BRO — a 24 year old Full Stack Developer from Ghorahi, Dang, Nepal 🇳🇵. He builds web apps, Android apps and streaming platforms! 💜';
+      if (/\brko ecosystem\b|\brko.*suite\b|\brko.*app\b/.test(q)) return 'RKO Ecosystem 💜 includes: 📥 RKO Downloader | 📺 RKO TV | 📲 Screen Mirror | 🤼 WWE Highlights | 🌐 Portfolio Website — all built by RKO BRO! 🚀';
+      if (/\bnepal\b|\bnepal.*about\b|\btell.*nepal\b/.test(q)) return 'Nepal 🇳🇵: Beautiful country in South Asia! Home to Mount Everest 🏔️, diverse cultures 🎭, delicious food 🍛 and amazing people! RKO BRO is proud to be Nepali! 💜';
+      if (/\bkeyboard.*shortcut\b|\bshortcut\b|\bhotkey\b/.test(q)) return 'Keyboard Shortcuts ⌨️: <b>T</b> — Toggle dark/light mode 🌙☀️ | <b>R</b> — Rotate map ↻ | <b>Shift+R</b> — Rotate map left ↺ | <b>Esc</b> — Close lightbox ❌';
+      if (/\bportfolio\b|\bwebsite.*about\b|\bthis.*site\b/.test(q)) return 'This Portfolio 🌐: Built with vanilla HTML/CSS/JS! Features glassmorphism UI 💎, RGB animations 🌈, particles ✨, 3D tilt cards, chatbot 🤖, and more! Hosted on Cloudflare Pages! ⚡';
+
       /* Nepali jokes — TOP priority */
       if (/\bjoke[s]?\b|\bhasauna\b|\bhaso\b|\bfunny\b|\bmazak\b|\bhasawle\b|\brofl\b|\blol\b|\blmao\b/.test(q)) {
         var jokes = [
