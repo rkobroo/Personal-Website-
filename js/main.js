@@ -982,6 +982,21 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       if (/\bupdate rko tv\b|\bhow.*update\b|\bnew version\b/.test(q)) return 'Download the latest version from the official RKO website 🌐: <a href="https://tv-97x.pages.dev/api/download-apk" target="_blank">Update RKO TV</a>! 📲';
       if (/\bcontact.*rko tv\b|\brko tv.*support\b/.test(q)) return 'Visit the Contact section on the RKO website 📞: 📧 <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> | 📱 <a href="https://wa.me/9779810911473" target="_blank">WhatsApp</a>';
 
+      /* Floating Player Q&A */
+      if (/\bfloating player\b|\bfloating video\b|\bmini player\b|\bpopup player\b|\bfloat.*play\b/.test(q)) return 'Floating Player 🪟 lets you watch videos in a small window while using other apps! Just tap the floating icon and the video stays on screen! ✨';
+      if (/\bhow.*floating\b|\bfloating.*enable\b|\bstart floating\b|\bfloating.*on\b/.test(q)) return 'To enable Floating Player 🪟: Open RKO TV or WWE Highlights → play a video → tap the floating/PiP icon 📺. The video pops out and floats over other apps!';
+      if (/\bfloating.*download\b|\bdownload.*floating\b/.test(q)) return 'Yes! 📥 You can download videos directly from the floating player — tap the download button inside the mini window! ⚡';
+      if (/\bfloating.*move\b|\bmove.*floating\b|\bdrag.*floating\b/.test(q)) return 'Yes! 🖐️ You can drag the floating player anywhere on screen! Just tap and hold the window to move it around! 📱';
+      if (/\bfloating.*resize\b|\bresize.*floating\b|\bsize.*floating\b/.test(q)) return 'Yes! 📐 You can resize the floating player — pinch to zoom or use the resize button to make it bigger or smaller! 🔍';
+      if (/\bfloating.*close\b|\bclose.*floating\b|\bstop.*floating\b|\bremove.*floating\b/.test(q)) return 'To close Floating Player ❌: Tap the X button on the floating window, or swipe it away! Easy! 👋';
+      if (/\bfloating.*mute\b|\bmute.*floating\b|\bsound.*floating\b/.test(q)) return 'Yes! 🔇 You can mute/unmute audio directly from the floating player controls! Tap the speaker icon 🔊';
+      if (/\bfloating.*pause\b|\bpause.*floating\b/.test(q)) return 'Yes! ⏸️ You can pause and play directly from the floating player — just tap the play/pause button!';
+      if (/\bfloating.*fullscreen\b|\bfullscreen.*floating\b/.test(q)) return 'Yes! 🖥️ Tap the fullscreen icon on the floating player to return to full-screen mode instantly!';
+      if (/\bfloating.*speed\b|\bspeed.*floating\b|\bplayback speed\b/.test(q)) return 'Yes! ⏩ You can change playback speed from the floating player controls! Slow or fast — you choose! 🎚️';
+      if (/\bwhat app.*floating\b|\bfloating.*which app\b|\bwhich.*floating\b/.test(q)) return 'Floating Player is available in: 📺 <b>RKO TV</b> (live sports streaming) and 🤼 <b>WWE Highlights</b> (wrestling clips)! Both support PiP overlay! ✨';
+      if (/\bfloating.*not working\b|\bfloating.*problem\b|\bno floating\b/.test(q)) return 'If Floating Player is not working 🛠️: 1) Make sure you\'re on Android 8.0+ 📱 2) Grant "Display over other apps" permission ⚙️ 3) Restart the app 🔄';
+      if (/\bfloating.*permission\b|\bpermission.*floating\b|\boverlay.*permission\b/.test(q)) return 'Floating Player needs "Display over other apps" permission ⚙️. Go to Settings → Apps → RKO TV → Permissions → Allow overlay! ✅';
+
       /* Nepali jokes — TOP priority */
       if (/\bjoke[s]?\b|\bhasauna\b|\bhaso\b|\bfunny\b|\bmazak\b|\bhasawle\b|\brofl\b|\blol\b|\blmao\b/.test(q)) {
         var jokes = [
