@@ -430,111 +430,36 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       f.addEventListener('input', () => f.classList.remove('invalid')));
   }
 
-  /* ---------------- Leaflet map (Nepal) — fully lazy ---------------- */
-  const mapEl = document.getElementById('map');
+  /* ---------------- Map (Google Maps iframe) — lazy buttons ---------------- */
+  const mapFrame = document.getElementById('map-frame');
 
-  // Leaflet CSS+JS load on demand — nothing map-related blocks page load
-  function loadLeaflet(cb) {
-    if (typeof window.L !== 'undefined') { cb(); return; }
-    if (!document.getElementById('leaflet-css')) {
-      const link = document.createElement('link');
-      link.id = 'leaflet-css';
-      link.rel = 'stylesheet';
-      link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
-      document.head.appendChild(link);
-    }
-    const s = document.createElement('script');
-    s.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
-    s.onload = () => cb();
-    document.head.appendChild(s);
+  /* Map buttons for Google Maps iframe */
+  function loadMapAt(lat, lng, zoom) {
+    var frame = document.getElementById('map-frame');
+    if (!frame) return;
+    frame.src = 'https://maps.google.com/maps?q=' + lat + ',' + lng + '&t=&z=' + (zoom || 15) + '&ie=UTF8&iwloc=&output=embed';
   }
 
-  function initMap() {
-    if (!mapEl || typeof window.L === 'undefined') return;
-    try {
-      const map = window.L.map(mapEl, {
-        center: [28.0553, 82.4947],
-        zoom: 15,
-        scrollWheelZoom: false,
-        attributionControl: true
-      });
+  var locateBtn = document.getElementById('locate-btn');
+  if (locateBtn) {
+    locateBtn.addEventListener('click', function () {
+      if (!navigator.geolocation) { alert('Geolocation not supported'); return; }
+      locateBtn.textContent = '⏳';
+      navigator.geolocation.getCurrentPosition(function (pos) {
+        loadMapAt(pos.coords.latitude, pos.coords.longitude, 16);
+        locateBtn.textContent = '📍';
+      }, function () {
+        alert('Location access denied.');
+        locateBtn.textContent = '📍';
+      }, { enableHighAccuracy: true, timeout: 8000 });
+    });
+  }
 
-      /* Satellite imagery */
-      window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-        maxZoom: 19,
-        attribution: '&copy; Esri'
-      }).addTo(map);
-
-      /* OSM labels — multiply blend makes white bg transparent */
-      window.L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 19,
-        subdomains: 'abc',
-        pane: 'overlayPane'
-      }).addTo(map);
-
-      var tilePane = mapEl.querySelector('.leaflet-overlay-pane');
-      if (tilePane) tilePane.style.mixBlendMode = 'multiply';
-
-      /* Esri extra labels */
-      window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
-        maxZoom: 19,
-        pane: 'overlayPane'
-      }).addTo(map);
-
-      window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}', {
-        maxZoom: 19,
-        pane: 'overlayPane'
-      }).addTo(map);
-
-      /* Ghorahi pin */
-      const icon = window.L.divIcon({
-        className: 'map-pin',
-        html: '<span class="pin-core"></span>',
-        iconSize: [16, 16],
-        iconAnchor: [8, 8]
-      });
-
-      window.L.marker([28.0553, 82.4947], { icon })
-        .addTo(map)
-        .bindPopup('<b>Ghorahi, Dang</b><br>RKO BRO — building from here.');
-
-      /* My Location */
-      var myLocMarker = null;
-      var locateBtn = document.getElementById('locate-btn');
-      if (locateBtn) {
-        locateBtn.addEventListener('click', function () {
-          if (!navigator.geolocation) { alert('Geolocation not supported'); return; }
-          locateBtn.textContent = '⏳';
-          navigator.geolocation.getCurrentPosition(function (pos) {
-            map.flyTo([pos.coords.latitude, pos.coords.longitude], 16, { duration: 1.5 });
-            if (myLocMarker) map.removeLayer(myLocMarker);
-            myLocMarker = window.L.marker([pos.coords.latitude, pos.coords.longitude], {
-              icon: window.L.divIcon({
-                className: 'map-pin my-loc',
-                html: '<span class="pin-core my-loc-core"></span>',
-                iconSize: [18, 18],
-                iconAnchor: [9, 9]
-              })
-            }).addTo(map).bindPopup('<b>You are here</b>').openPopup();
-            locateBtn.textContent = '📍';
-          }, function () {
-            alert('Location access denied.');
-            locateBtn.textContent = '📍';
-          }, { enableHighAccuracy: true, timeout: 8000 });
-        });
-      }
-
-      /* Home — back to Ghorahi */
-      var homeBtn = document.getElementById('home-btn');
-      if (homeBtn) {
-        homeBtn.addEventListener('click', function () {
-          map.flyTo([28.0553, 82.4947], 15, { duration: 1.5 });
-        });
-      }
-
-      map.on('click', function () { map.scrollWheelZoom.enable(); });
-      map.on('mouseout', function () { map.scrollWheelZoom.disable(); });
-    } catch (err) { /* fail silently */ }
+  var homeBtn = document.getElementById('home-btn');
+  if (homeBtn) {
+    homeBtn.addEventListener('click', function () {
+      loadMapAt(28.0553, 82.4947, 15);
+    });
   }
 
   /* ---------------- Fullscreen screenshot viewer ---------------- */
@@ -583,21 +508,6 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       }
     });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLb(); });
-  }
-
-  if (mapEl) {
-    if ('IntersectionObserver' in window) {
-      // don't pay the tile/JS cost until the contact section is near
-      const mio = new IntersectionObserver(entries => {
-        if (entries.some(en => en.isIntersecting)) {
-          mio.disconnect();
-          loadLeaflet(initMap);
-        }
-      }, { rootMargin: '400px 0px' });
-      mio.observe(mapEl);
-    } else {
-      loadLeaflet(initMap);
-    }
   }
 
   /* ---- Visitor Counter (Cloudflare KV-backed) ---- */
