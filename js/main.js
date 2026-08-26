@@ -464,6 +464,11 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://www.esri.com/">Esri</a>'
       }).addTo(map);
 
+      window.L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 18,
+        pane: 'overlayPane'
+      }).addTo(map);
+
       const icon = window.L.divIcon({
         className: 'map-pin',
         html: '<span class="pin-core"></span>',
