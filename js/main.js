@@ -950,6 +950,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       if (/\bsorry\b|\bmaaph gara\b|\bmaaf\b/.test(q)) return 'Ktapaxi hola! 😊 Everything is fine! RKO BRO lai ke garna sakincha bhanera sodhnu — skills, projects, WhatsApp! 💜';
       if (/\bi love you\b|\blove you\b|\bmay love you\b|\bmay lai love\b/.test(q)) return 'Ohh love you too! 💜😍 RKO BRO le dherai maya garcha timi sanga! ✨💜';
       if (/\bkiss\b|\bkiss you\b|\bmiss you\b|\bmaile kiss\b/.test(q)) return 'Awww! 💋😄 RKO BRO bata dherai love! ✨ Maya ta chha, tara kiss ta screen bata aaundaina! 😂💜';
+      if (/\bgf\b|\bgf ko ho\b|\bwho is rko gf\b|\brko gf\b|\bgf name\b|\bchat gf\b|\bwife\b/.test(q)) return 'She is ATM Machine 🫶 Her 🫀 RKO BRO ko haatma cha! 💜';
       if (/\bwhat can you do\b|\bwhat do you do\b/.test(q)) return 'I can help with downloads 📥, website information 🌐, and general questions! 💬 Try asking about projects, skills or status!';
       if (/\bwho created you\b|\bwho made you\b|\bwho is your developer\b/.test(q)) return 'I was created by <b>RKO BRO</b> (Himal Paudel) 👨‍💻 I was created to assist users of the RKO Downloader platform! 💜';
       if (/\bgood night\b|\bsubha ratri\b|\bgoodnyt\b/.test(q)) return 'Good night! 🌙✨ Sleep well and take care! Sweet dreams! 😴💜';
