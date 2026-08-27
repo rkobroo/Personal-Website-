@@ -59,14 +59,17 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--nav-h) + 16px);
-  /* unpainted tiles during fast flings use the ROOT background —
-     without this, Android shows white flashes (esp. near the footer) */
   background: #050816;
+  overscroll-behavior-y: contain;
 }
+body {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
 
 body {
   font-family: var(--font-body);
   color: var(--muted);
+  -webkit-overflow-scrolling: touch;
   background:
     radial-gradient(1100px 700px at 85% -10%, rgba(59, 130, 246, 0.10), transparent 60%),
     radial-gradient(900px 600px at -15% 30%, rgba(139, 92, 246, 0.10), transparent 60%),
@@ -1641,12 +1644,14 @@ input, textarea { font-family: inherit; }
   top: 0;
   left: 0;
   height: 3px;
-  width: 0%;
+  width: 100%;
   z-index: 999;
   background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent), var(--primary));
   background-size: 300% 100%;
   animation: progressRGB 3s linear infinite;
-  transition: width 0.1s linear;
+  transform-origin: left;
+  transform: scaleX(0);
+  will-change: transform;
   pointer-events: none;
 }
 @keyframes progressRGB {
@@ -2602,20 +2607,27 @@ section.fade-in {
   transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease;
   position: relative;
   z-index: 2;
+  overflow: hidden;
+  background: linear-gradient(135deg, #8B5CF6, #6D28D9);
 }
 .chatbot-toggle:hover {
   transform: scale(1.08);
   box-shadow: 0 12px 40px rgba(139, 92, 246, 0.65);
 }
+.chatbot-toggle::before {
+  border-radius: 50% !important;
+  padding: 3px !important;
+}
 .chatbot-toggle::after {
   content: '';
   position: absolute;
-  top: -2px; right: -2px;
-  width: 14px; height: 14px;
+  top: 4px; right: 4px;
+  width: 12px; height: 12px;
   background: #22ff66;
   border-radius: 50%;
-  border: 2px solid var(--bg-deep);
+  border: 2px solid #6D28D9;
   animation: chatPulse 2s ease-in-out infinite;
+  z-index: 3;
 }
 @keyframes chatPulse {
   0%, 100% { transform: scale(1); }

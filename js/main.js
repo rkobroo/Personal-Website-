@@ -242,8 +242,8 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       /* progress bar */
       if (progressBar) {
         var h = document.documentElement.scrollHeight - window.innerHeight;
-        var pct = h > 0 ? (sy / h) * 100 : 0;
-        progressBar.style.width = pct + '%';
+        var pct = h > 0 ? sy / h : 0;
+        progressBar.style.transform = 'scaleX(' + pct + ')';
       }
     });
   }
