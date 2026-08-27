@@ -1167,7 +1167,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       if (/\bhow was (your )?day\b|\baaja ko din\b|\bdin kasto\b/.test(q)) {
         return 'Aaja ko din ekdam productive thiyo! 💻 New features banayo, bugs fix garyo. Every day is a coding day!';
       }
-      if (/\bgood morning\b|\bgood afternoon\b|\bgood evening\b|\bsubha prabhat\b/.test(q)) {
+      if (/\bgood morning\b|\bgood afternoon\b|\bgood evening\b|\bsubha prabhat\b|\bmorning\b|\bevening\b|\bnight\b/.test(q)) {
         return 'Good morning! ☀️ Aaja pani coding garna lai ready chu! K bhannu huncha?';
       }
       if (/\bthank\b|\bdhanyabad\b|\bthank you\b|\bthanks\b/.test(q)) {
