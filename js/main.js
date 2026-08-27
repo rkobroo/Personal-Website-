@@ -213,7 +213,42 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
     navbar.classList.toggle('scrolled', window.scrollY > 40);
   }
   onScrollNav();
-  window.addEventListener('scroll', onScrollNav, { passive: true });
+
+  /* ---- Single throttled scroll handler (replaces 4 separate listeners) ---- */
+  let scrollTick = false;
+  var progressBar = $('#scrollProgress');
+  var toTop = $('#toTop');
+  var scrollUpBtn = $('#scrollUp');
+  var scrollDownBtn = $('#scrollDown');
+
+  function onScroll() {
+    if (scrollTick) return;
+    scrollTick = true;
+    requestAnimationFrame(() => {
+      scrollTick = false;
+      var sy = window.scrollY;
+
+      /* navbar */
+      navbar.classList.toggle('scrolled', sy > 40);
+
+      /* back to top / scroll pill visibility */
+      if (toTop) toTop.classList.toggle('show', sy > 620);
+      if (scrollUpBtn) scrollUpBtn.classList.toggle('show', sy > 400);
+      if (scrollDownBtn) {
+        var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+        scrollDownBtn.classList.toggle('show', sy < maxScroll - 200);
+      }
+
+      /* progress bar */
+      if (progressBar) {
+        var h = document.documentElement.scrollHeight - window.innerHeight;
+        var pct = h > 0 ? (sy / h) * 100 : 0;
+        progressBar.style.width = pct + '%';
+      }
+    });
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
   if (hamburger) {
     hamburger.addEventListener('click', () => {
@@ -358,13 +393,21 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
   }
 
   /* ---------------- Back to top ---------------- */
-  const toTop = $('#toTop');
   if (toTop) {
-    window.addEventListener('scroll', () => {
-      toTop.classList.toggle('show', window.scrollY > 620);
-    }, { passive: true });
     toTop.addEventListener('click', () =>
       window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' }));
+  }
+
+  /* ---- Scroll pill: ↑↓ buttons ---- */
+  if (scrollUpBtn) {
+    scrollUpBtn.addEventListener('click', () => {
+      window.scrollBy({ top: -window.innerHeight * 0.75, behavior: reduced ? 'auto' : 'smooth' });
+    });
+  }
+  if (scrollDownBtn) {
+    scrollDownBtn.addEventListener('click', () => {
+      window.scrollBy({ top: window.innerHeight * 0.75, behavior: reduced ? 'auto' : 'smooth' });
+    });
   }
 
   /* ---------------- Footer year ---------------- */
@@ -526,27 +569,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       .catch(function() { vc.textContent = '—'; });
   })();
 
-  /* ---- Scroll Progress Bar ---- */
-  var progressBar = $('#scrollProgress');
-  if (progressBar) {
-    window.addEventListener('scroll', function() {
-      var h = document.documentElement.scrollHeight - window.innerHeight;
-      var pct = h > 0 ? (window.scrollY / h) * 100 : 0;
-      progressBar.style.width = pct + '%';
-    }, { passive: true });
-  }
-
-  /* ---- Back to Top ---- */
-  var btt = $('#backToTop');
-  if (btt) {
-    window.addEventListener('scroll', function() {
-      if (window.scrollY > 400) btt.classList.add('visible');
-      else btt.classList.remove('visible');
-    }, { passive: true });
-    btt.addEventListener('click', function() {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
+  /* ---- Scroll Progress + Back to Top handled by unified onScroll() above ---- */
 
   /* ---- Keyboard Shortcut: T toggles theme ---- */
   document.addEventListener('keydown', function(e) {

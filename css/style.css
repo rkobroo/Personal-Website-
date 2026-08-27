@@ -2363,6 +2363,60 @@ body.light .stat-card .stat-n { color: #0F172A; }
 #toTop.show { opacity: 1; visibility: visible; transform: none; }
 #toTop:hover { transform: translateY(-3px); }
 
+/* ---------- Floating Scroll Pill (↑↓) ---------- */
+.scroll-pill {
+  position: fixed;
+  right: 26px;
+  bottom: 90px;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  background: rgba(15, 10, 40, 0.82);
+  border-radius: 22px;
+  padding: 6px 0;
+  box-shadow: 0 8px 28px rgba(139, 92, 246, 0.35);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.85);
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+.scroll-pill.show {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+.scroll-pill button {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: #c084fc;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background 0.2s, color 0.2s;
+}
+.scroll-pill button:active {
+  background: rgba(139, 92, 246, 0.25);
+  color: #fff;
+}
+.scroll-pill-divider {
+  width: 20px;
+  height: 1px;
+  background: rgba(139, 92, 246, 0.3);
+}
+
+/* hide on desktop — mobile only */
+@media (min-width: 769px) {
+  .scroll-pill { display: none; }
+}
+
 /* ---------- Reveal-on-scroll (JS-gated) ---------- */
 .js [data-reveal] {
   opacity: 0;
