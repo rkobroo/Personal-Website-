@@ -946,7 +946,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
     function getReply(q) {
       /* Direct Q&A with emojis */
       if (/\bhello\b/.test(q)) return 'Hello! 👋 How can I help you today? 😊';
-      if (/\bwhat can you do\b|\bwhat do you do\b/.test(q)) return 'I can help with downloads 📥, website information 🌐, and general questions! 💬 Try asking about projects, skills, jokes or status!';
+      if (/\bwhat can you do\b|\bwhat do you do\b/.test(q)) return 'I can help with downloads 📥, website information 🌐, and general questions! 💬 Try asking about projects, skills or status!';
       if (/\bwho created you\b|\bwho made you\b|\bwho is your developer\b/.test(q)) return 'I was created by <b>RKO BRO</b> (Himal Paudel) 👨‍💻 I was created to assist users of the RKO Downloader platform! 💜';
       if (/\bgood night\b|\bsubha ratri\b|\bgoodnyt\b/.test(q)) return 'Good night! 🌙✨ Sleep well and take care! Sweet dreams! 😴💜';
       if (/\bcanyouspeakenglish\b|\bspeak english\b|\benglish ma\b/.test(q)) return 'Yes, I can communicate in English! 🇬🇧💬 Nepali pani bolna sakchu! 🇳🇵';
@@ -1250,10 +1250,10 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       }
       /* Default */
       var defaults = [
-        'Interesting question! 🤔 Ma bujhina ki k bhannu huncha. Try asking about skills, projects, jokes, status, poem, fun, contact, WhatsApp!',
-        'Hmm, ma tyo bujhina! 😅 Try asking about my <b>projects</b>, <b>skills</b>, <b>jokes</b>, <b>status</b>, <b>poem</b>, or <b>WhatsApp</b> number!',
-        'Ma chatbot ho, ma sabai bujhina! 😄 But I know about RKO BRO — try asking about <b>jokes</b>, <b>poem</b>, <b>status</b>, <b>fun</b>!',
-        'Wah! Tyo chij ma chhodna sakdina! 😂 Ke asked garna milchha — skills, projects, price, WhatsApp, jokes, poem, fun!'
+        'Interesting question! 🤔 Ma bujhina ki k bhannu huncha. Try asking about skills, projects, status, contact, WhatsApp!',
+        'Hmm, ma tyo bujhina! 😅 Try asking about my <b>projects</b>, <b>skills</b>, <b>status</b>, <b>contact</b>, or <b>WhatsApp</b> number!',
+        'Ma chatbot ho, ma sabai bujhina! 😄 But I know about RKO BRO — try asking about <b>skills</b>, <b>projects</b>, <b>status</b>!',
+        'Wah! Tyo chij ma chhodna sakdina! 😂 Ke asked garna milchha — skills, projects, price, WhatsApp!'
       ];
       return defaults[Math.floor(Math.random() * defaults.length)];
     }
