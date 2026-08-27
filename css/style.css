@@ -2117,7 +2117,7 @@ body.light .stat-card .stat-n { color: #0F172A; }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr;
   align-items: start;
   gap: clamp(20px, 3vw, 36px);
   padding-block: clamp(36px, 5vw, 52px) 28px;
@@ -2232,6 +2232,25 @@ body.light .stat-card .stat-n { color: #0F172A; }
 .f-social-icons a.fb:hover { box-shadow: 0 10px 26px rgba(24, 119, 242, 0.35); }
 .f-social-icons a.ig:hover { box-shadow: 0 10px 26px rgba(216, 0, 185, 0.32); }
 .f-social-icons a.ml:hover { box-shadow: 0 10px 26px rgba(229, 46, 113, 0.35); }
+
+/* Footer QR code */
+.f-qr {
+  text-align: center;
+}
+.f-qr h4 {
+  margin-bottom: 10px;
+}
+.footer-qr {
+  border-radius: 12px;
+  border: 2px solid rgba(139, 92, 246, 0.3);
+  padding: 6px;
+  background: rgba(15, 10, 40, 0.6);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.footer-qr:hover {
+  transform: scale(1.08);
+  box-shadow: 0 8px 28px rgba(139, 92, 246, 0.35);
+}
 
 .f-bottom {
   display: flex;
