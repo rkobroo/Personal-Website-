@@ -571,14 +571,6 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
 
   /* ---- Scroll Progress + Back to Top handled by unified onScroll() above ---- */
 
-  /* ---- Keyboard Shortcut: T toggles theme ---- */
-  document.addEventListener('keydown', function(e) {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-    if (e.key === 't' || e.key === 'T') {
-      if (themeBtn) themeBtn.click();
-    }
-  });
-
   /* ---- Dark / Light Mode ---- */
   var savedTheme = localStorage.getItem('theme') || 'dark';
   if (savedTheme === 'light') document.body.classList.add('light');
@@ -590,25 +582,13 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
     });
   }
 
-  /* ---- 3D Tilt on Project Cards ---- */
-  if (window.matchMedia('(pointer: fine)').matches) {
-    var tiltCards = $$('.project-card');
-    tiltCards.forEach(function(card) {
-      card.addEventListener('mousemove', function(e) {
-        var rect = card.getBoundingClientRect();
-        var x = (e.clientX - rect.left) / rect.width - 0.5;
-        var y = (e.clientY - rect.top) / rect.height - 0.5;
-        card.style.transform =
-          'perspective(800px) rotateY(' + (x * 10) + 'deg) rotateX(' + (-y * 10) + 'deg) scale(1.02)';
-        card.style.boxShadow =
-          (-x * 20) + 'px ' + (y * 20) + 'px 40px rgba(139,92,246,0.15)';
-      });
-      card.addEventListener('mouseleave', function() {
-        card.style.transform = '';
-        card.style.boxShadow = '';
-      });
-    });
-  }
+  /* ---- Keyboard Shortcut: T toggles theme ---- */
+  document.addEventListener('keydown', function(e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (e.key === 't' || e.key === 'T') {
+      if (themeBtn) themeBtn.click();
+    }
+  });
 
   /* ---- Download Stats ---- */
   function loadDownloadStats() {
@@ -1107,7 +1087,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       if (/\bhimal paudel\b|\bwho.*himal\b|\bhimal.*who\b/.test(q)) return '<b>Himal Paudel</b> 👨‍💻 is known as RKO BRO — a 24 year old Full Stack Developer from Ghorahi, Dang, Nepal 🇳🇵. He builds web apps, Android apps and streaming platforms! 💜';
       if (/\brko ecosystem\b|\brko.*suite\b|\brko.*app\b/.test(q)) return 'RKO Ecosystem 💜 includes: 📥 RKO Downloader | 📺 RKO TV | 📲 Screen Mirror | 🤼 WWE Highlights | 🌐 Portfolio Website — all built by RKO BRO! 🚀';
       if (/\bnepal\b|\bnepal.*about\b|\btell.*nepal\b/.test(q)) return 'Nepal 🇳🇵: Beautiful country in South Asia! Home to Mount Everest 🏔️, diverse cultures 🎭, delicious food 🍛 and amazing people! RKO BRO is proud to be Nepali! 💜';
-      if (/\bkeyboard.*shortcut\b|\bshortcut\b|\bhotkey\b/.test(q)) return 'Keyboard Shortcuts ⌨️: <b>T</b> — Toggle dark/light mode 🌙☀️ | <b>R</b> — Rotate map ↻ | <b>Shift+R</b> — Rotate map left ↺ | <b>Esc</b> — Close lightbox ❌';
+      if (/\bkeyboard.*shortcut\b|\bshortcut\b|\bhotkey\b/.test(q)) return 'Keyboard Shortcuts ⌨️: <b>T</b> — Toggle dark/light mode 🌙☀️ | <b>Esc</b> — Close lightbox ❌';
       if (/\bportfolio\b|\bwebsite.*about\b|\bthis.*site\b/.test(q)) return 'This Portfolio 🌐: Built with vanilla HTML/CSS/JS! Features glassmorphism UI 💎, RGB animations 🌈, particles ✨, 3D tilt cards, chatbot 🤖, and more! Hosted on Cloudflare Pages! ⚡';
 
       /* Casual Nepali */

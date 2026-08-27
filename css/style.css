@@ -1657,41 +1657,7 @@ input, textarea { font-family: inherit; }
   .scroll-progress { height: 2px; }
 }
 
-/* ---------- Back to Top ---------- */
-.back-to-top {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  z-index: 90;
-  width: 46px;
-  height: 46px;
-  border: none;
-  border-radius: 14px;
-  background: rgba(139,92,246,0.85);
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(12px);
-  transition: opacity .3s ease, visibility .3s ease, transform .3s ease, background .2s;
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  box-shadow: 0 8px 24px rgba(139,92,246,0.3);
-}
-.back-to-top.visible {
-  opacity: 1;
-  visibility: visible;
-  transform: none;
-}
-.back-to-top:hover {
-  background: rgba(139,92,246,1);
-  transform: translateY(-3px);
-}
-
-/* ---------- Visitor Counter ---------- */
+/* ---------- Floating Scroll Pill (↑↓) ---------- */
 .visitor-counter {
   display: inline-flex;
   align-items: center;
