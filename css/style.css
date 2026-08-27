@@ -2117,7 +2117,7 @@ body.light .stat-card .stat-n { color: #0F172A; }
 
 .footer-grid {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
   align-items: start;
   gap: clamp(20px, 3vw, 36px);
   padding-block: clamp(36px, 5vw, 52px) 28px;
