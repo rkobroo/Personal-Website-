@@ -62,9 +62,6 @@ html {
   background: #050816;
   overscroll-behavior-y: contain;
 }
-body {
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-y: contain;
 
 body {
   font-family: var(--font-body);
@@ -74,7 +71,6 @@ body {
     radial-gradient(1100px 700px at 85% -10%, rgba(59, 130, 246, 0.10), transparent 60%),
     radial-gradient(900px 600px at -15% 30%, rgba(139, 92, 246, 0.10), transparent 60%),
     linear-gradient(180deg, var(--bg-deep) 0%, #081020 40%, var(--bg-navy) 100%);
-  background-attachment: fixed;
   overflow-x: hidden;
   line-height: 1.65;
   -webkit-font-smoothing: antialiased;
