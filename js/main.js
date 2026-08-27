@@ -946,6 +946,9 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
     function getReply(q) {
       /* Direct Q&A with emojis */
       if (/\bhello\b/.test(q)) return 'Hello! 👋 How can I help you today? 😊';
+      if (/\bhow to download\b|\bdownload kasari\b|\bdownload garne\b/.test(q)) return 'RKO Downloader ma download garna dherai sajilo cha! 📥✨ Visit <a href="https://rko-downloader.pages.dev" target="_blank">rko-downloader.pages.dev</a> — paste link, click download, done! 🚀';
+      if (/\bsorry\b|\bmaaph gara\b|\bmaaf\b/.test(q)) return 'Ktapaxi hola! 😊 Everything is fine! RKO BRO lai ke garna sakincha bhanera sodhnu — skills, projects, WhatsApp! 💜';
+      if (/\bi love you\b|\blove you\b|\bmay love you\b|\bmay lai love\b/.test(q)) return 'Ohh love you too! 💜😍 RKO BRO le dherai maya garcha timi sanga! ✨💜';
       if (/\bwhat can you do\b|\bwhat do you do\b/.test(q)) return 'I can help with downloads 📥, website information 🌐, and general questions! 💬 Try asking about projects, skills or status!';
       if (/\bwho created you\b|\bwho made you\b|\bwho is your developer\b/.test(q)) return 'I was created by <b>RKO BRO</b> (Himal Paudel) 👨‍💻 I was created to assist users of the RKO Downloader platform! 💜';
       if (/\bgood night\b|\bsubha ratri\b|\bgoodnyt\b/.test(q)) return 'Good night! 🌙✨ Sleep well and take care! Sweet dreams! 😴💜';
