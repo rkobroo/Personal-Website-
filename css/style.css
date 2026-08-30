@@ -2595,7 +2595,7 @@ body.light .stat-card .stat-n { color: #0F172A; }
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 0 clamp(2px, 1vw, 8px);
+  margin: clamp(-36px, -6vh, -18px) 0 clamp(2px, 1vw, 8px);
   pointer-events: none;
   user-select: none;
 }
