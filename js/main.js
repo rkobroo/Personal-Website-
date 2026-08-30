@@ -789,6 +789,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
 
         var SAMPLE = 2; /* offscreen supersampling factor for reliable edge coverage */
         var TARGET = coarsePointer ? 900 : 1800;
+        var CENTER_X = 0, CENTER_Y = 0;
 
         function generateCoords() {
           textCoords = [];
@@ -835,11 +836,14 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           particles = [];
           var total = textCoords.length;
           var count = Math.min(total, TARGET);
+          CENTER_X = W / 2;
+          CENTER_Y = H / 2;
           for (var i = 0; i < count; i++) {
             var tc = textCoords[i];
             particles.push({
               x: tc.x, y: tc.y,
               tx: tc.x, ty: tc.y,
+              ox: tc.x - CENTER_X, oy: tc.y - CENTER_Y,
               vx: 0, vy: 0,
               r: Math.random() * 0.4 + 0.6,
               pulse: Math.random() * Math.PI * 2,
@@ -874,40 +878,34 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           for (var i = 0; i < particles.length; i++) {
             var p = particles[i];
 
-            /* localized magnifier lens on the letter under the cursor */
-            var dx = mouse.x - p.tx;
-            var dy = mouse.y - p.ty;
-            var dist = Math.sqrt(dx * dx + dy * dy);
-            var LENS = 48;
-            var proximity = 0;
-            if (mouse.over && dist < LENS && dist > 0) {
-              proximity = 1 - dist / LENS;
-              /* magnify position: push dot outward from cursor (zoom-in lens) */
-              var mag = proximity * 14;
-              p.x = p.tx + (dx / dist) * mag;
-              p.y = p.ty + (dy / dist) * mag;
+            /* per-letter zoom: scale letter geometry outward from word center,
+               strongest near the cursor. Keeps dot spacing pattern = real zoom. */
+            var ZOOM = 70, MAXZ = 1.28;
+            var cz = 1;
+            if (mouse.over) {
+              var zdx = mouse.x - p.tx;
+              var zdy = mouse.y - p.ty;
+              var zd = Math.sqrt(zdx * zdx + zdy * zdy);
+              if (zd < ZOOM) {
+                cz = 1 + (1 - zd / ZOOM) * (MAXZ - 1);
+              }
             }
+            p.x = CENTER_X + p.ox * cz;
+            p.y = CENTER_Y + p.oy * cz;
 
-            /* reform smoothly after hover */
-            p.x += (p.tx - p.x) * 0.22;
-            p.y += (p.ty - p.y) * 0.22;
+            /* subtle living pulse (constant size = no bolding, pure zoom) */
+            var rr = p.r + Math.sin(t * 1.6 + p.pulse) * 0.15;
 
-            /* subtle living pulse (keeps text readable) */
-            var rr = p.r + Math.sin(t * 1.6 + p.pulse) * 0.18;
-
-            /* zoom scale for the lens reaction (up to ~3x right under cursor) */
-            rr += proximity * (2.2 + proximity * 1.4);
-
-            /* soft blue glow behind the dot (scales up inside the lens) */
+            /* soft blue glow behind the dot (mild boost near zoom) */
             ctx.beginPath();
-            ctx.arc(p.x, p.y, rr * (2.4 + proximity * 1.6), 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(56,189,248,' + (0.16 + proximity * 0.4) + ')';
+            ctx.arc(p.x, p.y, rr * (2.4 + (cz - 1) * 2.0), 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(56,189,248,' + (0.16 + (cz - 1) * 0.6) + ')';
             ctx.fill();
 
-            /* crisp colored core dot */
+            /* crisp colored core dot (size unchanged -> zoom, not bold) */
             ctx.beginPath();
             ctx.arc(p.x, p.y, rr, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(' + p.c + ',' + (p.a + proximity * 0.45) + ')';
+            ctx.fillStyle = 'rgba(' + p.c + ',' + (p.a + (cz - 1) * 0.6) + ')';
             ctx.fill();
           }
           if (!document.hidden) requestAnimationFrame(step);
