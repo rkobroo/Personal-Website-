@@ -874,44 +874,41 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           for (var i = 0; i < particles.length; i++) {
             var p = particles[i];
 
-            /* gentle mouse repulsion (visual lift, still clamped inside mask) */
+            /* magnifier-bubble: pull dots inward toward cursor + zoom swell */
             var dx = mouse.x - p.x;
             var dy = mouse.y - p.y;
             var dist = Math.sqrt(dx * dx + dy * dy);
             var proximity = 0;
             if (dist < 90 && dist > 0) {
               proximity = (1 - dist / 90) * (mouse.over ? 1 : 0.5);
-              var force = proximity * (mouse.over ? 3.5 : 1.5);
-              p.x -= (dx / dist) * force;
-              p.y -= (dy / dist) * force;
+              /* gentle inward pull (zoom-in feel), limited so letters stay intact */
+              var pull = proximity * (mouse.over ? 2.2 : 1.0);
+              p.x += (dx / dist) * pull;
+              p.y += (dy / dist) * pull;
             }
 
-            /* spring back to exact target, clamp so particles never leave the mask */
+            /* spring back to exact target (reform smoothly after hover) */
             p.x += (p.tx - p.x) * 0.18;
             p.y += (p.ty - p.y) * 0.18;
-            if (p.x < p.tx - 0.6) p.x = p.tx - 0.6;
-            if (p.x > p.tx + 0.6) p.x = p.tx + 0.6;
-            if (p.y < p.ty - 0.6) p.y = p.ty - 0.6;
-            if (p.y > p.ty + 0.6) p.y = p.ty + 0.6;
 
             /* subtle living pulse (small amplitude -> keeps text readable) */
             var rr = p.r + Math.sin(t * 1.6 + p.pulse) * 0.18;
 
-            /* dots near the cursor light up and swell for a lively reaction */
+            /* strong zoom scale for the bubble reaction */
             if (proximity > 0) {
-              rr += proximity * 1.3;
+              rr += proximity * 2.2;
             }
 
-            /* soft blue glow behind the dot */
+            /* soft blue glow behind the dot (scales up inside the bubble) */
             ctx.beginPath();
-            ctx.arc(p.x, p.y, rr * (2.4 + proximity * 0.8), 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(56,189,248,' + (0.16 + proximity * 0.3) + ')';
+            ctx.arc(p.x, p.y, rr * (2.4 + proximity * 1.4), 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(56,189,248,' + (0.16 + proximity * 0.35) + ')';
             ctx.fill();
 
             /* crisp colored core dot */
             ctx.beginPath();
             ctx.arc(p.x, p.y, rr, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(' + p.c + ',' + (p.a + proximity * 0.4) + ')';
+            ctx.fillStyle = 'rgba(' + p.c + ',' + (p.a + proximity * 0.45) + ')';
             ctx.fill();
           }
           if (!document.hidden) requestAnimationFrame(step);
