@@ -803,17 +803,17 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           if (!offCtx) return;
 
           var text = canvas.getAttribute('data-pt') || 'RKO BRO';
-          // fit font to canvas width so full text is visible (fixes "RKO RD" clipping)
+          // fit font so full text is visible (fixes "RKO RD"/half clipping)
           var fs = Math.min(Math.floor(W / 6), 130);
           offCtx.font = '800 ' + fs + 'px Sora, sans-serif';
           offCtx.textAlign = 'center';
-          offCtx.textBaseline = 'middle';
           var tw = offCtx.measureText(text).width;
           if (tw > W * 0.9) fs = Math.floor(fs * (W * 0.9) / tw);
           offCtx.font = '800 ' + fs + 'px Sora, sans-serif';
           offCtx.fillStyle = '#fff';
-          // place text in upper empty band (behind section header) so content below stays clean
-          var ty = Math.min(H * 0.18, fs);
+          // place text below the section header (top-left-aligned baseline) so it isn't cut off
+          offCtx.textBaseline = 'top';
+          var ty = Math.max(fs * 0.5, H * 0.20);
           offCtx.fillText(text, W / 2, ty);
 
           var data = offCtx.getImageData(0, 0, W, H).data;
