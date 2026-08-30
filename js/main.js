@@ -386,20 +386,52 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
 
   /* ---------------- 3D tilt cards ---------------- */
   if (finePointer && !reduced) {
-    $$('[data-tilt]').forEach(el => {
-      const MAX = 6;
-      el.addEventListener('mousemove', e => {
-        const r = el.getBoundingClientRect();
-        const px = (e.clientX - r.left) / r.width;
-        const py = (e.clientY - r.top) / r.height;
-        el.style.transition = 'transform .12s ease';
-        el.style.transform =
-          'perspective(950px) rotateX(' + ((0.5 - py) * MAX).toFixed(2) + 'deg)' +
-          ' rotateY(' + ((px - 0.5) * MAX).toFixed(2) + 'deg) translateY(-4px)';
-      });
-      el.addEventListener('mouseleave', () => {
+    const tiltEls = $$('[data-tilt]').map(el => {
+      const state = { el, rect: el.getBoundingClientRect(), ry: 0, rx: 0, pending: false };
+      /* cache rect; refresh only on scroll/resize, not every mousemove */
+      const refresh = () => { state.rect = state.el.getBoundingClientRect(); };
+      window.addEventListener('scroll', refresh, { passive: true });
+      window.addEventListener('resize', refresh);
+      window.addEventListener('orientationchange', refresh);
+      return state;
+    });
+
+    function applyTilt(state) {
+      state.pending = false;
+      const { el } = state;
+      if (!state.hovering) {
         el.style.transition = 'transform .5s cubic-bezier(0.22,1,0.36,1)';
         el.style.transform = '';
+        return;
+      }
+      el.style.transform =
+        'perspective(950px) rotateX(' + state.rx.toFixed(2) + 'deg) rotateY(' +
+        state.ry.toFixed(2) + 'deg) translateY(-4px)';
+    }
+
+    function schedule(state) {
+      if (state.pending) return;
+      state.pending = true;
+      requestAnimationFrame(() => applyTilt(state));
+    }
+
+    tiltEls.forEach(state => {
+      const MAX = 6;
+      state.el.addEventListener('mousemove', e => {
+        const r = state.rect;
+        const px = (e.clientX - r.left) / r.width;
+        const py = (e.clientY - r.top) / r.height;
+        state.rx = (0.5 - py) * MAX;
+        state.ry = (px - 0.5) * MAX;
+        if (!state.hovering) {
+          state.hovering = true;
+          state.el.style.transition = 'transform .12s ease';
+        }
+        schedule(state);
+      });
+      state.el.addEventListener('mouseleave', () => {
+        state.hovering = false;
+        schedule(state);
       });
     });
   }
