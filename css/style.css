@@ -2593,8 +2593,8 @@ body.light .stat-card .stat-n { color: #0F172A; }
   display: flex;
   align-items: center;
   justify-content: center;
-  height: clamp(64px, 11vw, 110px);
-  margin: 0 0 clamp(6px, 1vw, 14px);
+  height: clamp(72px, 13vw, 130px);
+  margin: 0 0 clamp(4px, 1vw, 12px);
   user-select: none;
   pointer-events: none;
   overflow: visible;
@@ -2605,7 +2605,7 @@ body.light .stat-card .stat-n { color: #0F172A; }
   font-weight: 800;
   letter-spacing: 0.02em;
   line-height: 1.05;
-  opacity: 0.45;
+  opacity: 0.12;
   white-space: nowrap;
 }
 .pt-canvas {

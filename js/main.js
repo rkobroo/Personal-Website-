@@ -799,7 +799,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           offCtx.textAlign = 'center';
           offCtx.textBaseline = 'middle';
           var tw = offCtx.measureText(text).width;
-          if (tw > W * 0.94) fs = Math.floor(fs * (W * 0.94) / tw);
+          if (tw > W * 0.96) fs = Math.floor(fs * (W * 0.96) / tw);
           offCtx.font = '800 ' + fs + 'px Sora, sans-serif';
           offCtx.fillStyle = '#fff';
           offCtx.fillText(text, W / 2, H / 2);
@@ -817,7 +817,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
         function initParticles() {
           particles = [];
           var total = textCoords.length;
-          var count = Math.min(total, coarsePointer ? 180 : 360);
+          var count = Math.min(total, coarsePointer ? 220 : 440);
           var stride = Math.max(1, Math.floor(total / count));
           var k = 0;
           for (var i = 0; i < total && k < count; i += stride, k++) {
@@ -828,9 +828,9 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
               y: Math.random() * H,
               tx: tc.x, ty: tc.y,
               vx: 0, vy: 0,
-              r: Math.random() * 1.4 + 0.8,
+              r: Math.random() * 1.8 + 1.2,
               c: ['139,92,246', '59,130,246', '6,182,212', '200,94,255', '244,63,94'][Math.floor(Math.random() * 5)],
-              a: Math.random() * 0.4 + 0.5
+              a: Math.random() * 0.35 + 0.65
             });
           }
         }
