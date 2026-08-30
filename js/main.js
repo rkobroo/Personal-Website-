@@ -874,35 +874,34 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           for (var i = 0; i < particles.length; i++) {
             var p = particles[i];
 
-            /* magnifier-bubble: pull dots inward toward cursor + zoom swell */
-            var dx = mouse.x - p.x;
-            var dy = mouse.y - p.y;
+            /* localized magnifier lens on the letter under the cursor */
+            var dx = mouse.x - p.tx;
+            var dy = mouse.y - p.ty;
             var dist = Math.sqrt(dx * dx + dy * dy);
+            var LENS = 48;
             var proximity = 0;
-            if (dist < 90 && dist > 0) {
-              proximity = (1 - dist / 90) * (mouse.over ? 1 : 0.5);
-              /* gentle inward pull (zoom-in feel), limited so letters stay intact */
-              var pull = proximity * (mouse.over ? 2.2 : 1.0);
-              p.x += (dx / dist) * pull;
-              p.y += (dy / dist) * pull;
+            if (mouse.over && dist < LENS && dist > 0) {
+              proximity = 1 - dist / LENS;
+              /* magnify position: push dot outward from cursor (zoom-in lens) */
+              var mag = proximity * 14;
+              p.x = p.tx + (dx / dist) * mag;
+              p.y = p.ty + (dy / dist) * mag;
             }
 
-            /* spring back to exact target (reform smoothly after hover) */
-            p.x += (p.tx - p.x) * 0.18;
-            p.y += (p.ty - p.y) * 0.18;
+            /* reform smoothly after hover */
+            p.x += (p.tx - p.x) * 0.22;
+            p.y += (p.ty - p.y) * 0.22;
 
-            /* subtle living pulse (small amplitude -> keeps text readable) */
+            /* subtle living pulse (keeps text readable) */
             var rr = p.r + Math.sin(t * 1.6 + p.pulse) * 0.18;
 
-            /* strong zoom scale for the bubble reaction */
-            if (proximity > 0) {
-              rr += proximity * 2.2;
-            }
+            /* zoom scale for the lens reaction (up to ~3x right under cursor) */
+            rr += proximity * (2.2 + proximity * 1.4);
 
-            /* soft blue glow behind the dot (scales up inside the bubble) */
+            /* soft blue glow behind the dot (scales up inside the lens) */
             ctx.beginPath();
-            ctx.arc(p.x, p.y, rr * (2.4 + proximity * 1.4), 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(56,189,248,' + (0.16 + proximity * 0.35) + ')';
+            ctx.arc(p.x, p.y, rr * (2.4 + proximity * 1.6), 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(56,189,248,' + (0.16 + proximity * 0.4) + ')';
             ctx.fill();
 
             /* crisp colored core dot */
