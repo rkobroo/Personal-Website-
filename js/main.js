@@ -795,7 +795,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           var offCtx = off.getContext('2d');
           if (!offCtx) return;
 
-          var fs = Math.floor(H * 0.82);
+          var fs = Math.floor(W * 0.24);
           offCtx.font = '800 ' + fs + 'px Sora, sans-serif';
           offCtx.textAlign = 'center';
           var tw = offCtx.measureText(text).width;
@@ -803,7 +803,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           offCtx.font = '800 ' + fs + 'px Sora, sans-serif';
           offCtx.fillStyle = '#fff';
           offCtx.textBaseline = 'middle';
-          offCtx.fillText(text, W / 2, H / 2);
+          offCtx.fillText(text, W / 2, H * 0.16);
 
           var data = offCtx.getImageData(0, 0, W, H).data;
           var gap = 3;
