@@ -744,130 +744,161 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
   })();
 
   /* ============================================================
-     FEATURE 4: 3D Particle Text — "RKO BRO" floating particles
+     FEATURE 4: 3D Particle Text — floating particles in 4 sections
      ============================================================ */
   (function() {
-    var ptCanvas = document.getElementById('particleText');
-    if (!ptCanvas || reduced || lowRamDevice) return;
-    var ctx = ptCanvas.getContext('2d');
-    if (!ctx) return;
+    if (reduced || lowRamDevice) return;
 
-    var particles = [];
-    var textCoords = [];
-    var W, H;
-    var mousePt = { x: -9999, y: -9999 };
+    // Target sections for the particle backgrounds
+    var targets = ['home', 'about', 'skills', 'projects'];
+    var canvases = $$('.pt-canvas');
+    if (!canvases.length) return;
 
-    function resizePT() {
-      var hero = document.getElementById('home');
-      if (!hero) return;
-      W = hero.offsetWidth;
-      H = hero.offsetHeight;
-      var dpr = Math.min(window.devicePixelRatio || 1, 2);
-      ptCanvas.width = W * dpr;
-      ptCanvas.height = H * dpr;
-      ptCanvas.style.width = W + 'px';
-      ptCanvas.style.height = H + 'px';
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      generateTextCoords();
-      initParticles();
+    // Wait for fonts so text coords sample the right glyphs
+    function ready(fn) {
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function() { setTimeout(fn, 50); });
+      } else {
+        setTimeout(fn, 300);
+      }
     }
 
-    function generateTextCoords() {
-      textCoords = [];
-      var offCanvas = document.createElement('canvas');
-      offCanvas.width = W;
-      offCanvas.height = H;
-      var offCtx = offCanvas.getContext('2d');
-      if (!offCtx) return;
+    ready(function() {
+      canvases.forEach(function(canvas, idx) {
+        var secId = targets[idx];
+        var sectionEl = document.getElementById(secId);
+        if (!sectionEl) return;
 
-      var fontSize = Math.min(Math.floor(W / 7), 120);
-      offCtx.font = '800 ' + fontSize + 'px Sora, sans-serif';
-      offCtx.textAlign = 'center';
-      offCtx.textBaseline = 'middle';
-      offCtx.fillStyle = '#fff';
-      offCtx.fillText('RKO BRO', W / 2, H / 2);
+        // move canvas into the section so absolute positioning tracks it
+        sectionEl.prepend(canvas);
 
-      var data = offCtx.getImageData(0, 0, W, H).data;
-      var gap = Math.max(3, Math.floor(fontSize / 18));
-      for (var y = 0; y < H; y += gap) {
-        for (var x = 0; x < W; x += gap) {
-          var i = (y * W + x) * 4;
-          if (data[i + 3] > 128) {
-            textCoords.push({ x: x, y: y });
+        var ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        var particles = [];
+        var textCoords = [];
+        var W, H;
+        var mousePt = { x: -9999, y: -9999 };
+        var running = false;
+
+        function resize() {
+          W = sectionEl.offsetWidth;
+          H = sectionEl.offsetHeight;
+          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          canvas.width = W * dpr;
+          canvas.height = H * dpr;
+          canvas.style.width = W + 'px';
+          canvas.style.height = H + 'px';
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          generateCoords();
+          initParticles();
+        }
+
+        function generateCoords() {
+          textCoords = [];
+          var off = document.createElement('canvas');
+          off.width = W;
+          off.height = H;
+          var offCtx = off.getContext('2d');
+          if (!offCtx) return;
+
+          var text = canvas.getAttribute('data-pt') || 'RKO BRO';
+          // fit font to canvas width so full text is visible (fixes "RKO RD" clipping)
+          var fs = Math.min(Math.floor(W / 6), 130);
+          offCtx.font = '800 ' + fs + 'px Sora, sans-serif';
+          offCtx.textAlign = 'center';
+          offCtx.textBaseline = 'middle';
+          var tw = offCtx.measureText(text).width;
+          if (tw > W * 0.9) fs = Math.floor(fs * (W * 0.9) / tw);
+          offCtx.font = '800 ' + fs + 'px Sora, sans-serif';
+          offCtx.fillStyle = '#fff';
+          offCtx.fillText(text, W / 2, H / 2);
+
+          var data = offCtx.getImageData(0, 0, W, H).data;
+          var gap = Math.max(3, Math.floor(fs / 18));
+          for (var y = 0; y < H; y += gap) {
+            for (var x = 0; x < W; x += gap) {
+              var i = (y * W + x) * 4;
+              if (data[i + 3] > 128) textCoords.push({ x: x, y: y });
+            }
           }
         }
-      }
-    }
 
-    function initParticles() {
-      particles = [];
-      var count = Math.min(textCoords.length, coarsePointer ? 300 : 600);
-      for (var i = 0; i < count; i++) {
-        var tc = textCoords[i];
-        if (!tc) continue;
-        particles.push({
-          x: Math.random() * W,
-          y: Math.random() * H,
-          tx: tc.x,
-          ty: tc.y,
-          vx: 0,
-          vy: 0,
-          r: Math.random() * 1.5 + 0.8,
-          c: ['139,92,246', '59,130,246', '6,182,212', '200,94,255'][Math.floor(Math.random() * 4)],
-          a: Math.random() * 0.5 + 0.4
+        function initParticles() {
+          particles = [];
+          var count = Math.min(textCoords.length, coarsePointer ? 250 : 500);
+          for (var i = 0; i < count; i++) {
+            var tc = textCoords[i];
+            if (!tc) continue;
+            particles.push({
+              x: Math.random() * W,
+              y: Math.random() * H,
+              tx: tc.x, ty: tc.y,
+              vx: 0, vy: 0,
+              r: Math.random() * 1.4 + 0.8,
+              c: ['139,92,246', '59,130,246', '6,182,212', '200,94,255'][Math.floor(Math.random() * 4)],
+              a: Math.random() * 0.5 + 0.4
+            });
+          }
+        }
+
+        function step() {
+          if (!running) return;
+          ctx.clearRect(0, 0, W, H);
+          for (var i = 0; i < particles.length; i++) {
+            var p = particles[i];
+            var dx = mousePt.x - p.x;
+            var dy = mousePt.y - p.y;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 100 && dist > 0) {
+              var force = (100 - dist) / 100 * 2;
+              p.vx -= (dx / dist) * force;
+              p.vy -= (dy / dist) * force;
+            }
+            p.vx += (p.tx - p.x) * 0.04;
+            p.vy += (p.ty - p.y) * 0.04;
+            p.vx *= 0.92;
+            p.vy *= 0.92;
+            p.x += p.vx;
+            p.y += p.vy;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(' + p.c + ',' + p.a + ')';
+            ctx.fill();
+          }
+          if (!document.hidden) requestAnimationFrame(step);
+        }
+
+        // observe section and run only while near viewport
+        if ('IntersectionObserver' in window) {
+          var obs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(en) {
+              if (en.isIntersecting) {
+                if (!running) { resize(); running = true; step(); }
+              }
+            });
+          }, { threshold: 0.05 });
+          obs.observe(sectionEl);
+        } else {
+          resize();
+          running = true;
+          step();
+        }
+
+        // mouse proximity within section
+        document.addEventListener('mousemove', function(e) {
+          var r = sectionEl.getBoundingClientRect();
+          if (e.clientY >= r.top - 40 && e.clientY <= r.bottom + 40) {
+            mousePt.x = e.clientX - r.left;
+            mousePt.y = e.clientY - r.top;
+          } else {
+            mousePt.x = -9999;
+            mousePt.y = -9999;
+          }
         });
-      }
-    }
 
-    function stepPT() {
-      ctx.clearRect(0, 0, W, H);
-      for (var i = 0; i < particles.length; i++) {
-        var p = particles[i];
-        var dx = mousePt.x - p.x;
-        var dy = mousePt.y - p.y;
-        var dist = Math.sqrt(dx * dx + dy * dy);
-        var mouseR = 100;
-        if (dist < mouseR && dist > 0) {
-          var force = (mouseR - dist) / mouseR * 2;
-          p.vx -= (dx / dist) * force;
-          p.vy -= (dy / dist) * force;
-        }
-        p.vx += (p.tx - p.x) * 0.04;
-        p.vy += (p.ty - p.y) * 0.04;
-        p.vx *= 0.92;
-        p.vy *= 0.92;
-        p.x += p.vx;
-        p.y += p.vy;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(' + p.c + ',' + p.a + ')';
-        ctx.fill();
-      }
-      if (!document.hidden) requestAnimationFrame(stepPT);
-    }
-
-    if ('IntersectionObserver' in window) {
-      var heroObs = new IntersectionObserver(function(entries) {
-        if (entries[0] && entries[0].isIntersecting) {
-          resizePT();
-          stepPT();
-        }
-      }, { threshold: 0.1 });
-      var heroEl = document.getElementById('home');
-      if (heroEl) heroObs.observe(heroEl);
-    } else {
-      resizePT();
-      stepPT();
-    }
-
-    window.addEventListener('resize', function() { resizePT(); });
-    document.addEventListener('mousemove', function(e) {
-      var heroEl = document.getElementById('home');
-      if (!heroEl) return;
-      var r = heroEl.getBoundingClientRect();
-      mousePt.x = e.clientX - r.left;
-      mousePt.y = e.clientY - r.top;
+        window.addEventListener('resize', function() { if (running) resize(); });
+      });
     });
   })();
 
