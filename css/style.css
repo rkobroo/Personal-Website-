@@ -105,11 +105,11 @@ input, textarea { font-family: inherit; }
   margin-inline: auto;
 }
 
-.section { position: relative; z-index: 2; padding-block: clamp(84px, 12vh, 140px); }
+.section { position: relative; z-index: 2; padding-block: clamp(60px, 8vh, 96px); }
 
 /* tighten the big gap between the projects grid and the Experience header */
-.section.projects { padding-bottom: clamp(40px, 6vh, 72px); }
-.section.experience { padding-top: clamp(40px, 6vh, 72px); }
+.section.projects { padding-bottom: clamp(36px, 5vh, 64px); }
+.section.experience { padding-top: clamp(36px, 5vh, 64px); }
 
 .mono { font-family: var(--font-mono); letter-spacing: 0.02em; }
 
