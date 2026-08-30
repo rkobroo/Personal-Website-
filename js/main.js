@@ -745,6 +745,160 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
 
 
   /* ============================================================
+     FEATURE 4: 3D Particle "RKO BRO" — dotted watermark in a
+     small in-flow strip (reliable, no shake, 3D on hover)
+     ============================================================ */
+  (function() {
+    if (reduced || lowRamDevice) return;
+
+    var boxes = Array.prototype.slice.call(document.querySelectorAll('.pt-bg'));
+    if (!boxes.length) return;
+
+    function ready(fn) {
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function() { setTimeout(fn, 30); });
+      } else { setTimeout(fn, 200); }
+    }
+
+    ready(function() {
+      boxes.forEach(function(box) {
+        var canvas = box.querySelector('canvas.pt-canvas');
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        var particles = [];
+        var textCoords = [];
+        var W = 0, H = 0;
+        var mouse = { x: -9999, y: -9999, over: false };
+        var running = false;
+        var text = 'RKO BRO';
+
+        function resize() {
+          W = box.offsetWidth;
+          H = box.offsetHeight;
+          var dpr = Math.min(window.devicePixelRatio || 1, 2);
+          canvas.width = W * dpr;
+          canvas.height = H * dpr;
+          canvas.style.width = W + 'px';
+          canvas.style.height = H + 'px';
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          generateCoords();
+          initParticles();
+        }
+
+        function generateCoords() {
+          textCoords = [];
+          var off = document.createElement('canvas');
+          off.width = W;
+          off.height = H;
+          var offCtx = off.getContext('2d');
+          if (!offCtx) return;
+
+          var fs = Math.floor(H * 0.82);
+          offCtx.font = '800 ' + fs + 'px Sora, sans-serif';
+          offCtx.textAlign = 'center';
+          var tw = offCtx.measureText(text).width;
+          if (tw > W * 0.92) fs = Math.floor(fs * (W * 0.92) / tw);
+          offCtx.font = '800 ' + fs + 'px Sora, sans-serif';
+          offCtx.fillStyle = '#fff';
+          offCtx.textBaseline = 'middle';
+          offCtx.fillText(text, W / 2, H / 2);
+
+          var data = offCtx.getImageData(0, 0, W, H).data;
+          var gap = 3;
+          for (var y = 0; y < H; y += gap) {
+            for (var x = 0; x < W; x += gap) {
+              var i = (y * W + x) * 4;
+              if (data[i + 3] > 128) textCoords.push({ x: x, y: y });
+            }
+          }
+        }
+
+        function initParticles() {
+          particles = [];
+          var total = textCoords.length;
+          var count = Math.min(total, coarsePointer ? 200 : 400);
+          var stride = Math.max(1, Math.floor(total / count));
+          var k = 0;
+          for (var i = 0; i < total && k < count; i += stride, k++) {
+            var tc = textCoords[i];
+            if (!tc) continue;
+            particles.push({
+              x: Math.random() * W,
+              y: Math.random() * H,
+              tx: tc.x, ty: tc.y,
+              vx: 0, vy: 0,
+              r: Math.random() * 1.5 + 0.8,
+              c: ['139,92,246', '59,130,246', '6,182,212', '200,94,255', '244,63,94'][Math.floor(Math.random() * 5)],
+              a: Math.random() * 0.4 + 0.4
+            });
+          }
+        }
+
+        function step() {
+          if (!running) return;
+          ctx.clearRect(0, 0, W, H);
+          for (var i = 0; i < particles.length; i++) {
+            var p = particles[i];
+            var dx = mouse.x - p.x;
+            var dy = mouse.y - p.y;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 100 && dist > 0) {
+              var strength = mouse.over ? 4 : 2;
+              var force = (100 - dist) / 100 * strength;
+              p.vx -= (dx / dist) * force;
+              p.vy -= (dy / dist) * force;
+            }
+            p.vx += (p.tx - p.x) * 0.05;
+            p.vy += (p.ty - p.y) * 0.05;
+            p.vx *= 0.85;
+            p.vy *= 0.85;
+            p.x += p.vx;
+            p.y += p.vy;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(' + p.c + ',' + p.a + ')';
+            ctx.fill();
+          }
+          if (!document.hidden) requestAnimationFrame(step);
+        }
+
+        document.addEventListener('mousemove', function(e) {
+          var r = box.getBoundingClientRect();
+          if (e.clientY >= r.top - 50 && e.clientY <= r.bottom + 50) {
+            mouse.x = e.clientX - r.left;
+            mouse.y = e.clientY - r.top;
+          } else {
+            mouse.x = -9999;
+            mouse.y = -9999;
+          }
+          mouse.over = (e.clientX >= r.left && e.clientX <= r.right &&
+                        e.clientY >= r.top && e.clientY <= r.bottom);
+        });
+
+        if ('IntersectionObserver' in window) {
+          var obs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(en) {
+              if (en.isIntersecting && !running) {
+                resize();
+                running = true;
+                step();
+              }
+            });
+          }, { threshold: 0.05 });
+          obs.observe(box);
+        } else {
+          resize();
+          running = true;
+          step();
+        }
+        window.addEventListener('resize', function() { if (running) resize(); });
+      });
+    });
+  })();
+
+  /* ============================================================
      FEATURE 5: Page Transition â€” fade sections on scroll
      ============================================================ */
   if ('IntersectionObserver' in window && !reduced) {
