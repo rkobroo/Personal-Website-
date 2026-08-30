@@ -806,7 +806,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           offCtx.fillText(text, W / 2, H / 2);
 
           var data = offCtx.getImageData(0, 0, W, H).data;
-          var gap = 3;
+          var gap = 2;
           for (var y = 0; y < H; y += gap) {
             for (var x = 0; x < W; x += gap) {
               var i = (y * W + x) * 4;
@@ -818,20 +818,20 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
         function initParticles() {
           particles = [];
           var total = textCoords.length;
-          var count = Math.min(total, coarsePointer ? 200 : 400);
+          var count = Math.min(total, coarsePointer ? 500 : 1000);
           var stride = Math.max(1, Math.floor(total / count));
           var k = 0;
           for (var i = 0; i < total && k < count; i += stride, k++) {
             var tc = textCoords[i];
             if (!tc) continue;
             particles.push({
-              x: Math.random() * W,
-              y: Math.random() * H,
+              x: tc.x + (Math.random() * 4 - 2),
+              y: tc.y + (Math.random() * 4 - 2),
               tx: tc.x, ty: tc.y,
               vx: 0, vy: 0,
-              r: Math.random() * 1.5 + 0.8,
+              r: Math.random() * 0.7 + 0.5,
               c: ['139,92,246', '59,130,246', '6,182,212', '200,94,255', '244,63,94'][Math.floor(Math.random() * 5)],
-              a: Math.random() * 0.4 + 0.4
+              a: Math.random() * 0.3 + 0.5
             });
           }
         }
@@ -850,10 +850,10 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
               p.vx -= (dx / dist) * force;
               p.vy -= (dy / dist) * force;
             }
-            p.vx += (p.tx - p.x) * 0.10;
-            p.vy += (p.ty - p.y) * 0.10;
-            p.vx *= 0.80;
-            p.vy *= 0.80;
+            p.vx += (p.tx - p.x) * 0.15;
+            p.vy += (p.ty - p.y) * 0.15;
+            p.vx *= 0.78;
+            p.vy *= 0.78;
             p.x += p.vx;
             p.y += p.vy;
             ctx.beginPath();
