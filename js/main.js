@@ -812,7 +812,9 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           if (tw > W * 0.9) fs = Math.floor(fs * (W * 0.9) / tw);
           offCtx.font = '800 ' + fs + 'px Sora, sans-serif';
           offCtx.fillStyle = '#fff';
-          offCtx.fillText(text, W / 2, H / 2);
+          // place text in upper empty band (behind section header) so content below stays clean
+          var ty = Math.min(H * 0.18, fs);
+          offCtx.fillText(text, W / 2, ty);
 
           var data = offCtx.getImageData(0, 0, W, H).data;
           var gap = Math.max(3, Math.floor(fs / 18));
