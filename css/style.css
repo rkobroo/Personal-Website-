@@ -560,7 +560,7 @@ input, textarea { font-family: inherit; }
   flex-direction: column;
   justify-content: center;
   padding-top: calc(var(--nav-h) + 30px);
-  padding-bottom: 130px;
+  padding-bottom: 70px;
 }
 
 .hero-grid {
@@ -854,6 +854,23 @@ input, textarea { font-family: inherit; }
 
 /* ---------- Stats ---------- */
 .stats { position: relative; z-index: 2; padding-bottom: 10px; }
+
+/* stats strip moved inline into the hero, just below the social logos */
+.hero-stats {
+  margin-top: clamp(24px, 3vw, 40px);
+}
+.hero-stats .stats-strip {
+  display: inline-flex;
+  justify-content: center;
+  border-radius: 20px;
+}
+.hero-stats .stat-item {
+  padding: clamp(18px, 2.4vw, 30px) clamp(28px, 5vw, 60px);
+}
+@media (pointer: coarse), (max-width: 768px) {
+  .hero-stats { justify-content: center; display: flex; }
+  .hero-copy > * { margin-inline: auto; }
+}
 
 .stats-strip {
   display: flex;
@@ -2429,7 +2446,7 @@ body.light .stat-card .stat-n { color: #0F172A; }
 /* ---------- Responsive ---------- */
 @media (max-width: 1024px) {
   .hero-grid { grid-template-columns: 1fr; gap: 60px; }
-  .hero { text-align: center; padding-bottom: 160px; }
+  .hero { text-align: center; padding-bottom: 90px; }
   .hero-copy > * { margin-inline: auto; }
   .hero-intro { max-width: 620px; }
   .hero-cta, .socials { justify-content: center; }
