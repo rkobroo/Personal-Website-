@@ -1126,6 +1126,20 @@ input, textarea { font-family: inherit; }
   to   { background-position: -60% 0; }
 }
 
+/* Low-RAM devices: no bar-fill transition or shimmer = instant, static text */
+.low-ram .bar i {
+  transition: none;
+}
+.low-ram .bar i::after {
+  animation: none;
+  display: none;
+}
+.low-ram .skill-cat,
+.low-ram .project-card,
+.low-ram .tl-card {
+  will-change: auto;
+}
+
 /* ---------- Projects ---------- */
 .projects-grid {
   display: grid;

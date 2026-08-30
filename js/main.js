@@ -14,6 +14,7 @@ const finePointer = window.matchMedia('(pointer: fine)').matches;
 const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
 /* low-RAM phones (â‰¤4GB): skip GPU-hungry effects so scrolling stays smooth */
 const lowRamDevice = (navigator.deviceMemory || 8) <= 4;
+if (lowRamDevice) document.documentElement.classList.add('low-ram');
 
   /* ---------------- Preloader ---------------- */
   const preloader = $('#preloader');
@@ -381,6 +382,10 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       bars.forEach(bar => { bar.style.width = (bar.dataset.w || 70) + '%'; });
       pcts.forEach(p => {
         const end = parseInt(p.dataset.val || '0', 10);
+        if (lowRamDevice) {
+          p.textContent = end + '%';
+          return;
+        }
         let t0 = null;
         function frame(ts) {
           if (!t0) t0 = ts;
@@ -392,12 +397,13 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       });
     }
 
+    /* pre-trigger well ahead of the fold so fast scroll sees full bars */
     if ('IntersectionObserver' in window) {
       const so = new IntersectionObserver(entries => {
         entries.forEach(en => {
           if (en.isIntersecting) { fill(); so.disconnect(); }
         });
-      }, { threshold: 0.35 });
+      }, { threshold: 0, rootMargin: '0px 0px 120% 0px' });
       so.observe(cat);
     } else {
       fill();
@@ -406,7 +412,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
 
 
   /* ---------------- 3D tilt cards ---------------- */
-  if (finePointer && !reduced) {
+  if (finePointer && !reduced && !lowRamDevice) {
     const tiltEls = $$('[data-tilt]').map(el => {
       const state = { el, rect: el.getBoundingClientRect(), ry: 0, rx: 0, pending: false };
       /* cache rect; refresh only on scroll/resize, not every mousemove */
@@ -458,7 +464,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
   }
 
   /* ---------------- Magnetic buttons ---------------- */
-  if (finePointer && !reduced) {
+  if (finePointer && !reduced && !lowRamDevice) {
     $$('.magnetic').forEach(btn => {
       btn.addEventListener('mousemove', e => {
         const r = btn.getBoundingClientRect();
