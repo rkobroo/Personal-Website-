@@ -2587,21 +2587,37 @@ body.light .stat-card .stat-n { color: #0F172A; }
   color: #fff;
 }
 
-/* ---------- Section watermark title (reliable CSS text) ---------- */
+/* ---------- Section watermark title (reliable CSS text + particle overlay) ---------- */
 .pt-title {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: clamp(64px, 11vw, 110px);
+  margin: 0 0 clamp(6px, 1vw, 14px);
+  user-select: none;
+  pointer-events: none;
+  overflow: visible;
+}
+.pt-text {
   font-family: var(--font-head);
   font-size: clamp(2rem, 9vw, 5.5rem);
   font-weight: 800;
   letter-spacing: 0.02em;
-  text-align: center;
   line-height: 1.05;
   opacity: 0.45;
-  margin: 0 0 clamp(6px, 1vw, 14px);
-  user-select: none;
+  white-space: nowrap;
+}
+.pt-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
   pointer-events: none;
 }
 @media (pointer: coarse), (max-width: 768px) {
-  .pt-title { opacity: 0.4; }
+  .pt-text { opacity: 0.4; }
 }
 
 /* ---------- Page Transition ---------- */
