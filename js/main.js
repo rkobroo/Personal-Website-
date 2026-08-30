@@ -787,51 +787,64 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           initParticles();
         }
 
+        var SAMPLE = 2; /* offscreen supersampling factor for reliable edge coverage */
+        var TARGET = coarsePointer ? 900 : 1800;
+
         function generateCoords() {
           textCoords = [];
+          var fillH = Math.floor(H * 0.7);
+          var fs = Math.floor(fillH * 0.9);
+          var sw = W * SAMPLE;
+          var sh = H * SAMPLE;
+
           var off = document.createElement('canvas');
-          off.width = W;
-          off.height = H;
+          off.width = sw;
+          off.height = sh;
           var offCtx = off.getContext('2d');
           if (!offCtx) return;
 
-          var fs = Math.floor(H * 0.82);
-          offCtx.font = '800 ' + fs + 'px Sora, sans-serif';
+          offCtx.font = '800 ' + (fs * SAMPLE) + 'px Sora, sans-serif';
           offCtx.textAlign = 'center';
-          var tw = offCtx.measureText(text).width;
-          if (tw > W * 0.92) fs = Math.floor(fs * (W * 0.92) / tw);
-          offCtx.font = '800 ' + fs + 'px Sora, sans-serif';
-          offCtx.fillStyle = '#fff';
           offCtx.textBaseline = 'middle';
-          offCtx.fillText(text, W / 2, H / 2);
+          var tw = offCtx.measureText(text).width;
+          if (tw > sw * 0.96) fs = Math.floor(fs * (sw * 0.96) / tw);
+          offCtx.font = '800 ' + (fs * SAMPLE) + 'px Sora, sans-serif';
+          offCtx.fillStyle = '#fff';
+          offCtx.fillText(text, sw / 2, sh / 2);
 
-          var data = offCtx.getImageData(0, 0, W, H).data;
-          var gap = 2;
-          for (var y = 0; y < H; y += gap) {
-            for (var x = 0; x < W; x += gap) {
-              var i = (y * W + x) * 4;
-              if (data[i + 3] > 128) textCoords.push({ x: x, y: y });
+          var data = offCtx.getImageData(0, 0, sw, sh).data;
+          var gap = 1;
+          var pts = [];
+          for (var y = 0; y < sh; y += gap) {
+            for (var x = 0; x < sw; x += gap) {
+              var i = (y * sw + x) * 4;
+              if (data[i + 3] > 128) pts.push({ x: x, y: y });
             }
+          }
+          if (!pts.length) return;
+
+          /* even-sample points down to TARGET so density stays uniform */
+          var stride = Math.max(1, Math.floor(pts.length / TARGET));
+          for (var k = 0; k < pts.length; k += stride) {
+            var pt = pts[k];
+            textCoords.push({ x: pt.x / SAMPLE, y: pt.y / SAMPLE });
           }
         }
 
         function initParticles() {
           particles = [];
           var total = textCoords.length;
-          var count = Math.min(total, coarsePointer ? 500 : 1000);
-          var stride = Math.max(1, Math.floor(total / count));
-          var k = 0;
-          for (var i = 0; i < total && k < count; i += stride, k++) {
+          var count = Math.min(total, TARGET);
+          for (var i = 0; i < count; i++) {
             var tc = textCoords[i];
-            if (!tc) continue;
             particles.push({
-              x: tc.x + (Math.random() * 4 - 2),
-              y: tc.y + (Math.random() * 4 - 2),
+              x: tc.x, y: tc.y,
               tx: tc.x, ty: tc.y,
               vx: 0, vy: 0,
-              r: Math.random() * 0.7 + 0.5,
+              r: Math.random() * 0.4 + 0.6,
+              pulse: Math.random() * Math.PI * 2,
               c: ['139,92,246', '59,130,246', '6,182,212', '200,94,255', '244,63,94'][Math.floor(Math.random() * 5)],
-              a: Math.random() * 0.3 + 0.5
+              a: Math.random() * 0.25 + 0.6
             });
           }
         }
@@ -839,25 +852,40 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
         function step() {
           if (!running) return;
           ctx.clearRect(0, 0, W, H);
+          var t = Date.now() / 1000;
           for (var i = 0; i < particles.length; i++) {
             var p = particles[i];
+
+            /* gentle mouse repulsion */
             var dx = mouse.x - p.x;
             var dy = mouse.y - p.y;
             var dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 100 && dist > 0) {
-              var strength = mouse.over ? 4 : 2;
-              var force = (100 - dist) / 100 * strength;
-              p.vx -= (dx / dist) * force;
-              p.vy -= (dy / dist) * force;
+            if (dist < 90 && dist > 0) {
+              var force = (90 - dist) / 90 * (mouse.over ? 3 : 1.5);
+              p.x -= (dx / dist) * force;
+              p.y -= (dy / dist) * force;
             }
-            p.vx += (p.tx - p.x) * 0.15;
-            p.vy += (p.ty - p.y) * 0.15;
-            p.vx *= 0.78;
-            p.vy *= 0.78;
-            p.x += p.vx;
-            p.y += p.vy;
+
+            /* spring back to exact target, clamp so particles never leave the mask */
+            p.x += (p.tx - p.x) * 0.18;
+            p.y += (p.ty - p.y) * 0.18;
+            if (p.x < p.tx - 0.6) p.x = p.tx - 0.6;
+            if (p.x > p.tx + 0.6) p.x = p.tx + 0.6;
+            if (p.y < p.ty - 0.6) p.y = p.ty - 0.6;
+            if (p.y > p.ty + 0.6) p.y = p.ty + 0.6;
+
+            /* subtle living pulse (small amplitude -> keeps text readable) */
+            var rr = p.r + Math.sin(t * 1.6 + p.pulse) * 0.18;
+
+            /* soft blue glow behind the dot */
             ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.arc(p.x, p.y, rr * 2.4, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(56,189,248,0.16)';
+            ctx.fill();
+
+            /* crisp colored core dot */
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, rr, 0, Math.PI * 2);
             ctx.fillStyle = 'rgba(' + p.c + ',' + p.a + ')';
             ctx.fill();
           }
