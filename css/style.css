@@ -2526,8 +2526,11 @@ body.light .stat-card .stat-n { color: #0F172A; }
   .lightbox { backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
 }
 
-/* render below-fold sections only when near the viewport */
-.about, .skills, .projects, .experience, .blog, .status-section, .dl-stats, .contact {
+/* render below-fold sections only when near the viewport
+   (about/skills/projects excluded — their absolute particle canvas
+   mis-renders under content-visibility:auto, causing the watermark
+   to show only partway) */
+.experience, .blog, .status-section, .dl-stats, .contact {
   content-visibility: auto;
   contain-intrinsic-size: auto 900px;
 }

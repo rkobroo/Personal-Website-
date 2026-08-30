@@ -887,10 +887,18 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           var obs = new IntersectionObserver(function(entries) {
             entries.forEach(function(en) {
               if (en.isIntersecting) {
-                if (!running) { resize(); running = true; step(); }
+                if (!running) {
+                  resize();
+                  running = true;
+                  step();
+                  // re-measure a few times after layout settles so the
+                  // canvas size / text position are never stale
+                  setTimeout(function(){ if (running) resize(); }, 600);
+                  setTimeout(function(){ if (running) resize(); }, 1500);
+                }
               }
             });
-          }, { threshold: 0.05 });
+          }, { threshold: 0 });
           obs.observe(sectionEl);
         } else {
           resize();
