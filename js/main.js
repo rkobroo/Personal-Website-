@@ -826,13 +826,8 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
 
         function initParticles() {
           particles = [];
-          var total = textCoords.length;
-          var count = Math.min(total, coarsePointer ? 250 : 500);
-          // sample evenly across the whole word (top to bottom) so the
-          // bottom half of the letters is not skipped
-          var stride = Math.max(1, Math.floor(total / count));
-          var k = 0;
-          for (var i = 0; i < total && k < count; i += stride, k++) {
+          var count = Math.min(textCoords.length, coarsePointer ? 250 : 500);
+          for (var i = 0; i < count; i++) {
             var tc = textCoords[i];
             if (!tc) continue;
             particles.push({
