@@ -761,7 +761,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
     }
 
     ready(function() {
-      boxes.forEach(function(box) {
+      boxes.forEach(function(box, bi) {
         var canvas = box.querySelector('canvas.pt-canvas');
         if (!canvas) return;
         var ctx = canvas.getContext('2d');
@@ -772,7 +772,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
         var W = 0, H = 0;
         var mouse = { x: -9999, y: -9999, over: false };
         var running = false;
-        var text = 'RKO BRO';
+        var text = (bi === 0) ? 'RKO BRO' : '';
 
         function resize() {
           W = box.offsetWidth;
