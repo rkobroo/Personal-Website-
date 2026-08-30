@@ -2600,13 +2600,7 @@ body.light .stat-card .stat-n { color: #0F172A; }
   overflow: visible;
 }
 .pt-text {
-  font-family: var(--font-head);
-  font-size: clamp(2rem, 9vw, 5.5rem);
-  font-weight: 800;
-  letter-spacing: 0.02em;
-  line-height: 1.05;
-  opacity: 0.12;
-  white-space: nowrap;
+  display: none;
 }
 .pt-canvas {
   position: absolute;
@@ -2617,7 +2611,7 @@ body.light .stat-card .stat-n { color: #0F172A; }
   pointer-events: none;
 }
 @media (pointer: coarse), (max-width: 768px) {
-  .pt-text { opacity: 0.4; }
+  .pt-title { height: clamp(64px, 12vw, 100px); }
 }
 
 /* ---------- Page Transition ---------- */

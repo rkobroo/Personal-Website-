@@ -830,7 +830,9 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
               vx: 0, vy: 0,
               r: Math.random() * 1.8 + 1.2,
               c: ['139,92,246', '59,130,246', '6,182,212', '200,94,255', '244,63,94'][Math.floor(Math.random() * 5)],
-              a: Math.random() * 0.35 + 0.65
+              a: Math.random() * 0.35 + 0.65,
+              ph: Math.random() * Math.PI * 2,
+              spd: Math.random() * 0.06 + 0.02
             });
           }
         }
@@ -848,10 +850,12 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
               p.vx -= (dx / dist) * force;
               p.vy -= (dy / dist) * force;
             }
-            p.vx += (p.tx - p.x) * 0.05;
-            p.vy += (p.ty - p.y) * 0.05;
-            p.vx *= 0.9;
-            p.vy *= 0.9;
+            p.ph += p.spd;
+            // continuous idle float so the word always feels alive/3D
+            var ox = Math.sin(p.ph) * 2.2;
+            var oy = Math.cos(p.ph * 1.3) * 2.2;
+            p.vx += (p.tx + ox - p.x) * 0.06;
+            p.vy += (p.ty + oy - p.y) * 0.06;
             p.x += p.vx;
             p.y += p.vy;
             ctx.beginPath();
