@@ -107,6 +107,10 @@ input, textarea { font-family: inherit; }
 
 .section { position: relative; z-index: 2; padding-block: clamp(84px, 12vh, 140px); }
 
+/* tighten the big gap between the projects grid and the Experience header */
+.section.projects { padding-bottom: clamp(40px, 6vh, 72px); }
+.section.experience { padding-top: clamp(40px, 6vh, 72px); }
+
 .mono { font-family: var(--font-mono); letter-spacing: 0.02em; }
 
 .grad-text {
