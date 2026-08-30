@@ -749,8 +749,8 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
   (function() {
     if (reduced || lowRamDevice) return;
 
-    // 4 sections to receive the particle watermark
-    var targets = ['home', 'about', 'skills', 'projects'];
+    // 3 sections receive the watermark (home/hero removed — kept clean)
+    var targets = ['about', 'skills', 'projects'];
 
     // Wait for fonts so text coords sample the right glyphs
     function ready(fn) {
@@ -810,13 +810,17 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           offCtx.textAlign = 'center';
           var tw = offCtx.measureText(text).width;
           if (tw > W * 0.9) fs = Math.floor(fs * (W * 0.9) / tw);
+          // constrain height so text sits fully inside the top gap,
+          // well above the section header/content that starts below
+          var topPad = parseFloat(getComputedStyle(sectionEl).paddingTop) || 90;
+          var maxH = Math.max(topPad - 24, 40);
+          var th = Math.round(fs * 1.1);
+          if (th > maxH) fs = Math.floor(fs * maxH / th);
           offCtx.font = '900 ' + fs + 'px Sora, sans-serif';
           offCtx.fillStyle = '#fff';
-          // render watermark at the natural top gap of the section,
-          // behind the header but not clipped by it
-          var topPad = parseFloat(getComputedStyle(sectionEl).paddingTop) || 90;
+          // render high in the gap ("6 inch above"), clear of everything below
           offCtx.textBaseline = 'top';
-          var ty = Math.max(topPad * 0.5, 20);
+          var ty = 8;
           offCtx.fillText(text, W / 2, ty);
 
           var data = offCtx.getImageData(0, 0, W, H).data;
