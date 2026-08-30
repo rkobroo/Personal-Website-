@@ -560,7 +560,7 @@ input, textarea { font-family: inherit; }
   flex-direction: column;
   justify-content: center;
   padding-top: calc(var(--nav-h) + 30px);
-  padding-bottom: 90px;
+  padding-bottom: 130px;
 }
 
 .hero-grid {
@@ -2429,7 +2429,7 @@ body.light .stat-card .stat-n { color: #0F172A; }
 /* ---------- Responsive ---------- */
 @media (max-width: 1024px) {
   .hero-grid { grid-template-columns: 1fr; gap: 60px; }
-  .hero { text-align: center; padding-bottom: 120px; }
+  .hero { text-align: center; padding-bottom: 160px; }
   .hero-copy > * { margin-inline: auto; }
   .hero-intro { max-width: 620px; }
   .hero-cta, .socials { justify-content: center; }
