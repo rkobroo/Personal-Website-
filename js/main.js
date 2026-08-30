@@ -819,6 +819,9 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
 
     ready(function() {
       boxes.forEach(function(box, bi) {
+        /* only the first strip shows "RKO BRO"; collapse the empty ones
+           so they don't leave unwated vertical gaps between section titles */
+        if (bi !== 0) { box.style.display = 'none'; return; }
         var canvas = box.querySelector('canvas.pt-canvas');
         if (!canvas) return;
         var ctx = canvas.getContext('2d');
