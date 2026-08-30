@@ -744,38 +744,42 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
   })();
 
   /* ============================================================
-     FEATURE 4: 3D Particle "RKO BRO" — colored floating particles
-     inside .pt-title (no idle shaking)
+     FEATURE 4: 3D Particle "RKO BRO" — background watermark,
+     raised in the section top gap, 3D burst on mouse
      ============================================================ */
   (function() {
     if (reduced || lowRamDevice) return;
 
-    var boxes = Array.prototype.slice.call(document.querySelectorAll('.pt-title'));
-    if (!boxes.length) return;
+    var targets = ['home', 'about', 'skills', 'projects'];
+    var canvases = Array.prototype.slice.call(document.querySelectorAll('.pt-canvas'));
+    if (!canvases.length) return;
 
     function ready(fn) {
       if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(function() { setTimeout(fn, 30); });
-      } else { setTimeout(fn, 200); }
+        document.fonts.ready.then(function() { setTimeout(fn, 40); });
+      } else { setTimeout(fn, 250); }
     }
 
     ready(function() {
-      boxes.forEach(function(box) {
-        var canvas = box.querySelector('canvas.pt-canvas');
-        if (!canvas) return;
+      canvases.forEach(function(canvas, idx) {
+        var secId = targets[idx];
+        var sectionEl = document.getElementById(secId);
+        if (!sectionEl) return;
+        sectionEl.prepend(canvas);
+
         var ctx = canvas.getContext('2d');
         if (!ctx) return;
 
         var particles = [];
         var textCoords = [];
-        var W = 0, H = 0;
-        var mousePt = { x: -9999, y: -9999 };
+        var W, H;
+        var mouse = { x: -9999, y: -9999, over: false };
         var running = false;
         var text = 'RKO BRO';
 
         function resize() {
-          W = box.offsetWidth;
-          H = box.offsetHeight;
+          W = sectionEl.offsetWidth;
+          H = sectionEl.offsetHeight;
           var dpr = Math.min(window.devicePixelRatio || 1, 2);
           canvas.width = W * dpr;
           canvas.height = H * dpr;
@@ -794,18 +798,21 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           var offCtx = off.getContext('2d');
           if (!offCtx) return;
 
-          var fs = Math.floor(H * 0.8);
+          // raise the word into the section's top gap
+          var topPad = parseFloat(getComputedStyle(sectionEl).paddingTop) || 90;
+          var varH = Math.min(H, Math.max(topPad * 1.6, 90));
+          var fs = Math.floor(varH * 0.78);
           offCtx.font = '800 ' + fs + 'px Sora, sans-serif';
           offCtx.textAlign = 'center';
-          offCtx.textBaseline = 'middle';
           var tw = offCtx.measureText(text).width;
-          if (tw > W * 0.96) fs = Math.floor(fs * (W * 0.96) / tw);
+          if (tw > W * 0.9) fs = Math.floor(fs * (W * 0.9) / tw);
           offCtx.font = '800 ' + fs + 'px Sora, sans-serif';
           offCtx.fillStyle = '#fff';
-          offCtx.fillText(text, W / 2, H / 2);
+          offCtx.textBaseline = 'top';
+          offCtx.fillText(text, W / 2, Math.max(topPad * 0.28, 14));
 
           var data = offCtx.getImageData(0, 0, W, H).data;
-          var gap = 3;
+          var gap = Math.max(3, Math.floor(fs / 16));
           for (var y = 0; y < H; y += gap) {
             for (var x = 0; x < W; x += gap) {
               var i = (y * W + x) * 4;
@@ -817,7 +824,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
         function initParticles() {
           particles = [];
           var total = textCoords.length;
-          var count = Math.min(total, coarsePointer ? 220 : 440);
+          var count = Math.min(total, coarsePointer ? 220 : 420);
           var stride = Math.max(1, Math.floor(total / count));
           var k = 0;
           for (var i = 0; i < total && k < count; i += stride, k++) {
@@ -828,9 +835,9 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
               y: Math.random() * H,
               tx: tc.x, ty: tc.y,
               vx: 0, vy: 0,
-              r: Math.random() * 1.8 + 1.2,
+              r: Math.random() * 1.3 + 0.7,
               c: ['139,92,246', '59,130,246', '6,182,212', '200,94,255', '244,63,94'][Math.floor(Math.random() * 5)],
-              a: Math.random() * 0.35 + 0.65
+              a: Math.random() * 0.45 + 0.4
             });
           }
         }
@@ -840,19 +847,20 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           ctx.clearRect(0, 0, W, H);
           for (var i = 0; i < particles.length; i++) {
             var p = particles[i];
-            var dx = mousePt.x - p.x;
-            var dy = mousePt.y - p.y;
+            var dx = mouse.x - p.x;
+            var dy = mouse.y - p.y;
             var dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 90 && dist > 0) {
-              var force = (90 - dist) / 90 * 2;
+            // stronger 3D scatter when mouse is over/near the word
+            if (dist < 120 && dist > 0) {
+              var strength = mouse.over ? 4.5 : 2;
+              var force = (120 - dist) / 120 * strength;
               p.vx -= (dx / dist) * force;
               p.vy -= (dy / dist) * force;
             }
-            // settle cleanly into the word (no idle shaking)
-            p.vx += (p.tx - p.x) * 0.06;
-            p.vy += (p.ty - p.y) * 0.06;
-            p.vx *= 0.82;
-            p.vy *= 0.82;
+            p.vx += (p.tx - p.x) * 0.05;
+            p.vy += (p.ty - p.y) * 0.05;
+            p.vx *= 0.85;
+            p.vy *= 0.85;
             p.x += p.vx;
             p.y += p.vy;
             ctx.beginPath();
@@ -863,6 +871,22 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           if (!document.hidden) requestAnimationFrame(step);
         }
 
+        // track mouse and whether it's over this section's word area
+        document.addEventListener('mousemove', function(e) {
+          var r = sectionEl.getBoundingClientRect();
+          if (e.clientY >= r.top - 60 && e.clientY <= r.bottom + 60) {
+            mouse.x = e.clientX - r.left;
+            mouse.y = e.clientY - r.top;
+            var tr = canvas.getBoundingClientRect();
+            mouse.over = (e.clientX >= tr.left && e.clientX <= tr.right &&
+                          e.clientY >= tr.top && e.clientY <= tr.bottom);
+          } else {
+            mouse.x = -9999;
+            mouse.y = -9999;
+            mouse.over = false;
+          }
+        });
+
         if ('IntersectionObserver' in window) {
           var obs = new IntersectionObserver(function(entries) {
             entries.forEach(function(en) {
@@ -872,13 +896,14 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
                 step();
               }
             });
-          }, { threshold: 0.05 });
-          obs.observe(box);
+          }, { threshold: 0 });
+          obs.observe(sectionEl);
         } else {
           resize();
           running = true;
           step();
         }
+        window.addEventListener('resize', function() { if (running) resize(); });
       });
     });
   })();

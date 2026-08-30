@@ -2587,32 +2587,24 @@ body.light .stat-card .stat-n { color: #0F172A; }
   color: #fff;
 }
 
-/* ---------- Section watermark title (reliable CSS text + particle overlay) ---------- */
-.pt-title {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: clamp(72px, 13vw, 130px);
-  margin: 0 0 clamp(4px, 1vw, 12px);
-  user-select: none;
-  pointer-events: none;
-  overflow: visible;
-}
-.pt-text {
-  display: none;
-}
+/* ---------- 3D Particle Text Canvas (section background watermark) ---------- */
 .pt-canvas {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
   pointer-events: none;
+  z-index: 0;
+  opacity: 0.3;
 }
-@media (pointer: coarse), (max-width: 768px) {
-  .pt-title { height: clamp(64px, 12vw, 100px); }
-}
+
+/* keep canvas behind section content; content above it */
+.hero > .pt-canvas,
+.section > .pt-canvas { z-index: 0; }
+.hero > .hero-grid,
+.hero > .container,
+.section > .container,
+.section > .stats-grid,
+.section > .about-grid { position: relative; z-index: 1; }
 
 /* ---------- Page Transition ---------- */
 section {
