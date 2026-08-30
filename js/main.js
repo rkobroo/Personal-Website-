@@ -858,23 +858,6 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           ctx.clearRect(0, 0, W, H);
           var t = Date.now() / 1000;
 
-          /* cursor radiant glow + expanding ring */
-          if (mouse.x > -5000 && mouse.x < W + 5000 && mouse.y > -5000 && mouse.y < H + 5000 &&
-              mouse.over) {
-            var g = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 60);
-            g.addColorStop(0, 'rgba(56,189,248,0.28)');
-            g.addColorStop(1, 'rgba(56,189,248,0)');
-            ctx.fillStyle = g;
-            ctx.fillRect(mouse.x - 60, mouse.y - 60, 120, 120);
-
-            var ringA = (t % 1.2) / 1.2;
-            ctx.beginPath();
-            ctx.arc(mouse.x, mouse.y, 8 + ringA * 46, 0, Math.PI * 2);
-            ctx.strokeStyle = 'rgba(56,189,248,' + (0.5 * (1 - ringA)) + ')';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-          }
-
           for (var i = 0; i < particles.length; i++) {
             var p = particles[i];
 
