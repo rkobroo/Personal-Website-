@@ -2598,6 +2598,7 @@ body.light .stat-card .stat-n { color: #0F172A; }
   margin: clamp(-36px, -6vh, -18px) 0 clamp(2px, 1vw, 8px);
   pointer-events: none;
   user-select: none;
+  opacity: 0.38;
 }
 .pt-bg .pt-canvas {
   position: absolute;
