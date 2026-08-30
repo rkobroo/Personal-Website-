@@ -851,6 +851,8 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
             // settle cleanly into the word (no idle shaking)
             p.vx += (p.tx - p.x) * 0.06;
             p.vy += (p.ty - p.y) * 0.06;
+            p.vx *= 0.82;
+            p.vy *= 0.82;
             p.x += p.vx;
             p.y += p.vy;
             ctx.beginPath();
