@@ -744,46 +744,38 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
   })();
 
   /* ============================================================
-     FEATURE 4: 3D Particle Text — floating particles in 4 sections
+     FEATURE 4: 3D Particle "RKO BRO" — colored floating particles
+     inside .pt-title (no idle shaking)
      ============================================================ */
   (function() {
     if (reduced || lowRamDevice) return;
 
-    // Target sections for the particle backgrounds
-    var targets = ['home', 'about', 'skills', 'projects'];
-    var canvases = $$('.pt-canvas');
-    if (!canvases.length) return;
+    var boxes = Array.prototype.slice.call(document.querySelectorAll('.pt-title'));
+    if (!boxes.length) return;
 
-    // Wait for fonts so text coords sample the right glyphs
     function ready(fn) {
       if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(function() { setTimeout(fn, 50); });
-      } else {
-        setTimeout(fn, 300);
-      }
+        document.fonts.ready.then(function() { setTimeout(fn, 30); });
+      } else { setTimeout(fn, 200); }
     }
 
     ready(function() {
-      canvases.forEach(function(canvas, idx) {
-        var secId = targets[idx];
-        var sectionEl = document.getElementById(secId);
-        if (!sectionEl) return;
-
-        // move canvas into the section so absolute positioning tracks it
-        sectionEl.prepend(canvas);
-
+      boxes.forEach(function(box) {
+        var canvas = box.querySelector('canvas.pt-canvas');
+        if (!canvas) return;
         var ctx = canvas.getContext('2d');
         if (!ctx) return;
 
         var particles = [];
         var textCoords = [];
-        var W, H;
+        var W = 0, H = 0;
         var mousePt = { x: -9999, y: -9999 };
         var running = false;
+        var text = 'RKO BRO';
 
         function resize() {
-          W = sectionEl.offsetWidth;
-          H = sectionEl.offsetHeight;
+          W = box.offsetWidth;
+          H = box.offsetHeight;
           var dpr = Math.min(window.devicePixelRatio || 1, 2);
           canvas.width = W * dpr;
           canvas.height = H * dpr;
@@ -802,20 +794,18 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           var offCtx = off.getContext('2d');
           if (!offCtx) return;
 
-          var text = canvas.getAttribute('data-pt') || 'RKO BRO';
-          // fit font to canvas width so full text is visible (fixes "RKO RD" clipping)
-          var fs = Math.min(Math.floor(W / 6), 130);
+          var fs = Math.floor(H * 0.8);
           offCtx.font = '800 ' + fs + 'px Sora, sans-serif';
           offCtx.textAlign = 'center';
           offCtx.textBaseline = 'middle';
           var tw = offCtx.measureText(text).width;
-          if (tw > W * 0.9) fs = Math.floor(fs * (W * 0.9) / tw);
+          if (tw > W * 0.96) fs = Math.floor(fs * (W * 0.96) / tw);
           offCtx.font = '800 ' + fs + 'px Sora, sans-serif';
           offCtx.fillStyle = '#fff';
           offCtx.fillText(text, W / 2, H / 2);
 
           var data = offCtx.getImageData(0, 0, W, H).data;
-          var gap = Math.max(3, Math.floor(fs / 18));
+          var gap = 3;
           for (var y = 0; y < H; y += gap) {
             for (var x = 0; x < W; x += gap) {
               var i = (y * W + x) * 4;
@@ -826,8 +816,11 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
 
         function initParticles() {
           particles = [];
-          var count = Math.min(textCoords.length, coarsePointer ? 250 : 500);
-          for (var i = 0; i < count; i++) {
+          var total = textCoords.length;
+          var count = Math.min(total, coarsePointer ? 220 : 440);
+          var stride = Math.max(1, Math.floor(total / count));
+          var k = 0;
+          for (var i = 0; i < total && k < count; i += stride, k++) {
             var tc = textCoords[i];
             if (!tc) continue;
             particles.push({
@@ -835,9 +828,9 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
               y: Math.random() * H,
               tx: tc.x, ty: tc.y,
               vx: 0, vy: 0,
-              r: Math.random() * 1.4 + 0.8,
-              c: ['139,92,246', '59,130,246', '6,182,212', '200,94,255'][Math.floor(Math.random() * 4)],
-              a: Math.random() * 0.5 + 0.4
+              r: Math.random() * 1.8 + 1.2,
+              c: ['139,92,246', '59,130,246', '6,182,212', '200,94,255', '244,63,94'][Math.floor(Math.random() * 5)],
+              a: Math.random() * 0.35 + 0.65
             });
           }
         }
@@ -850,15 +843,14 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
             var dx = mousePt.x - p.x;
             var dy = mousePt.y - p.y;
             var dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 100 && dist > 0) {
-              var force = (100 - dist) / 100 * 2;
+            if (dist < 90 && dist > 0) {
+              var force = (90 - dist) / 90 * 2;
               p.vx -= (dx / dist) * force;
               p.vy -= (dy / dist) * force;
             }
-            p.vx += (p.tx - p.x) * 0.04;
-            p.vy += (p.ty - p.y) * 0.04;
-            p.vx *= 0.92;
-            p.vy *= 0.92;
+            // settle cleanly into the word (no idle shaking)
+            p.vx += (p.tx - p.x) * 0.06;
+            p.vy += (p.ty - p.y) * 0.06;
             p.x += p.vx;
             p.y += p.vy;
             ctx.beginPath();
@@ -869,35 +861,22 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           if (!document.hidden) requestAnimationFrame(step);
         }
 
-        // observe section and run only while near viewport
         if ('IntersectionObserver' in window) {
           var obs = new IntersectionObserver(function(entries) {
             entries.forEach(function(en) {
-              if (en.isIntersecting) {
-                if (!running) { resize(); running = true; step(); }
+              if (en.isIntersecting && !running) {
+                resize();
+                running = true;
+                step();
               }
             });
           }, { threshold: 0.05 });
-          obs.observe(sectionEl);
+          obs.observe(box);
         } else {
           resize();
           running = true;
           step();
         }
-
-        // mouse proximity within section
-        document.addEventListener('mousemove', function(e) {
-          var r = sectionEl.getBoundingClientRect();
-          if (e.clientY >= r.top - 40 && e.clientY <= r.bottom + 40) {
-            mousePt.x = e.clientX - r.left;
-            mousePt.y = e.clientY - r.top;
-          } else {
-            mousePt.x = -9999;
-            mousePt.y = -9999;
-          }
-        });
-
-        window.addEventListener('resize', function() { if (running) resize(); });
       });
     });
   })();
