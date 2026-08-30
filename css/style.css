@@ -2589,11 +2589,11 @@ body.light .stat-card .stat-n { color: #0F172A; }
 .pt-bg {
   position: relative;
   width: 100%;
-  height: clamp(68px, 15vh, 130px);
+  height: clamp(48px, 10vh, 90px);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: clamp(-36px, -6vh, -18px) 0 clamp(2px, 1vw, 8px);
+  margin: clamp(-90px, -12vh, -50px) 0 clamp(0px, 1vw, 4px);
   pointer-events: none;
   user-select: none;
   opacity: 0.38;
