@@ -911,18 +911,20 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           if (!document.hidden) requestAnimationFrame(step);
         }
 
-        document.addEventListener('mousemove', function(e) {
-          var r = box.getBoundingClientRect();
-          if (e.clientY >= r.top - 50 && e.clientY <= r.bottom + 50) {
-            mouse.x = e.clientX - r.left;
-            mouse.y = e.clientY - r.top;
-          } else {
-            mouse.x = -9999;
-            mouse.y = -9999;
-          }
-          mouse.over = (e.clientX >= r.left && e.clientX <= r.right &&
-                        e.clientY >= r.top && e.clientY <= r.bottom);
-        });
+        if (!coarsePointer) {
+          document.addEventListener('mousemove', function(e) {
+            var r = box.getBoundingClientRect();
+            if (e.clientY >= r.top - 50 && e.clientY <= r.bottom + 50) {
+              mouse.x = e.clientX - r.left;
+              mouse.y = e.clientY - r.top;
+            } else {
+              mouse.x = -9999;
+              mouse.y = -9999;
+            }
+            mouse.over = (e.clientX >= r.left && e.clientX <= r.right &&
+                          e.clientY >= r.top && e.clientY <= r.bottom);
+          });
+        }
 
         if ('IntersectionObserver' in window) {
           var obs = new IntersectionObserver(function(entries) {
