@@ -744,15 +744,13 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
   })();
 
   /* ============================================================
-     FEATURE 4: 3D Particle Text — floating particles in 4 sections
+     FEATURE 4: 3D Particle Text — floating particles in empty bands
      ============================================================ */
   (function() {
     if (reduced || lowRamDevice) return;
 
-    // Target sections for the particle backgrounds
-    var targets = ['home', 'about', 'skills', 'projects'];
-    var canvases = $$('.pt-canvas');
-    if (!canvases.length) return;
+    var bands = $$('.pt-band');
+    if (!bands.length) return;
 
     // Wait for fonts so text coords sample the right glyphs
     function ready(fn) {
@@ -764,13 +762,9 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
     }
 
     ready(function() {
-      canvases.forEach(function(canvas, idx) {
-        var secId = targets[idx];
-        var sectionEl = document.getElementById(secId);
-        if (!sectionEl) return;
-
-        // move canvas into the section so absolute positioning tracks it
-        sectionEl.prepend(canvas);
+      bands.forEach(function(band) {
+        var canvas = band.querySelector('canvas.pt-canvas');
+        if (!canvas) return;
 
         var ctx = canvas.getContext('2d');
         if (!ctx) return;
@@ -782,8 +776,8 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
         var running = false;
 
         function resize() {
-          W = sectionEl.offsetWidth;
-          H = sectionEl.offsetHeight;
+          W = band.offsetWidth;
+          H = band.offsetHeight;
           var dpr = Math.min(window.devicePixelRatio || 1, 2);
           canvas.width = W * dpr;
           canvas.height = H * dpr;
@@ -803,16 +797,18 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           if (!offCtx) return;
 
           var text = canvas.getAttribute('data-pt') || 'RKO BRO';
-          // fit font so full text is visible
+          // fit font so full text is visible in the band
           var fs = Math.min(Math.floor(W / 5), 150);
           offCtx.font = '900 ' + fs + 'px Sora, sans-serif';
           offCtx.textAlign = 'center';
           offCtx.textBaseline = 'middle';
           var tw = offCtx.measureText(text).width;
-          if (tw > W * 0.95) fs = Math.floor(fs * (W * 0.95) / tw);
+          if (tw > W * 0.92) fs = Math.floor(fs * (W * 0.92) / tw);
           offCtx.font = '900 ' + fs + 'px Sora, sans-serif';
           offCtx.fillStyle = '#fff';
-          // full watermark centered across section — shows through transparent cards
+          // keep text fully inside the band's vertical bounds
+          if (fs > H * 0.8) fs = Math.floor(H * 0.8);
+          offCtx.font = '900 ' + fs + 'px Sora, sans-serif';
           offCtx.fillText(text, W / 2, H / 2);
 
           var data = offCtx.getImageData(0, 0, W, H).data;
@@ -870,7 +866,6 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           if (!document.hidden) requestAnimationFrame(step);
         }
 
-        // observe section and run only while near viewport
         if ('IntersectionObserver' in window) {
           var obs = new IntersectionObserver(function(entries) {
             entries.forEach(function(en) {
@@ -878,17 +873,16 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
                 if (!running) { resize(); running = true; step(); }
               }
             });
-          }, { threshold: 0.05 });
-          obs.observe(sectionEl);
+          }, { threshold: 0.1 });
+          obs.observe(band);
         } else {
           resize();
           running = true;
           step();
         }
 
-        // mouse proximity within section
         document.addEventListener('mousemove', function(e) {
-          var r = sectionEl.getBoundingClientRect();
+          var r = band.getBoundingClientRect();
           if (e.clientY >= r.top - 40 && e.clientY <= r.bottom + 40) {
             mousePt.x = e.clientX - r.left;
             mousePt.y = e.clientY - r.top;
