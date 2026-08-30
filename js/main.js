@@ -798,18 +798,19 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           var offCtx = off.getContext('2d');
           if (!offCtx) return;
 
-          // raise the word into the section's top gap
+          // raise the word into the section's top gap, keep it FULLY
+          // inside the gap so no content below covers the bottom half
           var topPad = parseFloat(getComputedStyle(sectionEl).paddingTop) || 90;
-          var varH = Math.min(H, Math.max(topPad * 1.6, 90));
-          var fs = Math.floor(varH * 0.78);
+          var availH = Math.max(topPad - 34, 44);
+          var fs = Math.floor(availH);
           offCtx.font = '800 ' + fs + 'px Sora, sans-serif';
           offCtx.textAlign = 'center';
           var tw = offCtx.measureText(text).width;
-          if (tw > W * 0.9) fs = Math.floor(fs * (W * 0.9) / tw);
+          if (tw > W * 0.92) fs = Math.floor(fs * (W * 0.92) / tw);
           offCtx.font = '800 ' + fs + 'px Sora, sans-serif';
           offCtx.fillStyle = '#fff';
           offCtx.textBaseline = 'top';
-          offCtx.fillText(text, W / 2, Math.max(topPad * 0.28, 14));
+          offCtx.fillText(text, W / 2, 14);
 
           var data = offCtx.getImageData(0, 0, W, H).data;
           var gap = Math.max(3, Math.floor(fs / 16));
