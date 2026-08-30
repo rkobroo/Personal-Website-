@@ -136,21 +136,46 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
         ctx.fill();
       }
 
-      // skip the O(nÂ²) link-drawing pass entirely on touch devices
+      // link pass — optimized from O(nÂ²) to near-O(n) with a spatial grid.
+      // LINKS are skipped entirely on touch devices (mobile lag fix).
       if (!coarsePointer) {
+        const CELL = LINK_DIST;
+        const grid = new Map();
         for (let i = 0; i < parts.length; i++) {
-          for (let j = i + 1; j < parts.length; j++) {
-            const a = parts[i], b = parts[j];
-            const dx = a.x - b.x, dy = a.y - b.y;
-            const d = Math.hypot(dx, dy);
-            if (d < LINK_DIST) {
-              const alpha = (1 - d / LINK_DIST) * 0.14;
-              ctx.strokeStyle = 'rgba(' + a.c + ',' + alpha.toFixed(3) + ')';
-              ctx.lineWidth = 1;
-              ctx.beginPath();
-              ctx.moveTo(a.x, a.y);
-              ctx.lineTo(b.x, b.y);
-              ctx.stroke();
+          const p = parts[i];
+          const key = (p.x / CELL | 0) + ',' + (p.y / CELL | 0);
+          const bucket = grid.get(key);
+          if (bucket) bucket.push(i); else grid.set(key, [i]);
+        }
+
+        const seen = new Set();
+        for (let i = 0; i < parts.length; i++) {
+          seen.clear();
+          const a = parts[i];
+          const cx = a.x / CELL | 0;
+          const cy = a.y / CELL | 0;
+          /* only inspect the 3x3 surrounding cells */
+          for (let gx = cx - 1; gx <= cx + 1; gx++) {
+            for (let gy = cy - 1; gy <= cy + 1; gy++) {
+              const bucket = grid.get(gx + ',' + gy);
+              if (!bucket) continue;
+              for (let k = 0; k < bucket.length; k++) {
+                const j = bucket[k];
+                if (j <= i || seen.has(j)) continue; /* each pair once */
+                seen.add(j);
+                const b = parts[j];
+                const dx = a.x - b.x, dy = a.y - b.y;
+                const d = Math.hypot(dx, dy);
+                if (d < LINK_DIST) {
+                  const alpha = (1 - d / LINK_DIST) * 0.14;
+                  ctx.strokeStyle = 'rgba(' + a.c + ',' + alpha.toFixed(3) + ')';
+                  ctx.lineWidth = 1;
+                  ctx.beginPath();
+                  ctx.moveTo(a.x, a.y);
+                  ctx.lineTo(b.x, b.y);
+                  ctx.stroke();
+                }
+              }
             }
           }
         }
