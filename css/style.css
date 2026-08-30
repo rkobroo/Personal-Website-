@@ -2434,12 +2434,12 @@ body.light .stat-card .stat-n { color: #0F172A; }
   opacity: 1;
   transform: none;
 }
-/* lighter motion on touch devices — kills the "slow text" feel on fast scroll */
+/* lighter motion on touch devices — keeps fast scroll instant, no blank text */
 @media (pointer: coarse), (max-width: 768px) {
   .js [data-reveal] {
-    transform: translateY(16px);
-    transition-duration: 0.12s, 0.12s;
-    transition-delay: 0s;
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 
