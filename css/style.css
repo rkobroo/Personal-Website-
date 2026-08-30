@@ -2587,24 +2587,22 @@ body.light .stat-card .stat-n { color: #0F172A; }
   color: #fff;
 }
 
-/* ---------- 3D Particle Text Canvas ---------- */
-.pt-canvas {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
+/* ---------- Section watermark title (reliable CSS text) ---------- */
+.pt-title {
+  font-family: var(--font-head);
+  font-size: clamp(2rem, 9vw, 5.5rem);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-align: center;
+  line-height: 1.05;
+  opacity: 0.45;
+  margin: 0 0 clamp(6px, 1vw, 14px);
+  user-select: none;
   pointer-events: none;
-  display: block;
 }
-
-/* particle canvas sits behind section content */
-.section, .hero { position: relative; }
-.section > .pt-canvas,
-.hero > .pt-canvas { z-index: 0; }
-.section > .container,
-.hero > .container,
-.hero > .hero-grid,
-.section > .stats-grid,
-.section > .about-grid { position: relative; z-index: 1; }
+@media (pointer: coarse), (max-width: 768px) {
+  .pt-title { opacity: 0.4; }
+}
 
 /* ---------- Page Transition ---------- */
 section {

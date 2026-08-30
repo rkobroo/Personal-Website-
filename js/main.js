@@ -1,7 +1,7 @@
-/* ============================================================
-   HIMAL PAUDEL — PORTFOLIO · interactions
-   Particles · cursor glow · typing · reveals · counters
-   skill bars · tilt · magnetic buttons · scrollspy · map
+﻿/* ============================================================
+   HIMAL PAUDEL â€” PORTFOLIO Â· interactions
+   Particles Â· cursor glow Â· typing Â· reveals Â· counters
+   skill bars Â· tilt Â· magnetic buttons Â· scrollspy Â· map
    ============================================================ */
 (function () {
   'use strict';
@@ -12,7 +12,7 @@
 const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const finePointer = window.matchMedia('(pointer: fine)').matches;
 const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
-/* low-RAM phones (≤4GB): skip GPU-hungry effects so scrolling stays smooth */
+/* low-RAM phones (â‰¤4GB): skip GPU-hungry effects so scrolling stays smooth */
 const lowRamDevice = (navigator.deviceMemory || 8) <= 4;
 
   /* ---------------- Preloader ---------------- */
@@ -92,7 +92,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
     }
 
     function seed() {
-      // fewer particles on touch devices — the link loop is O(n²)
+      // fewer particles on touch devices â€” the link loop is O(nÂ²)
       const n = lowRamDevice ? 14 : coarsePointer
         ? Math.max(22, Math.min(40, Math.floor(W / 30)))
         : Math.max(34, Math.min(85, Math.floor(W / 17)));
@@ -136,7 +136,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
         ctx.fill();
       }
 
-      // skip the O(n²) link-drawing pass entirely on touch devices
+      // skip the O(nÂ²) link-drawing pass entirely on touch devices
       if (!coarsePointer) {
         for (let i = 0; i < parts.length; i++) {
           for (let j = i + 1; j < parts.length; j++) {
@@ -398,7 +398,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' }));
   }
 
-  /* ---- Scroll pill: ↑↓ buttons ---- */
+  /* ---- Scroll pill: â†‘â†“ buttons ---- */
   if (scrollUpBtn) {
     scrollUpBtn.addEventListener('click', () => {
       window.scrollBy({ top: -window.innerHeight * 0.75, behavior: reduced ? 'auto' : 'smooth' });
@@ -436,7 +436,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
 
       const label = $('.btn-label', btn);
       btn.classList.add('sending');
-      label.textContent = 'Sending…';
+      label.textContent = 'Sendingâ€¦';
 
       const done = () => {
         btn.classList.remove('sending');
@@ -444,7 +444,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       };
       const fail = () => {
         done();
-        alert('Could not send right now — please email rkobro112@gmail.com directly.');
+        alert('Could not send right now â€” please email rkobro112@gmail.com directly.');
       };
 
       fetch('https://formsubmit.co/ajax/rkobro112@gmail.com', {
@@ -473,7 +473,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       f.addEventListener('input', () => f.classList.remove('invalid')));
   }
 
-  /* ---------------- Map (Google Maps iframe) — lazy buttons ---------------- */
+  /* ---------------- Map (Google Maps iframe) â€” lazy buttons ---------------- */
   const mapFrame = document.getElementById('map-frame');
 
   /* Map buttons for Google Maps iframe */
@@ -487,13 +487,13 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
   if (locateBtn) {
     locateBtn.addEventListener('click', function () {
       if (!navigator.geolocation) { alert('Geolocation not supported'); return; }
-      locateBtn.textContent = '⏳';
+      locateBtn.textContent = 'â³';
       navigator.geolocation.getCurrentPosition(function (pos) {
         loadMapAt(pos.coords.latitude, pos.coords.longitude, 16);
-        locateBtn.textContent = '📍';
+        locateBtn.textContent = 'ðŸ“';
       }, function () {
         alert('Location access denied.');
-        locateBtn.textContent = '📍';
+        locateBtn.textContent = 'ðŸ“';
       }, { enableHighAccuracy: true, timeout: 8000 });
     });
   }
@@ -538,7 +538,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       const zoomed = lb.classList.toggle('zoomed');
       if (zoomed && lbImg.naturalWidth) {
         // size the element at real pixels (browser resamples from the
-        // original bitmap — stays sharp) instead of transform-scaling
+        // original bitmap â€” stays sharp) instead of transform-scaling
         const s = 1.9;
         lbImg.style.maxWidth = 'none';
         lbImg.style.maxHeight = 'none';
@@ -566,7 +566,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           vc.textContent = '1';
         }
       })
-      .catch(function() { vc.textContent = '—'; });
+      .catch(function() { vc.textContent = 'â€”'; });
   })();
 
   /* ---- Scroll Progress + Back to Top handled by unified onScroll() above ---- */
@@ -665,7 +665,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
   }
 
   /* ============================================================
-     FEATURE 1: Enhanced Timeline — line draw + dot pulse + card slide
+     FEATURE 1: Enhanced Timeline â€” line draw + dot pulse + card slide
      ============================================================ */
   if ('IntersectionObserver' in window) {
     var timeline = document.querySelector('.timeline');
@@ -702,7 +702,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
   });
 
   /* ============================================================
-     FEATURE 3: Easter Egg — Konami Code
+     FEATURE 3: Easter Egg â€” Konami Code
      ============================================================ */
   (function() {
     var konamiCode = [38,38,40,40,37,39,37,39,66,65];
@@ -726,7 +726,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       eeActive = true;
       var overlay = document.createElement('div');
       overlay.className = 'easter-egg-overlay';
-      overlay.innerHTML = '<div style="text-align:center"><div class="ee-text">RKO BRO</div><div class="ee-sub">You found the secret! 🎉<br><small>↑ ↑ ↓ ↓ ← → ← → B A</small></div></div>';
+      overlay.innerHTML = '<div style="text-align:center"><div class="ee-text">RKO BRO</div><div class="ee-sub">You found the secret! ðŸŽ‰<br><small>â†‘ â†‘ â†“ â†“ â† â†’ â† â†’ B A</small></div></div>';
       document.body.appendChild(overlay);
       overlay.addEventListener('click', function() {
         overlay.style.opacity = '0';
@@ -744,186 +744,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
   })();
 
   /* ============================================================
-     FEATURE 4: 3D Particle Text — subtle watermark in section gaps
-     ============================================================ */
-  (function() {
-    if (reduced || lowRamDevice) return;
-
-    // 3 sections receive the watermark (home/hero removed — kept clean)
-    var targets = ['about', 'skills', 'projects'];
-
-    // Wait for fonts so text coords sample the right glyphs
-    function ready(fn) {
-      if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(function() { setTimeout(fn, 50); });
-      } else {
-        setTimeout(fn, 300);
-      }
-    }
-
-    ready(function() {
-      targets.forEach(function(secId) {
-        var sectionEl = document.getElementById(secId);
-        if (!sectionEl) return;
-
-        // reuse one canvas per section, created and appended
-        var canvas = document.createElement('canvas');
-        canvas.className = 'pt-canvas';
-        canvas.setAttribute('data-pt', 'RKO BRO');
-        canvas.setAttribute('aria-hidden', 'true');
-        sectionEl.appendChild(canvas);
-
-        var ctx = canvas.getContext('2d');
-        if (!ctx) return;
-
-        var particles = [];
-        var textCoords = [];
-        var W, H;
-        var mousePt = { x: -9999, y: -9999 };
-        var running = false;
-
-        function resize() {
-          W = sectionEl.offsetWidth;
-          H = sectionEl.offsetHeight;
-          var dpr = Math.min(window.devicePixelRatio || 1, 2);
-          canvas.width = W * dpr;
-          canvas.height = H * dpr;
-          canvas.style.width = W + 'px';
-          canvas.style.height = H + 'px';
-          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-          generateCoords();
-          initParticles();
-        }
-
-        function generateCoords() {
-          textCoords = [];
-          var off = document.createElement('canvas');
-          off.width = W;
-          off.height = H;
-          var offCtx = off.getContext('2d');
-          if (!offCtx) return;
-
-          var text = canvas.getAttribute('data-pt') || 'RKO BRO';
-          // fit font width so full text is visible
-          var fs = Math.min(Math.floor(W / 6), 120);
-          offCtx.font = '900 ' + fs + 'px Sora, sans-serif';
-          offCtx.textAlign = 'center';
-          var tw = offCtx.measureText(text).width;
-          if (tw > W * 0.9) fs = Math.floor(fs * (W * 0.9) / tw);
-          // constrain height so text sits fully inside the top gap,
-          // well above the section header/content that starts below
-          var topPad = parseFloat(getComputedStyle(sectionEl).paddingTop) || 90;
-          var maxH = Math.max(topPad - 24, 40);
-          var th = Math.round(fs * 1.1);
-          if (th > maxH) fs = Math.floor(fs * maxH / th);
-          offCtx.font = '900 ' + fs + 'px Sora, sans-serif';
-          offCtx.fillStyle = '#fff';
-          // render high in the gap ("6 inch above"), clear of everything below
-          offCtx.textBaseline = 'top';
-          var ty = 8;
-          offCtx.fillText(text, W / 2, ty);
-
-          var data = offCtx.getImageData(0, 0, W, H).data;
-          var gap = Math.max(3, Math.floor(fs / 18));
-          for (var y = 0; y < H; y += gap) {
-            for (var x = 0; x < W; x += gap) {
-              var i = (y * W + x) * 4;
-              if (data[i + 3] > 128) textCoords.push({ x: x, y: y });
-            }
-          }
-        }
-
-        function initParticles() {
-          particles = [];
-          var total = textCoords.length;
-          var count = Math.min(total, coarsePointer ? 250 : 500);
-          // sample evenly across the WHOLE word (top to bottom) so the
-          // bottom half of the letters is not skipped
-          var stride = Math.max(1, Math.floor(total / count));
-          var k = 0;
-          for (var i = 0; i < total && k < count; i += stride, k++) {
-            var tc = textCoords[i];
-            if (!tc) continue;
-            particles.push({
-              x: Math.random() * W,
-              y: Math.random() * H,
-              tx: tc.x, ty: tc.y,
-              vx: 0, vy: 0,
-              r: Math.random() * 1.4 + 0.8,
-              c: ['139,92,246', '59,130,246', '6,182,212', '200,94,255'][Math.floor(Math.random() * 4)],
-              a: Math.random() * 0.5 + 0.4
-            });
-          }
-        }
-
-        function step() {
-          if (!running) return;
-          ctx.clearRect(0, 0, W, H);
-          for (var i = 0; i < particles.length; i++) {
-            var p = particles[i];
-            var dx = mousePt.x - p.x;
-            var dy = mousePt.y - p.y;
-            var dist = Math.sqrt(dx * dx + dy * dy);
-            if (dist < 100 && dist > 0) {
-              var force = (100 - dist) / 100 * 2;
-              p.vx -= (dx / dist) * force;
-              p.vy -= (dy / dist) * force;
-            }
-            p.vx += (p.tx - p.x) * 0.04;
-            p.vy += (p.ty - p.y) * 0.04;
-            p.vx *= 0.92;
-            p.vy *= 0.92;
-            p.x += p.vx;
-            p.y += p.vy;
-            ctx.beginPath();
-            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(' + p.c + ',' + p.a + ')';
-            ctx.fill();
-          }
-          if (!document.hidden) requestAnimationFrame(step);
-        }
-
-        if ('IntersectionObserver' in window) {
-          var obs = new IntersectionObserver(function(entries) {
-            entries.forEach(function(en) {
-              if (en.isIntersecting) {
-                if (!running) {
-                  resize();
-                  running = true;
-                  step();
-                  // re-measure a few times after layout settles so the
-                  // canvas size / text position are never stale
-                  setTimeout(function(){ if (running) resize(); }, 600);
-                  setTimeout(function(){ if (running) resize(); }, 1500);
-                }
-              }
-            });
-          }, { threshold: 0 });
-          obs.observe(sectionEl);
-        } else {
-          resize();
-          running = true;
-          step();
-        }
-
-        document.addEventListener('mousemove', function(e) {
-          var r = sectionEl.getBoundingClientRect();
-          if (e.clientY >= r.top - 40 && e.clientY <= r.bottom + 40) {
-            mousePt.x = e.clientX - r.left;
-            mousePt.y = e.clientY - r.top;
-          } else {
-            mousePt.x = -9999;
-            mousePt.y = -9999;
-          }
-        });
-
-        window.addEventListener('resize', function() { if (running) resize(); });
-      });
-    });
-  })();
-
-  /* ============================================================
-     FEATURE 5: Page Transition — fade sections on scroll
+     FEATURE 5: Page Transition â€” fade sections on scroll
      ============================================================ */
   if ('IntersectionObserver' in window && !reduced) {
     var fadeSections = $$('main section[id]');
@@ -944,7 +765,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
   }
 
   /* ============================================================
-     FEATURE 6: Chatbot Widget — Pre-programmed Q&A
+     FEATURE 6: Chatbot Widget â€” Pre-programmed Q&A
      ============================================================ */
   (function() {
     var wrap = document.getElementById('chatbotWrap');
@@ -999,176 +820,176 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
 
     function getReply(q) {
       /* Direct Q&A with emojis */
-      if (/\bhello\b/.test(q)) return 'Hello! 👋 How can I help you today? 😊';
-      if (/\bhow to download\b|\bdownload kasari\b|\bdownload garne\b/.test(q)) return 'RKO Downloader ma download garna dherai sajilo cha! 📥✨ Visit <a href="https://rko-downloader.pages.dev" target="_blank">rko-downloader.pages.dev</a> — paste link, click download, done! 🚀';
-      if (/\bsorry\b|\bmaaph gara\b|\bmaaf\b/.test(q)) return 'Ktapaxi hola! 😊 Everything is fine! RKO BRO lai ke garna sakincha bhanera sodhnu — skills, projects, WhatsApp! 💜';
-      if (/\bi love you\b|\blove you\b|\bmay love you\b|\bmay lai love\b/.test(q)) return 'Ohh love you too! 💜😍 RKO BRO le dherai maya garcha timi sanga! ✨💜';
-      if (/\bkiss\b|\bkiss you\b|\bmiss you\b|\bmaile kiss\b/.test(q)) return 'Awww! 💋😄 RKO BRO bata dherai love! ✨ Maya ta chha, tara kiss ta screen bata aaundaina! 😂💜';
-      if (/\bgf\b|\bgf ko ho\b|\bwho is rko gf\b|\brko gf\b|\bgf name\b|\bchat gf\b|\bwife\b/.test(q)) return 'She is ATM Machine 🫶 Her 🫀 RKO BRO ko haatma cha! 💜';
-      if (/\bwhat can you do\b|\bwhat do you do\b/.test(q)) return 'I can help with downloads 📥, website information 🌐, and general questions! 💬 Try asking about projects, skills or status!';
-      if (/\bwho created you\b|\bwho made you\b|\bwho is your developer\b/.test(q)) return 'I was created by <b>RKO BRO</b> (Himal Paudel) 👨‍💻 I was created to assist users of the RKO Downloader platform! 💜';
-      if (/\bgood night\b|\bsubha ratri\b|\bgoodnyt\b/.test(q)) return 'Good night! 🌙✨ Sleep well and take care! Sweet dreams! 😴💜';
-      if (/\bcanyouspeakenglish\b|\bspeak english\b|\benglish ma\b/.test(q)) return 'Yes, I can communicate in English! 🇬🇧💬 Nepali pani bolna sakchu! 🇳🇵';
-      if (/\bcan you speak nepali\b|\bnepali ma\b|\bnepali\b/.test(q)) return 'Yes, I can communicate in Nepali as well! 🇳🇵💬 K help garna sakchu?';
-      if (/\brko downloader\b/.test(q)) return 'RKO Downloader is a platform that helps users download videos 📹 from TikTok, Facebook, Instagram and more! 📥✨ <a href="https://rko-downloader.pages.dev" target="_blank">Visit now</a>';
-      if (/\bwhich platform\b|\bsupported platform\b|\bdownload.*platform\b/.test(q)) return 'We support popular platforms such as TikTok 🎵, Facebook 📘, Instagram 📸, YouTube 🎬 and others! 🌐';
-      if (/\bis rko downloader free\b|\bfree download\b|\bfree ho\b/.test(q)) return 'Yes! Most features are available for free! 🆓✨ No hidden charges!';
-      if (/\bare you human\b|\bhuman ho\b|\bbot ho\b|\breal ho\b/.test(q)) return 'No, I am an AI-powered virtual assistant 🤖 built by RKO BRO to help you!';
-      if (/\bhelp.*download\b|\bdownload.*video\b|\bvideo.*download\b/.test(q)) return 'Yes! 📥 Paste the video link in RKO Downloader, and it will process it instantly! ⚡ <a href="https://rko-downloader.pages.dev" target="_blank">Try it now</a>';
-      if (/\bdownload.*not working\b|\bdownload.*fail\b|\bproblem.*download\b|\bnot working\b/.test(q)) return 'Please check the link 🔗 and try again. If the issue continues, contact support 📧: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a>';
-      if (/\bcontact support\b|\bsupport\b|\bhelpline\b/.test(q)) return 'You can contact us through: 📧 Email: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a><br>📱 WhatsApp: <a href="https://wa.me/9779810911473" target="_blank">+977 9810911473</a><br>📘 Facebook: <a href="https://www.facebook.com/profile.php?id=61581151980604" target="_blank">RKO BRO</a>';
-      if (/\bbye\b|\bbye bye\b|\bgoodbye\b|\bsee you\b|\bmaile janchu\b|\balvida\b/.test(q)) return 'Goodbye! 👋😊 Have a great day and visit us again! 💜 RKO BRO loves you!';
+      if (/\bhello\b/.test(q)) return 'Hello! ðŸ‘‹ How can I help you today? ðŸ˜Š';
+      if (/\bhow to download\b|\bdownload kasari\b|\bdownload garne\b/.test(q)) return 'RKO Downloader ma download garna dherai sajilo cha! ðŸ“¥âœ¨ Visit <a href="https://rko-downloader.pages.dev" target="_blank">rko-downloader.pages.dev</a> â€” paste link, click download, done! ðŸš€';
+      if (/\bsorry\b|\bmaaph gara\b|\bmaaf\b/.test(q)) return 'Ktapaxi hola! ðŸ˜Š Everything is fine! RKO BRO lai ke garna sakincha bhanera sodhnu â€” skills, projects, WhatsApp! ðŸ’œ';
+      if (/\bi love you\b|\blove you\b|\bmay love you\b|\bmay lai love\b/.test(q)) return 'Ohh love you too! ðŸ’œðŸ˜ RKO BRO le dherai maya garcha timi sanga! âœ¨ðŸ’œ';
+      if (/\bkiss\b|\bkiss you\b|\bmiss you\b|\bmaile kiss\b/.test(q)) return 'Awww! ðŸ’‹ðŸ˜„ RKO BRO bata dherai love! âœ¨ Maya ta chha, tara kiss ta screen bata aaundaina! ðŸ˜‚ðŸ’œ';
+      if (/\bgf\b|\bgf ko ho\b|\bwho is rko gf\b|\brko gf\b|\bgf name\b|\bchat gf\b|\bwife\b/.test(q)) return 'She is ATM Machine ðŸ«¶ Her ðŸ«€ RKO BRO ko haatma cha! ðŸ’œ';
+      if (/\bwhat can you do\b|\bwhat do you do\b/.test(q)) return 'I can help with downloads ðŸ“¥, website information ðŸŒ, and general questions! ðŸ’¬ Try asking about projects, skills or status!';
+      if (/\bwho created you\b|\bwho made you\b|\bwho is your developer\b/.test(q)) return 'I was created by <b>RKO BRO</b> (Himal Paudel) ðŸ‘¨â€ðŸ’» I was created to assist users of the RKO Downloader platform! ðŸ’œ';
+      if (/\bgood night\b|\bsubha ratri\b|\bgoodnyt\b/.test(q)) return 'Good night! ðŸŒ™âœ¨ Sleep well and take care! Sweet dreams! ðŸ˜´ðŸ’œ';
+      if (/\bcanyouspeakenglish\b|\bspeak english\b|\benglish ma\b/.test(q)) return 'Yes, I can communicate in English! ðŸ‡¬ðŸ‡§ðŸ’¬ Nepali pani bolna sakchu! ðŸ‡³ðŸ‡µ';
+      if (/\bcan you speak nepali\b|\bnepali ma\b|\bnepali\b/.test(q)) return 'Yes, I can communicate in Nepali as well! ðŸ‡³ðŸ‡µðŸ’¬ K help garna sakchu?';
+      if (/\brko downloader\b/.test(q)) return 'RKO Downloader is a platform that helps users download videos ðŸ“¹ from TikTok, Facebook, Instagram and more! ðŸ“¥âœ¨ <a href="https://rko-downloader.pages.dev" target="_blank">Visit now</a>';
+      if (/\bwhich platform\b|\bsupported platform\b|\bdownload.*platform\b/.test(q)) return 'We support popular platforms such as TikTok ðŸŽµ, Facebook ðŸ“˜, Instagram ðŸ“¸, YouTube ðŸŽ¬ and others! ðŸŒ';
+      if (/\bis rko downloader free\b|\bfree download\b|\bfree ho\b/.test(q)) return 'Yes! Most features are available for free! ðŸ†“âœ¨ No hidden charges!';
+      if (/\bare you human\b|\bhuman ho\b|\bbot ho\b|\breal ho\b/.test(q)) return 'No, I am an AI-powered virtual assistant ðŸ¤– built by RKO BRO to help you!';
+      if (/\bhelp.*download\b|\bdownload.*video\b|\bvideo.*download\b/.test(q)) return 'Yes! ðŸ“¥ Paste the video link in RKO Downloader, and it will process it instantly! âš¡ <a href="https://rko-downloader.pages.dev" target="_blank">Try it now</a>';
+      if (/\bdownload.*not working\b|\bdownload.*fail\b|\bproblem.*download\b|\bnot working\b/.test(q)) return 'Please check the link ðŸ”— and try again. If the issue continues, contact support ðŸ“§: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a>';
+      if (/\bcontact support\b|\bsupport\b|\bhelpline\b/.test(q)) return 'You can contact us through: ðŸ“§ Email: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a><br>ðŸ“± WhatsApp: <a href="https://wa.me/9779810911473" target="_blank">+977 9810911473</a><br>ðŸ“˜ Facebook: <a href="https://www.facebook.com/profile.php?id=61581151980604" target="_blank">RKO BRO</a>';
+      if (/\bbye\b|\bbye bye\b|\bgoodbye\b|\bsee you\b|\bmaile janchu\b|\balvida\b/.test(q)) return 'Goodbye! ðŸ‘‹ðŸ˜Š Have a great day and visit us again! ðŸ’œ RKO BRO loves you!';
 
       /* RKO TV Q&A */
-      if (/\brko tv\b/.test(q) && /\bwhat is\b|\babout\b|\bho\b|\bchha\b/.test(q)) return 'RKO TV is a streaming platform 📺 where you can watch live TV channels, sports ⚽, news 📰, movies 🎬, and entertainment content! <a href="https://tv-97x.pages.dev" target="_blank">Watch now</a>';
-      if (/\bis rko tv free\b|\brko tv.*free\b/.test(q)) return 'Yes! 🆓 RKO TV provides free access to many channels and content. No hidden charges! ✨';
-      if (/\bwatch live tv\b|\blive tv\b|\blive channel\b/.test(q)) return 'Open RKO TV 📺, select a channel, and tap Play ▶️ to start streaming! <a href="https://tv-97x.pages.dev" target="_blank">Try it now</a>';
-      if (/\bdo i need an account\b|\baccount\b|\bsign up\b|\blogin\b/.test(q)) return 'No account is required! 🎉 Just open RKO TV and start watching. No signup, no tracking! ✅';
-      if (/\bbuffering\b|\blag\b|\bslow video\b|\bvideo lag\b/.test(q)) return 'Buffering usually occurs due to a slow or unstable internet connection 📶. Try switching to a stronger WiFi or mobile data! 📱';
-      if (/\binternet speed\b|\bhow fast\b|\bmbps\b/.test(q)) return 'A stable connection of at least <b>5 Mbps</b> ⚡ is recommended for smooth streaming on RKO TV!';
-      if (/\bsport.*rko tv\b|\brko tv.*sport\b|\bcricket\b|\bfootball\b|\bipl\b|\bwwe\b/.test(q)) return 'Yes! 🏏⚽ RKO TV provides access to sports channels and live sports events — football, cricket, IPL, WWE and more! <a href="https://tv-97x.pages.dev" target="_blank">Watch live</a>';
-      if (/\bphone\b.*\brko tv\b|\brko tv.*phone\b|\bmobile.*rko\b|\brko.*mobile\b/.test(q)) return 'Yes! 📱 RKO TV works on Android phones and other supported devices! <a href="https://tv-97x.pages.dev/api/download-apk" target="_blank">Download now</a>';
-      if (/\bfullscreen\b/.test(q)) return 'Yes! 🖥️ You can switch to fullscreen mode while watching videos — just tap the fullscreen icon!'; 
-      if (/\brefresh.*channel\b|\bchannel.*refresh\b|\breload\b/.test(q)) return 'Close the player and reopen the channel, or use the refresh option if available! 🔄';
-      if (/\bchannel.*not working\b|\bchannel.*down\b|\bnot playing\b/.test(q)) return 'Some channels may be temporarily unavailable ⏳. Please try again later or try a different server! 📺';
-      if (/\bnews channel\b|\bnews\b/.test(q)) return 'Yes! 📰 RKO TV includes various news channels depending on availability. Stay informed! 📺';
-      if (/\bmovies\b|\bmovie\b|\bchalchitra\b/.test(q)) return 'Yes! 🎬 Movie channels and entertainment content may be available on RKO TV! <a href="https://tv-97x.pages.dev" target="_blank">Check it out</a>';
-      if (/\bsafe\b|\bsecurity\b|\bvirus\b|\bmalware\b/.test(q)) return 'Yes! 🔒 RKO TV is designed to provide a simple and secure viewing experience. No data collection! ✅';
-      if (/\breport.*channel\b|\bbroken.*channel\b|\bproblem.*channel\b/.test(q)) return 'Please contact support 📧 and provide the channel name so we can investigate! <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a>';
-      if (/\bcast\b|\bsmart tv\b|\bmiracast\b/.test(q)) return 'If your device supports casting 📡, you may be able to stream content to your TV! Try screen mirroring!';
-      if (/\bdark mode\b/.test(q)) return 'Yes! 🌙 Dark mode may be available depending on your app version. It saves battery too! 🔋';
-      if (/\bwho developed rko tv\b|\bwho made rko tv\b|\brko tv.*who\b/.test(q)) return 'RKO TV was developed by <b>RKO BRO</b> (Himal Paudel) 👨‍💻 to provide easy access to online streaming content! 💜';
-      if (/\bupdate rko tv\b|\bhow.*update\b|\bnew version\b/.test(q)) return 'Download the latest version from the official RKO website 🌐: <a href="https://tv-97x.pages.dev/api/download-apk" target="_blank">Update RKO TV</a>! 📲';
-      if (/\bcontact.*rko tv\b|\brko tv.*support\b/.test(q)) return 'Visit the Contact section on the RKO website 📞: 📧 <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> | 📱 <a href="https://wa.me/9779810911473" target="_blank">WhatsApp</a>';
+      if (/\brko tv\b/.test(q) && /\bwhat is\b|\babout\b|\bho\b|\bchha\b/.test(q)) return 'RKO TV is a streaming platform ðŸ“º where you can watch live TV channels, sports âš½, news ðŸ“°, movies ðŸŽ¬, and entertainment content! <a href="https://tv-97x.pages.dev" target="_blank">Watch now</a>';
+      if (/\bis rko tv free\b|\brko tv.*free\b/.test(q)) return 'Yes! ðŸ†“ RKO TV provides free access to many channels and content. No hidden charges! âœ¨';
+      if (/\bwatch live tv\b|\blive tv\b|\blive channel\b/.test(q)) return 'Open RKO TV ðŸ“º, select a channel, and tap Play â–¶ï¸ to start streaming! <a href="https://tv-97x.pages.dev" target="_blank">Try it now</a>';
+      if (/\bdo i need an account\b|\baccount\b|\bsign up\b|\blogin\b/.test(q)) return 'No account is required! ðŸŽ‰ Just open RKO TV and start watching. No signup, no tracking! âœ…';
+      if (/\bbuffering\b|\blag\b|\bslow video\b|\bvideo lag\b/.test(q)) return 'Buffering usually occurs due to a slow or unstable internet connection ðŸ“¶. Try switching to a stronger WiFi or mobile data! ðŸ“±';
+      if (/\binternet speed\b|\bhow fast\b|\bmbps\b/.test(q)) return 'A stable connection of at least <b>5 Mbps</b> âš¡ is recommended for smooth streaming on RKO TV!';
+      if (/\bsport.*rko tv\b|\brko tv.*sport\b|\bcricket\b|\bfootball\b|\bipl\b|\bwwe\b/.test(q)) return 'Yes! ðŸâš½ RKO TV provides access to sports channels and live sports events â€” football, cricket, IPL, WWE and more! <a href="https://tv-97x.pages.dev" target="_blank">Watch live</a>';
+      if (/\bphone\b.*\brko tv\b|\brko tv.*phone\b|\bmobile.*rko\b|\brko.*mobile\b/.test(q)) return 'Yes! ðŸ“± RKO TV works on Android phones and other supported devices! <a href="https://tv-97x.pages.dev/api/download-apk" target="_blank">Download now</a>';
+      if (/\bfullscreen\b/.test(q)) return 'Yes! ðŸ–¥ï¸ You can switch to fullscreen mode while watching videos â€” just tap the fullscreen icon!'; 
+      if (/\brefresh.*channel\b|\bchannel.*refresh\b|\breload\b/.test(q)) return 'Close the player and reopen the channel, or use the refresh option if available! ðŸ”„';
+      if (/\bchannel.*not working\b|\bchannel.*down\b|\bnot playing\b/.test(q)) return 'Some channels may be temporarily unavailable â³. Please try again later or try a different server! ðŸ“º';
+      if (/\bnews channel\b|\bnews\b/.test(q)) return 'Yes! ðŸ“° RKO TV includes various news channels depending on availability. Stay informed! ðŸ“º';
+      if (/\bmovies\b|\bmovie\b|\bchalchitra\b/.test(q)) return 'Yes! ðŸŽ¬ Movie channels and entertainment content may be available on RKO TV! <a href="https://tv-97x.pages.dev" target="_blank">Check it out</a>';
+      if (/\bsafe\b|\bsecurity\b|\bvirus\b|\bmalware\b/.test(q)) return 'Yes! ðŸ”’ RKO TV is designed to provide a simple and secure viewing experience. No data collection! âœ…';
+      if (/\breport.*channel\b|\bbroken.*channel\b|\bproblem.*channel\b/.test(q)) return 'Please contact support ðŸ“§ and provide the channel name so we can investigate! <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a>';
+      if (/\bcast\b|\bsmart tv\b|\bmiracast\b/.test(q)) return 'If your device supports casting ðŸ“¡, you may be able to stream content to your TV! Try screen mirroring!';
+      if (/\bdark mode\b/.test(q)) return 'Yes! ðŸŒ™ Dark mode may be available depending on your app version. It saves battery too! ðŸ”‹';
+      if (/\bwho developed rko tv\b|\bwho made rko tv\b|\brko tv.*who\b/.test(q)) return 'RKO TV was developed by <b>RKO BRO</b> (Himal Paudel) ðŸ‘¨â€ðŸ’» to provide easy access to online streaming content! ðŸ’œ';
+      if (/\bupdate rko tv\b|\bhow.*update\b|\bnew version\b/.test(q)) return 'Download the latest version from the official RKO website ðŸŒ: <a href="https://tv-97x.pages.dev/api/download-apk" target="_blank">Update RKO TV</a>! ðŸ“²';
+      if (/\bcontact.*rko tv\b|\brko tv.*support\b/.test(q)) return 'Visit the Contact section on the RKO website ðŸ“ž: ðŸ“§ <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> | ðŸ“± <a href="https://wa.me/9779810911473" target="_blank">WhatsApp</a>';
 
       /* Floating Player Q&A */
-      if (/\bfloating player\b|\bfloating video\b|\bmini player\b|\bpopup player\b|\bfloat.*play\b/.test(q)) return 'Floating Player 🪟 lets you watch videos in a small window while using other apps! Just tap the floating icon and the video stays on screen! ✨';
-      if (/\bhow.*floating\b|\bfloating.*enable\b|\bstart floating\b|\bfloating.*on\b/.test(q)) return 'To enable Floating Player 🪟: Open RKO TV or WWE Highlights → play a video → tap the floating/PiP icon 📺. The video pops out and floats over other apps!';
-      if (/\bfloating.*download\b|\bdownload.*floating\b/.test(q)) return 'Yes! 📥 You can download videos directly from the floating player — tap the download button inside the mini window! ⚡';
-      if (/\bfloating.*move\b|\bmove.*floating\b|\bdrag.*floating\b/.test(q)) return 'Yes! 🖐️ You can drag the floating player anywhere on screen! Just tap and hold the window to move it around! 📱';
-      if (/\bfloating.*resize\b|\bresize.*floating\b|\bsize.*floating\b/.test(q)) return 'Yes! 📐 You can resize the floating player — pinch to zoom or use the resize button to make it bigger or smaller! 🔍';
-      if (/\bfloating.*close\b|\bclose.*floating\b|\bstop.*floating\b|\bremove.*floating\b/.test(q)) return 'To close Floating Player ❌: Tap the X button on the floating window, or swipe it away! Easy! 👋';
-      if (/\bfloating.*mute\b|\bmute.*floating\b|\bsound.*floating\b/.test(q)) return 'Yes! 🔇 You can mute/unmute audio directly from the floating player controls! Tap the speaker icon 🔊';
-      if (/\bfloating.*pause\b|\bpause.*floating\b/.test(q)) return 'Yes! ⏸️ You can pause and play directly from the floating player — just tap the play/pause button!';
-      if (/\bfloating.*fullscreen\b|\bfullscreen.*floating\b/.test(q)) return 'Yes! 🖥️ Tap the fullscreen icon on the floating player to return to full-screen mode instantly!';
-      if (/\bfloating.*speed\b|\bspeed.*floating\b|\bplayback speed\b/.test(q)) return 'Yes! ⏩ You can change playback speed from the floating player controls! Slow or fast — you choose! 🎚️';
-      if (/\bwhat app.*floating\b|\bfloating.*which app\b|\bwhich.*floating\b/.test(q)) return 'Floating Player is available in: 📺 <b>RKO TV</b> (live sports streaming) and 🤼 <b>WWE Highlights</b> (wrestling clips)! Both support PiP overlay! ✨';
-      if (/\bfloating.*not working\b|\bfloating.*problem\b|\bno floating\b/.test(q)) return 'If Floating Player is not working 🛠️: 1) Make sure you\'re on Android 8.0+ 📱 2) Grant "Display over other apps" permission ⚙️ 3) Restart the app 🔄';
-      if (/\bfloating.*permission\b|\bpermission.*floating\b|\boverlay.*permission\b/.test(q)) return 'Floating Player needs "Display over other apps" permission ⚙️. Go to Settings → Apps → RKO TV → Permissions → Allow overlay! ✅';
+      if (/\bfloating player\b|\bfloating video\b|\bmini player\b|\bpopup player\b|\bfloat.*play\b/.test(q)) return 'Floating Player ðŸªŸ lets you watch videos in a small window while using other apps! Just tap the floating icon and the video stays on screen! âœ¨';
+      if (/\bhow.*floating\b|\bfloating.*enable\b|\bstart floating\b|\bfloating.*on\b/.test(q)) return 'To enable Floating Player ðŸªŸ: Open RKO TV or WWE Highlights â†’ play a video â†’ tap the floating/PiP icon ðŸ“º. The video pops out and floats over other apps!';
+      if (/\bfloating.*download\b|\bdownload.*floating\b/.test(q)) return 'Yes! ðŸ“¥ You can download videos directly from the floating player â€” tap the download button inside the mini window! âš¡';
+      if (/\bfloating.*move\b|\bmove.*floating\b|\bdrag.*floating\b/.test(q)) return 'Yes! ðŸ–ï¸ You can drag the floating player anywhere on screen! Just tap and hold the window to move it around! ðŸ“±';
+      if (/\bfloating.*resize\b|\bresize.*floating\b|\bsize.*floating\b/.test(q)) return 'Yes! ðŸ“ You can resize the floating player â€” pinch to zoom or use the resize button to make it bigger or smaller! ðŸ”';
+      if (/\bfloating.*close\b|\bclose.*floating\b|\bstop.*floating\b|\bremove.*floating\b/.test(q)) return 'To close Floating Player âŒ: Tap the X button on the floating window, or swipe it away! Easy! ðŸ‘‹';
+      if (/\bfloating.*mute\b|\bmute.*floating\b|\bsound.*floating\b/.test(q)) return 'Yes! ðŸ”‡ You can mute/unmute audio directly from the floating player controls! Tap the speaker icon ðŸ”Š';
+      if (/\bfloating.*pause\b|\bpause.*floating\b/.test(q)) return 'Yes! â¸ï¸ You can pause and play directly from the floating player â€” just tap the play/pause button!';
+      if (/\bfloating.*fullscreen\b|\bfullscreen.*floating\b/.test(q)) return 'Yes! ðŸ–¥ï¸ Tap the fullscreen icon on the floating player to return to full-screen mode instantly!';
+      if (/\bfloating.*speed\b|\bspeed.*floating\b|\bplayback speed\b/.test(q)) return 'Yes! â© You can change playback speed from the floating player controls! Slow or fast â€” you choose! ðŸŽšï¸';
+      if (/\bwhat app.*floating\b|\bfloating.*which app\b|\bwhich.*floating\b/.test(q)) return 'Floating Player is available in: ðŸ“º <b>RKO TV</b> (live sports streaming) and ðŸ¤¼ <b>WWE Highlights</b> (wrestling clips)! Both support PiP overlay! âœ¨';
+      if (/\bfloating.*not working\b|\bfloating.*problem\b|\bno floating\b/.test(q)) return 'If Floating Player is not working ðŸ› ï¸: 1) Make sure you\'re on Android 8.0+ ðŸ“± 2) Grant "Display over other apps" permission âš™ï¸ 3) Restart the app ðŸ”„';
+      if (/\bfloating.*permission\b|\bpermission.*floating\b|\boverlay.*permission\b/.test(q)) return 'Floating Player needs "Display over other apps" permission âš™ï¸. Go to Settings â†’ Apps â†’ RKO TV â†’ Permissions â†’ Allow overlay! âœ…';
 
       /* RKO Downloader Q&A */
-      if (/\brko downloader\b.*\bwhat is\b|\bwhat is\b.*\brko downloader\b/.test(q)) return 'RKO Downloader is a tool 🛠️ that helps you download videos 📹, photos 📸, and audio 🎵 from supported platforms! <a href="https://rko-downloader.pages.dev" target="_blank">Try it now</a>';
-      if (/\bris rko downloader free\b/.test(q)) return 'Yes! 🆓 RKO Downloader is completely free to use. No hidden charges! ✨';
-      if (/\bhow.*download.*video\b|\bdownload.*video\b|\bvideo.*download\b/.test(q)) return 'Copy the video link 🔗, paste it into the input box 📋, and click Download ⬇️. That\'s it! Super easy! ⚡';
-      if (/\bwhich platform.*supported\b|\bsupported platform\b|\bplatform.*support\b/.test(q)) return 'RKO Downloader supports: TikTok 🎵 | Facebook 📘 | Instagram 📸 | YouTube 🎬 | and many more! 🌐';
-      if (/\bdo i need.*account\b|\baccount.*create\b|\bsignup\b/.test(q)) return 'No account needed! 🎉 Just paste the link and download. No signup, no login! ✅';
-      if (/\bdownload.*not working\b|\bdownload.*fail\b|\bnot working\b/.test(q)) return 'Check that the link is valid 🔗 and publicly accessible, then try again 🔄. If still not working, email: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> 📧';
-      if (/\bhd.*video\b|\bhd video\b|\bquality.*video\b|\bhigh quality\b|\b1080p\b|\b720p\b/.test(q)) return 'Yes! 🎬 HD quality is available when the original video supports it — up to 1080p! 🔥';
-      if (/\baudio.*only\b|\baudio.*download\b|\bdownload.*audio\b|\bmp3\b|\bmusic.*download\b/.test(q)) return 'Audio-only downloads may not be available for all supported content 🎵. Try the video download and extract audio from your device! 📱';
-      if (/\bdownload limit\b|\blimit\b|\brestriction\b/.test(q)) return 'No limit! 🆓 There is no fixed download limit for normal usage. Download as much as you want! ♾️';
-      if (/\bvideo.*quality.*low\b|\blow quality\b|\bbad quality\b/.test(q)) return 'The available quality depends on the source platform 📱 and the original upload. RKO Downloader fetches the best quality available! 🎯';
-      if (/\bprivate video\b|\bprivate.*download\b|\bprivate.*content\b/.test(q)) return 'No, RKO Downloader only works with publicly accessible content 🔓. Private videos cannot be downloaded! 🚫';
-      if (/\bdownload.*fast\b|\bspeed\b|\bhow fast\b|\bfast download\b/.test(q)) return 'Download speed ⚡ depends on your internet connection 📶 and server availability. Usually very fast! 🚀';
-      if (/\bris.*safe\b|\bsecurity\b|\bvirus\b|\bmalware\b|\bsafe to use\b/.test(q)) return 'Yes! 🔒 RKO Downloader is designed to provide a safe and simple downloading experience. No data collection! ✅';
-      if (/\bmobile.*use\b|\buse.*mobile\b|\bphone.*download\b|\bdownload.*phone\b/.test(q)) return 'Yes! 📱 RKO Downloader works on mobile phones, tablets 📲, and desktop devices 💻! <a href="https://rko-downloader.pages.dev" target="_blank">Try it now</a>';
-      if (/\binstall.*app\b|\bapp.*install\b|\bdownload.*app\b/.test(q)) return 'No app install needed! 🌐 You can use RKO Downloader directly through your web browser. But there\'s also an Android app! 📲 <a href="https://rko-downloader.pages.dev/download.html" target="_blank">Download APK</a>';
-      if (/\bdownload button.*not show\b|\bno download button\b|\bbutton.*missing\b/.test(q)) return 'Try refreshing the page 🔄 and ensure the video link is correct 🔗. If still not working, try a different link!';
-      if (/\binstagram.*download\b|\bdownload.*instagram\b|\big reel\b|\binsta\b/.test(q)) return 'Yes! 📸 Supported public Instagram photos, videos and reels can be downloaded! <a href="https://rko-downloader.pages.dev" target="_blank">Try it</a>';
-      if (/\btiktok.*download\b|\bdownload.*tiktok\b|\btiktok video\b/.test(q)) return 'Yes! 🎵 RKO Downloader supports TikTok video downloads — with or without watermark! 🔥 <a href="https://rko-downloader.pages.dev" target="_blank">Download now</a>';
-      if (/\bfacebook.*download\b|\bdownload.*facebook\b|\bfb video\b/.test(q)) return 'Yes! 📘 Public Facebook videos are supported! Just paste the link and download! ⚡ <a href="https://rko-downloader.pages.dev" target="_blank">Try it</a>';
-      if (/\byoutube.*download\b|\bdownload.*youtube\b|\byt video\b/.test(q)) return 'Please check the supported platforms list 📋 on the website for the latest information on YouTube downloads! 🎬';
-      if (/\bwhere.*saved\b|\bsaved.*folder\b|\bdownload.*folder\b|\bfile.*save\b/.test(q)) return 'Downloaded files 📂 are usually saved in your device\'s Downloads folder! Check your file manager! 📁';
-      if (/\bphoto.*download\b|\bdownload.*photo\b|\bdownload.*image\b|\bimage.*download\b/.test(q)) return 'Yes! 📸 Photo downloads are supported on compatible platforms — Facebook, Instagram and more! Just paste the link! ⚡';
-      if (/\breel.*download\b|\bdownload.*reel\b|\binstagram reel\b/.test(q)) return 'Yes! 🎬 Public reels can be downloaded from supported platforms — TikTok, Instagram, Facebook! 📲';
-      if (/\bwho.*develop\b|\bdeveloper\b|\bwho.*made\b/.test(q)) return 'RKO Downloader was developed by <b>RKO BRO</b> (Himal Paudel) 👨‍💻 — the RKO team! 💜';
-      if (/\bwhat can you do\b/.test(q)) return 'I can help you download videos 📹, photos 📸, and answer questions about RKO Downloader! 💬 Try asking about TikTok, Instagram, Facebook downloads!';
+      if (/\brko downloader\b.*\bwhat is\b|\bwhat is\b.*\brko downloader\b/.test(q)) return 'RKO Downloader is a tool ðŸ› ï¸ that helps you download videos ðŸ“¹, photos ðŸ“¸, and audio ðŸŽµ from supported platforms! <a href="https://rko-downloader.pages.dev" target="_blank">Try it now</a>';
+      if (/\bris rko downloader free\b/.test(q)) return 'Yes! ðŸ†“ RKO Downloader is completely free to use. No hidden charges! âœ¨';
+      if (/\bhow.*download.*video\b|\bdownload.*video\b|\bvideo.*download\b/.test(q)) return 'Copy the video link ðŸ”—, paste it into the input box ðŸ“‹, and click Download â¬‡ï¸. That\'s it! Super easy! âš¡';
+      if (/\bwhich platform.*supported\b|\bsupported platform\b|\bplatform.*support\b/.test(q)) return 'RKO Downloader supports: TikTok ðŸŽµ | Facebook ðŸ“˜ | Instagram ðŸ“¸ | YouTube ðŸŽ¬ | and many more! ðŸŒ';
+      if (/\bdo i need.*account\b|\baccount.*create\b|\bsignup\b/.test(q)) return 'No account needed! ðŸŽ‰ Just paste the link and download. No signup, no login! âœ…';
+      if (/\bdownload.*not working\b|\bdownload.*fail\b|\bnot working\b/.test(q)) return 'Check that the link is valid ðŸ”— and publicly accessible, then try again ðŸ”„. If still not working, email: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> ðŸ“§';
+      if (/\bhd.*video\b|\bhd video\b|\bquality.*video\b|\bhigh quality\b|\b1080p\b|\b720p\b/.test(q)) return 'Yes! ðŸŽ¬ HD quality is available when the original video supports it â€” up to 1080p! ðŸ”¥';
+      if (/\baudio.*only\b|\baudio.*download\b|\bdownload.*audio\b|\bmp3\b|\bmusic.*download\b/.test(q)) return 'Audio-only downloads may not be available for all supported content ðŸŽµ. Try the video download and extract audio from your device! ðŸ“±';
+      if (/\bdownload limit\b|\blimit\b|\brestriction\b/.test(q)) return 'No limit! ðŸ†“ There is no fixed download limit for normal usage. Download as much as you want! â™¾ï¸';
+      if (/\bvideo.*quality.*low\b|\blow quality\b|\bbad quality\b/.test(q)) return 'The available quality depends on the source platform ðŸ“± and the original upload. RKO Downloader fetches the best quality available! ðŸŽ¯';
+      if (/\bprivate video\b|\bprivate.*download\b|\bprivate.*content\b/.test(q)) return 'No, RKO Downloader only works with publicly accessible content ðŸ”“. Private videos cannot be downloaded! ðŸš«';
+      if (/\bdownload.*fast\b|\bspeed\b|\bhow fast\b|\bfast download\b/.test(q)) return 'Download speed âš¡ depends on your internet connection ðŸ“¶ and server availability. Usually very fast! ðŸš€';
+      if (/\bris.*safe\b|\bsecurity\b|\bvirus\b|\bmalware\b|\bsafe to use\b/.test(q)) return 'Yes! ðŸ”’ RKO Downloader is designed to provide a safe and simple downloading experience. No data collection! âœ…';
+      if (/\bmobile.*use\b|\buse.*mobile\b|\bphone.*download\b|\bdownload.*phone\b/.test(q)) return 'Yes! ðŸ“± RKO Downloader works on mobile phones, tablets ðŸ“², and desktop devices ðŸ’»! <a href="https://rko-downloader.pages.dev" target="_blank">Try it now</a>';
+      if (/\binstall.*app\b|\bapp.*install\b|\bdownload.*app\b/.test(q)) return 'No app install needed! ðŸŒ You can use RKO Downloader directly through your web browser. But there\'s also an Android app! ðŸ“² <a href="https://rko-downloader.pages.dev/download.html" target="_blank">Download APK</a>';
+      if (/\bdownload button.*not show\b|\bno download button\b|\bbutton.*missing\b/.test(q)) return 'Try refreshing the page ðŸ”„ and ensure the video link is correct ðŸ”—. If still not working, try a different link!';
+      if (/\binstagram.*download\b|\bdownload.*instagram\b|\big reel\b|\binsta\b/.test(q)) return 'Yes! ðŸ“¸ Supported public Instagram photos, videos and reels can be downloaded! <a href="https://rko-downloader.pages.dev" target="_blank">Try it</a>';
+      if (/\btiktok.*download\b|\bdownload.*tiktok\b|\btiktok video\b/.test(q)) return 'Yes! ðŸŽµ RKO Downloader supports TikTok video downloads â€” with or without watermark! ðŸ”¥ <a href="https://rko-downloader.pages.dev" target="_blank">Download now</a>';
+      if (/\bfacebook.*download\b|\bdownload.*facebook\b|\bfb video\b/.test(q)) return 'Yes! ðŸ“˜ Public Facebook videos are supported! Just paste the link and download! âš¡ <a href="https://rko-downloader.pages.dev" target="_blank">Try it</a>';
+      if (/\byoutube.*download\b|\bdownload.*youtube\b|\byt video\b/.test(q)) return 'Please check the supported platforms list ðŸ“‹ on the website for the latest information on YouTube downloads! ðŸŽ¬';
+      if (/\bwhere.*saved\b|\bsaved.*folder\b|\bdownload.*folder\b|\bfile.*save\b/.test(q)) return 'Downloaded files ðŸ“‚ are usually saved in your device\'s Downloads folder! Check your file manager! ðŸ“';
+      if (/\bphoto.*download\b|\bdownload.*photo\b|\bdownload.*image\b|\bimage.*download\b/.test(q)) return 'Yes! ðŸ“¸ Photo downloads are supported on compatible platforms â€” Facebook, Instagram and more! Just paste the link! âš¡';
+      if (/\breel.*download\b|\bdownload.*reel\b|\binstagram reel\b/.test(q)) return 'Yes! ðŸŽ¬ Public reels can be downloaded from supported platforms â€” TikTok, Instagram, Facebook! ðŸ“²';
+      if (/\bwho.*develop\b|\bdeveloper\b|\bwho.*made\b/.test(q)) return 'RKO Downloader was developed by <b>RKO BRO</b> (Himal Paudel) ðŸ‘¨â€ðŸ’» â€” the RKO team! ðŸ’œ';
+      if (/\bwhat can you do\b/.test(q)) return 'I can help you download videos ðŸ“¹, photos ðŸ“¸, and answer questions about RKO Downloader! ðŸ’¬ Try asking about TikTok, Instagram, Facebook downloads!';
 
       /* Share flow / Direct download Q&A */
-      if (/\bshare.*flow\b|\bshare.*download\b|\bshare.*link\b|\bshare.*to.*app\b/.test(q)) return 'Share Flow 📤: Copy a video link from any social media app → Share it to RKO Downloader → The app auto-detects the link and starts downloading! No paste needed! ⚡';
-      if (/\bdirect download\b|\bdownload.*directly\b|\bno paste\b/.test(q)) return 'Direct Download ⬇️: When you share a link from TikTok/Facebook/Instagram directly to RKO Downloader, it auto-processes and downloads — no manual paste required! 🚀';
-      if (/\btitle.*copy\b|\bcopy.*title\b|\bvideo.*title\b|\btitle.*show\b/.test(q)) return 'Title Copy 📋: When a video is detected, RKO Downloader shows the video title! You can tap to copy the title text for sharing or saving! ✅';
-      if (/\btitle.*filename\b|\bfilename.*title\b|\bfile.*name.*title\b|\btitle.*as.*name\b/.test(q)) return 'Title as Filename 📝: RKO Downloader automatically uses the video title as the filename when saving! No more "video_123.mp4" — get meaningful names! 🎯';
-      if (/\bauto.*detect\b|\bauto.*link\b|\bclipboard.*detect\b|\bauto.*paste\b/.test(q)) return 'Auto Detect 🔍: RKO Downloader monitors your clipboard — when you copy a supported link and open the app, it auto-detects and starts processing! Magic! ✨';
+      if (/\bshare.*flow\b|\bshare.*download\b|\bshare.*link\b|\bshare.*to.*app\b/.test(q)) return 'Share Flow ðŸ“¤: Copy a video link from any social media app â†’ Share it to RKO Downloader â†’ The app auto-detects the link and starts downloading! No paste needed! âš¡';
+      if (/\bdirect download\b|\bdownload.*directly\b|\bno paste\b/.test(q)) return 'Direct Download â¬‡ï¸: When you share a link from TikTok/Facebook/Instagram directly to RKO Downloader, it auto-processes and downloads â€” no manual paste required! ðŸš€';
+      if (/\btitle.*copy\b|\bcopy.*title\b|\bvideo.*title\b|\btitle.*show\b/.test(q)) return 'Title Copy ðŸ“‹: When a video is detected, RKO Downloader shows the video title! You can tap to copy the title text for sharing or saving! âœ…';
+      if (/\btitle.*filename\b|\bfilename.*title\b|\bfile.*name.*title\b|\btitle.*as.*name\b/.test(q)) return 'Title as Filename ðŸ“: RKO Downloader automatically uses the video title as the filename when saving! No more "video_123.mp4" â€” get meaningful names! ðŸŽ¯';
+      if (/\bauto.*detect\b|\bauto.*link\b|\bclipboard.*detect\b|\bauto.*paste\b/.test(q)) return 'Auto Detect ðŸ”: RKO Downloader monitors your clipboard â€” when you copy a supported link and open the app, it auto-detects and starts processing! Magic! âœ¨';
 
       /* Screen Mirror Q&A */
-      if (/\bscreen mirror\b|\bscreen.*mirror\b|\bmirror.*screen\b|\bphone.*mirror\b/.test(q)) return 'Screen Mirror 📲 lets you mirror and control your phone from PC! Full control with mouse & keyboard, file transfer, and high-quality streaming! <a href="https://rko-bro-website.pages.dev/#projects" target="_blank">Coming soon</a>';
-      if (/\bmirror.*control\b|\bcontrol.*phone\b|\bpc.*control\b|\bremote.*control\b/.test(q)) return 'Fully Control Mobile by PC 🖱️: Tap, swipe, type messages, open apps & settings — all with mouse & keyboard on your desktop! Exactly like using your phone on PC! 💻📱';
-      if (/\bmirror.*quality\b|\bmirror.*resolution\b|\bscreen.*quality\b|\bhigh.*quality.*mirror\b/.test(q)) return 'Better Quality Screening 🖥️: Sharp high-resolution mirror with smooth low-lag streaming! Enjoy crystal clear display on your PC! ✨';
-      if (/\bmirror.*wifi\b|\bwifi.*pair\b|\bconnect.*mirror\b|\bpair.*phone\b/.test(q)) return 'Easy Pair over Same WiFi 📶: Connect both devices in seconds — no cables needed! Just make sure phone and PC are on the same WiFi network! 🔗';
-      if (/\bfile.*transfer\b|\bfile.*send\b|\bphoto.*transfer\b|\bvideo.*transfer\b/.test(q)) return 'File, Photo & Video Send 📂: Transfer media between phone and PC instantly! Drag and drop files both ways! ⚡';
-      if (/\bmirror.*app\b|\bmirror.*download\b|\bwhere.*get.*mirror\b/.test(q)) return 'Screen Mirror has apps for both PC 💻 & Mobile 📱! Coming soon 🚧 — stay tuned for the release! 💜';
-      if (/\bmirror.*android\b|\bandroid.*mirror\b|\bmirror.*phone\b/.test(q)) return 'Yes! 📲 Screen Mirror works on Android phones! Mirror your Android screen to any Windows PC over WiFi! 💻';
-      if (/\bmirror.*lag\b|\blag.*mirror\b|\bslow.*mirror\b/.test(q)) return 'Screen Mirror uses optimized low-latency streaming ⚡ for smooth mirroring! Make sure both devices are on strong WiFi for best results! 📶';
-      if (/\bmirror.*keyboard\b|\bkeyboard.*mirror\b|\btype.*phone\b/.test(q)) return 'Yes! ⌨️ You can type messages, search and use your PC keyboard directly on your mirrored phone! Super convenient! 💬';
-      if (/\bwho.*develop.*mirror\b|\bmirror.*who\b/.test(q)) return 'Screen Mirror was developed by <b>RKO BRO</b> (Himal Paudel) 👨‍💻 — full stack + Android developer! 💜';
+      if (/\bscreen mirror\b|\bscreen.*mirror\b|\bmirror.*screen\b|\bphone.*mirror\b/.test(q)) return 'Screen Mirror ðŸ“² lets you mirror and control your phone from PC! Full control with mouse & keyboard, file transfer, and high-quality streaming! <a href="https://rko-bro-website.pages.dev/#projects" target="_blank">Coming soon</a>';
+      if (/\bmirror.*control\b|\bcontrol.*phone\b|\bpc.*control\b|\bremote.*control\b/.test(q)) return 'Fully Control Mobile by PC ðŸ–±ï¸: Tap, swipe, type messages, open apps & settings â€” all with mouse & keyboard on your desktop! Exactly like using your phone on PC! ðŸ’»ðŸ“±';
+      if (/\bmirror.*quality\b|\bmirror.*resolution\b|\bscreen.*quality\b|\bhigh.*quality.*mirror\b/.test(q)) return 'Better Quality Screening ðŸ–¥ï¸: Sharp high-resolution mirror with smooth low-lag streaming! Enjoy crystal clear display on your PC! âœ¨';
+      if (/\bmirror.*wifi\b|\bwifi.*pair\b|\bconnect.*mirror\b|\bpair.*phone\b/.test(q)) return 'Easy Pair over Same WiFi ðŸ“¶: Connect both devices in seconds â€” no cables needed! Just make sure phone and PC are on the same WiFi network! ðŸ”—';
+      if (/\bfile.*transfer\b|\bfile.*send\b|\bphoto.*transfer\b|\bvideo.*transfer\b/.test(q)) return 'File, Photo & Video Send ðŸ“‚: Transfer media between phone and PC instantly! Drag and drop files both ways! âš¡';
+      if (/\bmirror.*app\b|\bmirror.*download\b|\bwhere.*get.*mirror\b/.test(q)) return 'Screen Mirror has apps for both PC ðŸ’» & Mobile ðŸ“±! Coming soon ðŸš§ â€” stay tuned for the release! ðŸ’œ';
+      if (/\bmirror.*android\b|\bandroid.*mirror\b|\bmirror.*phone\b/.test(q)) return 'Yes! ðŸ“² Screen Mirror works on Android phones! Mirror your Android screen to any Windows PC over WiFi! ðŸ’»';
+      if (/\bmirror.*lag\b|\blag.*mirror\b|\bslow.*mirror\b/.test(q)) return 'Screen Mirror uses optimized low-latency streaming âš¡ for smooth mirroring! Make sure both devices are on strong WiFi for best results! ðŸ“¶';
+      if (/\bmirror.*keyboard\b|\bkeyboard.*mirror\b|\btype.*phone\b/.test(q)) return 'Yes! âŒ¨ï¸ You can type messages, search and use your PC keyboard directly on your mirrored phone! Super convenient! ðŸ’¬';
+      if (/\bwho.*develop.*mirror\b|\bmirror.*who\b/.test(q)) return 'Screen Mirror was developed by <b>RKO BRO</b> (Himal Paudel) ðŸ‘¨â€ðŸ’» â€” full stack + Android developer! ðŸ’œ';
 
       /* WWE Highlights Q&A */
-      if (/\bwwe highlights\b|\bwwe.*highlight\b|\bhighlight.*wwe\b/.test(q)) return 'WWE Highlights 🤼 is an Android app to watch and download WWE wrestling video highlights! Floating player, offline downloads, and auto-fullscreen! <a href="https://wwe-web.hightlights.workers.dev" target="_blank">Visit site</a>';
-      if (/\bwwe.*download\b|\bdownload.*wwe\b|\bwwe.*video.*download\b/.test(q)) return 'Yes! ⬇️ You can save any WWE highlight to your device to watch offline! Just tap the download button! 📲 <a href="https://wwe.hightlights.workers.dev/api/app.apk" target="_blank">Download APK</a>';
-      if (/\bwwe.*floating\b|\bfloating.*wwe\b|\bwwe.*pip\b/.test(q)) return 'Yes! 🪟 WWE Highlights has a floating player — video floats in a mini window while you use other apps! Watch and multitask! ⚡';
-      if (/\bwwe.*fullscreen\b|\bauto.*fullscreen\b|\blandscape.*wwe\b/.test(q)) return 'Yes! 🔄 Auto Fullscreen — automatically goes fullscreen when you rotate to landscape mode! Immersive wrestling experience! 🤼';
-      if (/\bwwe.*control\b|\bwwe.*smart\b|\bplay.*pause.*wwe\b/.test(q)) return 'Smart Controls 🎛️: Play ⏯️, Pause ⏸️, Mute 🔇, Speed ⏩, Resize 📐 and Move 🖐️ the player anywhere on screen!';
-      if (/\bwwe.*fast\b|\bwwe.*light\b|\bwwe.*small\b|\bwwe.*size\b/.test(q)) return 'Fast & Light ⚡: Small APK size 📦, quick load times 🚀, no ads 🚫 and no bloat! Just pure wrestling highlights! 💪';
-      if (/\bwwe.*safe\b|\bwwe.*private\b|\bwwe.*security\b/.test(q)) return 'Secure & Private 🔒: No data collection 🛡️, your privacy is protected! Just enjoy wrestling! 💜';
-      if (/\bwwe.*android\b|\bandroid.*wwe\b|\bwwe.*version\b/.test(q)) return 'WWE Highlights requires Android 8.0+ 📱. Works on most modern Android devices! <a href="https://wwe.hightlights.workers.dev/api/app.apk" target="_blank">Download now</a>';
-      if (/\bwwe.*website\b|\bwwe.*web\b|\bwwe.*online\b/.test(q)) return 'Yes! 🌐 You can also watch WWE Highlights on the web! <a href="https://wwe-web.hightlights.workers.dev" target="_blank">Visit WWE Highlights Web</a>';
-      if (/\bwwe.*no ads\b|\bwwe.*ads\b|\bad.*free\b/.test(q)) return 'Yes! 🚫 No ads! WWE Highlights is completely ad-free! Pure wrestling content without interruptions! 🤼💜';
-      if (/\bwho.*develop.*wwe\b|\bwwe.*who\b/.test(q)) return 'WWE Highlights was developed by <b>RKO BRO</b> (Himal Paudel) 👨‍💻! Built with love for wrestling fans! 🤼💜';
-      if (/\bwwe.*sport\b|\bwhat.*wwe\b|\bwwe.*what\b/.test(q)) return 'WWE Highlights brings you the best wrestling moments 🤼 — Raw, SmackDown, pay-per-views and more! Watch highlights anytime! 📺';
+      if (/\bwwe highlights\b|\bwwe.*highlight\b|\bhighlight.*wwe\b/.test(q)) return 'WWE Highlights ðŸ¤¼ is an Android app to watch and download WWE wrestling video highlights! Floating player, offline downloads, and auto-fullscreen! <a href="https://wwe-web.hightlights.workers.dev" target="_blank">Visit site</a>';
+      if (/\bwwe.*download\b|\bdownload.*wwe\b|\bwwe.*video.*download\b/.test(q)) return 'Yes! â¬‡ï¸ You can save any WWE highlight to your device to watch offline! Just tap the download button! ðŸ“² <a href="https://wwe.hightlights.workers.dev/api/app.apk" target="_blank">Download APK</a>';
+      if (/\bwwe.*floating\b|\bfloating.*wwe\b|\bwwe.*pip\b/.test(q)) return 'Yes! ðŸªŸ WWE Highlights has a floating player â€” video floats in a mini window while you use other apps! Watch and multitask! âš¡';
+      if (/\bwwe.*fullscreen\b|\bauto.*fullscreen\b|\blandscape.*wwe\b/.test(q)) return 'Yes! ðŸ”„ Auto Fullscreen â€” automatically goes fullscreen when you rotate to landscape mode! Immersive wrestling experience! ðŸ¤¼';
+      if (/\bwwe.*control\b|\bwwe.*smart\b|\bplay.*pause.*wwe\b/.test(q)) return 'Smart Controls ðŸŽ›ï¸: Play â¯ï¸, Pause â¸ï¸, Mute ðŸ”‡, Speed â©, Resize ðŸ“ and Move ðŸ–ï¸ the player anywhere on screen!';
+      if (/\bwwe.*fast\b|\bwwe.*light\b|\bwwe.*small\b|\bwwe.*size\b/.test(q)) return 'Fast & Light âš¡: Small APK size ðŸ“¦, quick load times ðŸš€, no ads ðŸš« and no bloat! Just pure wrestling highlights! ðŸ’ª';
+      if (/\bwwe.*safe\b|\bwwe.*private\b|\bwwe.*security\b/.test(q)) return 'Secure & Private ðŸ”’: No data collection ðŸ›¡ï¸, your privacy is protected! Just enjoy wrestling! ðŸ’œ';
+      if (/\bwwe.*android\b|\bandroid.*wwe\b|\bwwe.*version\b/.test(q)) return 'WWE Highlights requires Android 8.0+ ðŸ“±. Works on most modern Android devices! <a href="https://wwe.hightlights.workers.dev/api/app.apk" target="_blank">Download now</a>';
+      if (/\bwwe.*website\b|\bwwe.*web\b|\bwwe.*online\b/.test(q)) return 'Yes! ðŸŒ You can also watch WWE Highlights on the web! <a href="https://wwe-web.hightlights.workers.dev" target="_blank">Visit WWE Highlights Web</a>';
+      if (/\bwwe.*no ads\b|\bwwe.*ads\b|\bad.*free\b/.test(q)) return 'Yes! ðŸš« No ads! WWE Highlights is completely ad-free! Pure wrestling content without interruptions! ðŸ¤¼ðŸ’œ';
+      if (/\bwho.*develop.*wwe\b|\bwwe.*who\b/.test(q)) return 'WWE Highlights was developed by <b>RKO BRO</b> (Himal Paudel) ðŸ‘¨â€ðŸ’»! Built with love for wrestling fans! ðŸ¤¼ðŸ’œ';
+      if (/\bwwe.*sport\b|\bwhat.*wwe\b|\bwwe.*what\b/.test(q)) return 'WWE Highlights brings you the best wrestling moments ðŸ¤¼ â€” Raw, SmackDown, pay-per-views and more! Watch highlights anytime! ðŸ“º';
 
       /* Website Features Q&A */
-      if (/\bdark mode\b|\blight mode\b|\btheme\b|\btheme.*toggle\b/.test(q)) return 'Dark/Light mode 🌙☀️: Press <b>T</b> on your keyboard to toggle themes! Or click the sun/moon icon 🌓 in the navbar! Your preference is saved! 💾';
-      if (/\bcv\b|\bresume\b|\bdownload.*cv\b|\bdownload.*resume\b/.test(q)) return 'Download RKO BRO\'s CV 📄: <a href="https://rko-bro-website.pages.dev/assets/Himal-Paudel-CV.pdf" target="_blank">Click here to download CV</a> 📋! Available in the navbar and footer! 💼';
-      if (/\bblog\b|\barticle\b|\bpost\b/.test(q) && /\bread\b|\bwhat\b|\bshow\b|\blist\b|\bcheck\b/.test(q)) return 'RKO BRO\'s Blog 📝: Check out articles on Android development 📱, streaming tech 📺, and glassmorphism UI tricks ✨! Scroll to the Blog section! 💜';
-      if (/\bservice status\b|\bstatus.*check\b|\bis.*online\b|\bserver.*status\b|\buptime\b/.test(q)) return 'Service Status 🟢: Check live health of all RKO services in the Status section! RKO Downloader, RKO TV, WWE Highlights — all monitored! 📊';
-      if (/\bvisitor.*count\b|\bhow many.*visit\b|\bvisitor\b/.test(q)) return 'Visitor Counter 👁️: Check the hero section! Live visitor count powered by Cloudflare KV! See how many people visited! 📈';
-      if (/\bdownload.*stat\b|\bstat\b|\bhow many.*download\b/.test(q)) return 'Download Stats 📊: Check the Download Stats section! Real-time download numbers for RKO Downloader and RKO TV! 📈';
-      if (/\beaster egg\b|\bsecret\b|\bkonami\b|\bhidden\b/.test(q)) return 'Easter Egg 🥚: Press <b>↑ ↑ ↓ ↓ ← → ← → B A</b> on your keyboard! A secret animation will appear! 🎉 Can you find it? 👀';
-      if (/\bparticle\b|\b3d.*text\b|\bfloating.*text\b/.test(q)) return '3D Particle Text ✨: In the hero section, "RKO BRO" is written with floating particles! Move your mouse near them and watch them scatter then reform! 🎆';
-      if (/\bmap.*feature\b|\bmap.*button\b|\bmap.*control\b/.test(q)) return 'Map Controls 🗺️: 📍 My Location — flies to your GPS position! 🏠 Home — returns to Ghorahi! The map shows satellite view with place labels! 🛰️';
-      if (/\bcontact.*form\b|\bmessage.*send\b|\bsend.*message\b/.test(q)) return 'Contact Form 📧: Fill in your name, email, subject and message — hit Send! I reply within 24 hours! Or email directly: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a>';
-      if (/\bpage.*transition\b|\banimation\b|\bscroll.*animation\b/.test(q)) return 'Page Animations 🎬: Sections fade in smoothly as you scroll! Timeline dots pulse 🟣, skill bars animate 📊, and cards tilt in 3D! ✨';
+      if (/\bdark mode\b|\blight mode\b|\btheme\b|\btheme.*toggle\b/.test(q)) return 'Dark/Light mode ðŸŒ™â˜€ï¸: Press <b>T</b> on your keyboard to toggle themes! Or click the sun/moon icon ðŸŒ“ in the navbar! Your preference is saved! ðŸ’¾';
+      if (/\bcv\b|\bresume\b|\bdownload.*cv\b|\bdownload.*resume\b/.test(q)) return 'Download RKO BRO\'s CV ðŸ“„: <a href="https://rko-bro-website.pages.dev/assets/Himal-Paudel-CV.pdf" target="_blank">Click here to download CV</a> ðŸ“‹! Available in the navbar and footer! ðŸ’¼';
+      if (/\bblog\b|\barticle\b|\bpost\b/.test(q) && /\bread\b|\bwhat\b|\bshow\b|\blist\b|\bcheck\b/.test(q)) return 'RKO BRO\'s Blog ðŸ“: Check out articles on Android development ðŸ“±, streaming tech ðŸ“º, and glassmorphism UI tricks âœ¨! Scroll to the Blog section! ðŸ’œ';
+      if (/\bservice status\b|\bstatus.*check\b|\bis.*online\b|\bserver.*status\b|\buptime\b/.test(q)) return 'Service Status ðŸŸ¢: Check live health of all RKO services in the Status section! RKO Downloader, RKO TV, WWE Highlights â€” all monitored! ðŸ“Š';
+      if (/\bvisitor.*count\b|\bhow many.*visit\b|\bvisitor\b/.test(q)) return 'Visitor Counter ðŸ‘ï¸: Check the hero section! Live visitor count powered by Cloudflare KV! See how many people visited! ðŸ“ˆ';
+      if (/\bdownload.*stat\b|\bstat\b|\bhow many.*download\b/.test(q)) return 'Download Stats ðŸ“Š: Check the Download Stats section! Real-time download numbers for RKO Downloader and RKO TV! ðŸ“ˆ';
+      if (/\beaster egg\b|\bsecret\b|\bkonami\b|\bhidden\b/.test(q)) return 'Easter Egg ðŸ¥š: Press <b>â†‘ â†‘ â†“ â†“ â† â†’ â† â†’ B A</b> on your keyboard! A secret animation will appear! ðŸŽ‰ Can you find it? ðŸ‘€';
+      if (/\bparticle\b|\b3d.*text\b|\bfloating.*text\b/.test(q)) return '3D Particle Text âœ¨: In the hero section, "RKO BRO" is written with floating particles! Move your mouse near them and watch them scatter then reform! ðŸŽ†';
+      if (/\bmap.*feature\b|\bmap.*button\b|\bmap.*control\b/.test(q)) return 'Map Controls ðŸ—ºï¸: ðŸ“ My Location â€” flies to your GPS position! ðŸ  Home â€” returns to Ghorahi! The map shows satellite view with place labels! ðŸ›°ï¸';
+      if (/\bcontact.*form\b|\bmessage.*send\b|\bsend.*message\b/.test(q)) return 'Contact Form ðŸ“§: Fill in your name, email, subject and message â€” hit Send! I reply within 24 hours! Or email directly: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a>';
+      if (/\bpage.*transition\b|\banimation\b|\bscroll.*animation\b/.test(q)) return 'Page Animations ðŸŽ¬: Sections fade in smoothly as you scroll! Timeline dots pulse ðŸŸ£, skill bars animate ðŸ“Š, and cards tilt in 3D! âœ¨';
 
       /* Tech / General Q&A */
-      if (/\btech stack\b|\bwhat.*tech\b|\bwhat.*use\b|\bwhat.*built.*with\b/.test(q)) return 'Tech Stack 🛠️: React ⚛️ | Next.js | Tailwind CSS 🎨 | Node.js 🟢 | MongoDB 🍃 | Cloudflare Workers ☁️ | Kotlin 📱 | ExoPlayer 🎬 | Figma 🎯';
-      if (/\bfeedback\b|\bsuggestion\b|\bimprove\b|\bfeature request\b/.test(q)) return 'Feedback 💬: Love to hear your thoughts! Email: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> 📧 or WhatsApp: <a href="https://wa.me/9779810911473" target="_blank">+977 9810911473</a> 📱';
-      if (/\bbug\b|\breport.*bug\b|\bproblem\b|\berror\b/.test(q)) return 'Report a Bug 🐛: Please describe the issue and send to: 📧 <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> | 📱 <a href="https://wa.me/9779810911473" target="_blank">WhatsApp</a>';
-      if (/\blanguage\b|\bnepali\b|\benglish\b|\bho\b.*\bbolna\b/.test(q)) return 'Language 🗣️: I can chat in both <b>English</b> 🇬🇧 and <b>Nepali</b> 🇳🇵! Type in whatever you prefer — ma bujhchu! 😊';
-      if (/\bprivacy\b|\bdata\b|\btracking\b/.test(q)) return 'Privacy 🔒: RKO apps do NOT collect personal data! No tracking, no ads, no hidden analytics! Your privacy is fully protected! ✅💜';
-      if (/\bhimal paudel\b|\bwho.*himal\b|\bhimal.*who\b/.test(q)) return '<b>Himal Paudel</b> 👨‍💻 is known as RKO BRO — a 24 year old Full Stack Developer from Ghorahi, Dang, Nepal 🇳🇵. He builds web apps, Android apps and streaming platforms! 💜';
-      if (/\brko ecosystem\b|\brko.*suite\b|\brko.*app\b/.test(q)) return 'RKO Ecosystem 💜 includes: 📥 RKO Downloader | 📺 RKO TV | 📲 Screen Mirror | 🤼 WWE Highlights | 🌐 Portfolio Website — all built by RKO BRO! 🚀';
-      if (/\bnepal\b|\bnepal.*about\b|\btell.*nepal\b/.test(q)) return 'Nepal 🇳🇵: Beautiful country in South Asia! Home to Mount Everest 🏔️, diverse cultures 🎭, delicious food 🍛 and amazing people! RKO BRO is proud to be Nepali! 💜';
-      if (/\bkeyboard.*shortcut\b|\bshortcut\b|\bhotkey\b/.test(q)) return 'Keyboard Shortcuts ⌨️: <b>T</b> — Toggle dark/light mode 🌙☀️ | <b>Esc</b> — Close lightbox ❌';
-      if (/\bportfolio\b|\bwebsite.*about\b|\bthis.*site\b/.test(q)) return 'This Portfolio 🌐: Built with vanilla HTML/CSS/JS! Features glassmorphism UI 💎, RGB animations 🌈, particles ✨, 3D tilt cards, chatbot 🤖, and more! Hosted on Cloudflare Pages! ⚡';
+      if (/\btech stack\b|\bwhat.*tech\b|\bwhat.*use\b|\bwhat.*built.*with\b/.test(q)) return 'Tech Stack ðŸ› ï¸: React âš›ï¸ | Next.js | Tailwind CSS ðŸŽ¨ | Node.js ðŸŸ¢ | MongoDB ðŸƒ | Cloudflare Workers â˜ï¸ | Kotlin ðŸ“± | ExoPlayer ðŸŽ¬ | Figma ðŸŽ¯';
+      if (/\bfeedback\b|\bsuggestion\b|\bimprove\b|\bfeature request\b/.test(q)) return 'Feedback ðŸ’¬: Love to hear your thoughts! Email: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> ðŸ“§ or WhatsApp: <a href="https://wa.me/9779810911473" target="_blank">+977 9810911473</a> ðŸ“±';
+      if (/\bbug\b|\breport.*bug\b|\bproblem\b|\berror\b/.test(q)) return 'Report a Bug ðŸ›: Please describe the issue and send to: ðŸ“§ <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> | ðŸ“± <a href="https://wa.me/9779810911473" target="_blank">WhatsApp</a>';
+      if (/\blanguage\b|\bnepali\b|\benglish\b|\bho\b.*\bbolna\b/.test(q)) return 'Language ðŸ—£ï¸: I can chat in both <b>English</b> ðŸ‡¬ðŸ‡§ and <b>Nepali</b> ðŸ‡³ðŸ‡µ! Type in whatever you prefer â€” ma bujhchu! ðŸ˜Š';
+      if (/\bprivacy\b|\bdata\b|\btracking\b/.test(q)) return 'Privacy ðŸ”’: RKO apps do NOT collect personal data! No tracking, no ads, no hidden analytics! Your privacy is fully protected! âœ…ðŸ’œ';
+      if (/\bhimal paudel\b|\bwho.*himal\b|\bhimal.*who\b/.test(q)) return '<b>Himal Paudel</b> ðŸ‘¨â€ðŸ’» is known as RKO BRO â€” a 24 year old Full Stack Developer from Ghorahi, Dang, Nepal ðŸ‡³ðŸ‡µ. He builds web apps, Android apps and streaming platforms! ðŸ’œ';
+      if (/\brko ecosystem\b|\brko.*suite\b|\brko.*app\b/.test(q)) return 'RKO Ecosystem ðŸ’œ includes: ðŸ“¥ RKO Downloader | ðŸ“º RKO TV | ðŸ“² Screen Mirror | ðŸ¤¼ WWE Highlights | ðŸŒ Portfolio Website â€” all built by RKO BRO! ðŸš€';
+      if (/\bnepal\b|\bnepal.*about\b|\btell.*nepal\b/.test(q)) return 'Nepal ðŸ‡³ðŸ‡µ: Beautiful country in South Asia! Home to Mount Everest ðŸ”ï¸, diverse cultures ðŸŽ­, delicious food ðŸ› and amazing people! RKO BRO is proud to be Nepali! ðŸ’œ';
+      if (/\bkeyboard.*shortcut\b|\bshortcut\b|\bhotkey\b/.test(q)) return 'Keyboard Shortcuts âŒ¨ï¸: <b>T</b> â€” Toggle dark/light mode ðŸŒ™â˜€ï¸ | <b>Esc</b> â€” Close lightbox âŒ';
+      if (/\bportfolio\b|\bwebsite.*about\b|\bthis.*site\b/.test(q)) return 'This Portfolio ðŸŒ: Built with vanilla HTML/CSS/JS! Features glassmorphism UI ðŸ’Ž, RGB animations ðŸŒˆ, particles âœ¨, 3D tilt cards, chatbot ðŸ¤–, and more! Hosted on Cloudflare Pages! âš¡';
 
       /* Casual Nepali */
-      if (/\bsanchai chu\b|\bsanchai\b|\bthik chu\b|\bustadai chu\b/.test(q)) return 'Ma pani sanchai chu! 😊 Sabai badhiya chha. Tapai k garcha aaja? 💜';
-      if (/\bk garcha\b|\bk garchu\b|\bk gardai\b/.test(q)) return 'K garcha! 😄 Ma ta coding gardai chu! Tapai le ke garcha? 💻';
-      if (/\bbistarai\b|\bali bistarai\b/.test(q)) return 'Bistarai, bistarai! 😄 Life janchha, code chalchha — sabai set chha! 💜';
-      if (/\bchiso\b|\bchiso cha\b|\btando\b|\bsardi\b/.test(q)) return 'Chiso cha! 🥶 Dang ma chiso — coding garna perfect weather! Hot coffee ☕ + laptop 💻 = heaven! 😎';
-      if (/\bkati bajyo\b|\btime\b|\bwhat time\b|\bbeluka\b/.test(q)) return 'Ma time herda sakdina 😅 — ma chatbot chu, mero time kunai chhaina! But keep coding! 💻⏰';
+      if (/\bsanchai chu\b|\bsanchai\b|\bthik chu\b|\bustadai chu\b/.test(q)) return 'Ma pani sanchai chu! ðŸ˜Š Sabai badhiya chha. Tapai k garcha aaja? ðŸ’œ';
+      if (/\bk garcha\b|\bk garchu\b|\bk gardai\b/.test(q)) return 'K garcha! ðŸ˜„ Ma ta coding gardai chu! Tapai le ke garcha? ðŸ’»';
+      if (/\bbistarai\b|\bali bistarai\b/.test(q)) return 'Bistarai, bistarai! ðŸ˜„ Life janchha, code chalchha â€” sabai set chha! ðŸ’œ';
+      if (/\bchiso\b|\bchiso cha\b|\btando\b|\bsardi\b/.test(q)) return 'Chiso cha! ðŸ¥¶ Dang ma chiso â€” coding garna perfect weather! Hot coffee â˜• + laptop ðŸ’» = heaven! ðŸ˜Ž';
+      if (/\bkati bajyo\b|\btime\b|\bwhat time\b|\bbeluka\b/.test(q)) return 'Ma time herda sakdina ðŸ˜… â€” ma chatbot chu, mero time kunai chhaina! But keep coding! ðŸ’»â°';
 
       /* Casual English reactions */
-      if (/\bnice\b|\bcool\b|\bawesome\b|\bamazing\b|\bgreat\b/.test(q)) return 'Thanks! 😄💜 RKO BRO banako chha — quality work, guaranteed! ✨';
-      if (/\bwhat.*up\b|\bwhats up\b|\bwyd\b|\bkrna kya\b/.test(q)) return 'Yo! 🤙 Coding chalchha, projects baninchha, life set chha! Tapai k cha? 💜';
+      if (/\bnice\b|\bcool\b|\bawesome\b|\bamazing\b|\bgreat\b/.test(q)) return 'Thanks! ðŸ˜„ðŸ’œ RKO BRO banako chha â€” quality work, guaranteed! âœ¨';
+      if (/\bwhat.*up\b|\bwhats up\b|\bwyd\b|\bkrna kya\b/.test(q)) return 'Yo! ðŸ¤™ Coding chalchha, projects baninchha, life set chha! Tapai k cha? ðŸ’œ';
 
-      /* Nepali jokes — TOP priority */
+      /* Nepali jokes â€” TOP priority */
       if (/\bjoke[s]?\b|\bhasauna\b|\bhaso\b|\bfunny\b|\bmazak\b|\bhasawle\b|\brofl\b|\blol\b|\blmao\b/.test(q)) {
         var jokes = [
-          'Programmer le bhanya "Mero code ma bug chhaina!" Tester le bhanya "Bug hoina, yeutai extra feature ho!" 😂',
-          'Why do programmers prefer dark mode? Because light attracts bugs! 🐛😄',
-          'Ek programmer ko bihe bhayo. Khasma usle return gareko thiyo "true"! 💍😂',
-          'WiFi nabhaye programmer: "Ma offline chu, ma sunnai sakdina!" 📵😅',
-          'Teacher: "Beta, 2+2 kitna hota hai?" Student: "Error 404: Math not found!" 😂',
-          'Why do Java developers wear glasses? Because they cannot C#! 👓😂',
-          'A programmer asked God: "Can you make the world run on JavaScript?" God: "Nah, I don\'t want to break everything." 😂',
-          'Developer: "It works on my machine!" Manager: "Then we\'ll ship your machine!" 😂',
-          'There are 10 types of people in the world: those who understand binary, and those who don\'t. 🤓',
-          'SQL query walks into a bar, sees two tables and asks: "Can I JOIN you?" 🍺😂',
-          'A HTML tag walks into a bar. Bartender: "What do you want?" Tag: "Div-er please!" 😂',
-          'Recursion: The art of solving a problem by solving the same problem until you solve the problem. 🔄😅',
-          'Why did the developer go broke? Because he used up all his cache! 💸😂',
-          'A programmer\'s wife says: "Go to the store and buy a loaf of bread. If they have eggs, buy a dozen." He comes home with 12 loaves. 😂'
+          'Programmer le bhanya "Mero code ma bug chhaina!" Tester le bhanya "Bug hoina, yeutai extra feature ho!" ðŸ˜‚',
+          'Why do programmers prefer dark mode? Because light attracts bugs! ðŸ›ðŸ˜„',
+          'Ek programmer ko bihe bhayo. Khasma usle return gareko thiyo "true"! ðŸ’ðŸ˜‚',
+          'WiFi nabhaye programmer: "Ma offline chu, ma sunnai sakdina!" ðŸ“µðŸ˜…',
+          'Teacher: "Beta, 2+2 kitna hota hai?" Student: "Error 404: Math not found!" ðŸ˜‚',
+          'Why do Java developers wear glasses? Because they cannot C#! ðŸ‘“ðŸ˜‚',
+          'A programmer asked God: "Can you make the world run on JavaScript?" God: "Nah, I don\'t want to break everything." ðŸ˜‚',
+          'Developer: "It works on my machine!" Manager: "Then we\'ll ship your machine!" ðŸ˜‚',
+          'There are 10 types of people in the world: those who understand binary, and those who don\'t. ðŸ¤“',
+          'SQL query walks into a bar, sees two tables and asks: "Can I JOIN you?" ðŸºðŸ˜‚',
+          'A HTML tag walks into a bar. Bartender: "What do you want?" Tag: "Div-er please!" ðŸ˜‚',
+          'Recursion: The art of solving a problem by solving the same problem until you solve the problem. ðŸ”„ðŸ˜…',
+          'Why did the developer go broke? Because he used up all his cache! ðŸ’¸ðŸ˜‚',
+          'A programmer\'s wife says: "Go to the store and buy a loaf of bread. If they have eggs, buy a dozen." He comes home with 12 loaves. ðŸ˜‚'
         ];
         return jokes[Math.floor(Math.random() * jokes.length)];
       }
@@ -1176,13 +997,13 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       /* Status / Attitude / Mood */
       if (/\bstatus\b|\blife\b|\battitude\b|\bfeeling\b|\bmood\b|\bvibe\b|\benergy\b/.test(q)) {
         var statuses = [
-          'Status: Coding mode ON, bugs mode OFF! Attitude: "Code hard, ship harder." 🚀',
-          'Life motto: Dal Bhat + Clean Code = Perfect Day! 🍛💻',
-          'Current mood: Grind Mode — debugging at 2 AM like a boss! 😎',
-          'Attitude: I don\'t copy code, I write better code! 💪',
-          'Status: Living the developer dream — one commit at a time! 🌟',
-          'Aaja ko status: "Bugs mile toh maro, code chale toh paro!" 😂🔥',
-          'Life update: Shipped a feature, broke another — perfectly balanced! ⚖️'
+          'Status: Coding mode ON, bugs mode OFF! Attitude: "Code hard, ship harder." ðŸš€',
+          'Life motto: Dal Bhat + Clean Code = Perfect Day! ðŸ›ðŸ’»',
+          'Current mood: Grind Mode â€” debugging at 2 AM like a boss! ðŸ˜Ž',
+          'Attitude: I don\'t copy code, I write better code! ðŸ’ª',
+          'Status: Living the developer dream â€” one commit at a time! ðŸŒŸ',
+          'Aaja ko status: "Bugs mile toh maro, code chale toh paro!" ðŸ˜‚ðŸ”¥',
+          'Life update: Shipped a feature, broke another â€” perfectly balanced! âš–ï¸'
         ];
         return statuses[Math.floor(Math.random() * statuses.length)];
       }
@@ -1190,10 +1011,10 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       /* Poem / Kavita */
       if (/\bpoem\b|\bkavita\b|\bpoetry\b|\bgeet\b|\bsong\b|\blyric\b/.test(q)) {
         var poems = [
-          'Code ko duniya ma, RKO BRO chha rajaa, UI ramro, API strong — sabai ko bau! 👑\n(Hindi/Nepali coder poem)',
-          'Ek choti code ma, Bug aayo, dimag ma darr lageyo, Debug garey, fix garey, Phir se deploy garey — problem solved! 🎉',
-          'Morning: Coffee ☕, Afternoon: Code 💻, Night: Debug 🔍, Repeat: Forever ♾️\n\n— A Developer\'s Haiku 🎋',
-          'Screen ko ujyali ma, Keyboard ko dhun ma, RKO BRO le banayo, Digital sapana — technical gun! 🌟'
+          'Code ko duniya ma, RKO BRO chha rajaa, UI ramro, API strong â€” sabai ko bau! ðŸ‘‘\n(Hindi/Nepali coder poem)',
+          'Ek choti code ma, Bug aayo, dimag ma darr lageyo, Debug garey, fix garey, Phir se deploy garey â€” problem solved! ðŸŽ‰',
+          'Morning: Coffee â˜•, Afternoon: Code ðŸ’», Night: Debug ðŸ”, Repeat: Forever â™¾ï¸\n\nâ€” A Developer\'s Haiku ðŸŽ‹',
+          'Screen ko ujyali ma, Keyboard ko dhun ma, RKO BRO le banayo, Digital sapana â€” technical gun! ðŸŒŸ'
         ];
         return poems[Math.floor(Math.random() * poems.length)];
       }
@@ -1201,118 +1022,118 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       /* Fun / Random */
       if (/\bfun\b|\brandom\b|\bbored\b|\bboring\b|\btimepass\b|\bfursad\b/.test(q)) {
         var funs = [
-          'Fun fact: Bananas are berries, but strawberries are not! 🍌🤯',
-          'If programming was easy, everyone would do it — oh wait, they do! 😂',
-          'RKO BRO fun fact: Can write 1000 lines of code but can\'t write a proper love letter! 💀😂',
-          'Did you know? The first computer bug was an actual bug — a moth found in a Harvard computer! 🦗',
-          'WiFi password? Password123! Just kidding, that\'s not the real one! 📵😄',
-          'Developer\'s diet: 50% coffee, 30% pizza, 20% energy drinks! 🍕☕'
+          'Fun fact: Bananas are berries, but strawberries are not! ðŸŒðŸ¤¯',
+          'If programming was easy, everyone would do it â€” oh wait, they do! ðŸ˜‚',
+          'RKO BRO fun fact: Can write 1000 lines of code but can\'t write a proper love letter! ðŸ’€ðŸ˜‚',
+          'Did you know? The first computer bug was an actual bug â€” a moth found in a Harvard computer! ðŸ¦—',
+          'WiFi password? Password123! Just kidding, that\'s not the real one! ðŸ“µðŸ˜„',
+          'Developer\'s diet: 50% coffee, 30% pizza, 20% energy drinks! ðŸ•â˜•'
         ];
         return funs[Math.floor(Math.random() * funs.length)];
       }
 
       /* Greetings */
       if (/^(hi|hello|hey|namaste|hola|sup|yo)\b/.test(q)) {
-        return 'Namaste! 🙏 Welcome to RKO BRO\'s portfolio. Ke help chha?';
+        return 'Namaste! ðŸ™ Welcome to RKO BRO\'s portfolio. Ke help chha?';
       }
 
       /* Friendly auto-replies */
       if (/\bhow are you\b|\bkasto cha\b|\bksto cha\b|\bhow r u\b|\bhru\b|\bthik cha\b/.test(q)) {
-        return 'Ma ekdam thik chu! 😄 Sabai badhiya chha. Tapai kasto hunuhuncha?';
+        return 'Ma ekdam thik chu! ðŸ˜„ Sabai badhiya chha. Tapai kasto hunuhuncha?';
       }
       if (/\bare you good\b|\bare u good\b|\bramro cha\b|\bramro chau\b/.test(q)) {
-        return 'Haami ekdam ramro chhau! 💪 Coding chha, projects chha, sabai set chha.';
+        return 'Haami ekdam ramro chhau! ðŸ’ª Coding chha, projects chha, sabai set chha.';
       }
       if (/\bhow was (your )?day\b|\baaja ko din\b|\bdin kasto\b/.test(q)) {
-        return 'Aaja ko din ekdam productive thiyo! 💻 New features banayo, bugs fix garyo. Every day is a coding day!';
+        return 'Aaja ko din ekdam productive thiyo! ðŸ’» New features banayo, bugs fix garyo. Every day is a coding day!';
       }
       if (/\bgood morning\b|\bgood afternoon\b|\bgood evening\b|\bsubha prabhat\b|\bmorning\b|\bevening\b|\bnight\b/.test(q)) {
-        return 'Good morning! ☀️ Aaja pani coding garna lai ready chu! K bhannu huncha?';
+        return 'Good morning! â˜€ï¸ Aaja pani coding garna lai ready chu! K bhannu huncha?';
       }
       if (/\bthank\b|\bdhanyabad\b|\bthank you\b|\bthanks\b/.test(q)) {
-        return 'Tapai lai dhanyabad! 🙏 Kati help bhayo bhane dherai khusi lagchha.';
+        return 'Tapai lai dhanyabad! ðŸ™ Kati help bhayo bhane dherai khusi lagchha.';
       }
 
       /* Nepali casual */
       if (/\bkhana vayo\b|\bkhana khayo\b|\bbhoj\b|\bkhaana\b/.test(q)) {
-        return 'Abhi khana vayo! 😋 Dal bhat power 24 hour! Tapai le khano bhayo?';
+        return 'Abhi khana vayo! ðŸ˜‹ Dal bhat power 24 hour! Tapai le khano bhayo?';
       }
       if (/\bumm\b|\bum\b|\bhmm\b|\bhmmmm\b|\buh\b/.test(q)) {
-        return 'Umm... huncha huncha! 😄 Ke sochdai huncha? Bhanus, ma help garchu.';
+        return 'Umm... huncha huncha! ðŸ˜„ Ke sochdai huncha? Bhanus, ma help garchu.';
       }
       if (/\bthik xa\b|\bthik chha\b|\bthik chha\b/.test(q)) {
-        return 'Thik chha! ✅ Ramro chha. Aru ke chha?';
+        return 'Thik chha! âœ… Ramro chha. Aru ke chha?';
       }
       if (/\bk garirako\b|\bk gardai\b|\bwhat doing\b|\bbusy\b/.test(q)) {
-        return 'Coding gardai chu! 💻 RKO Downloader ma naya feature add garna lageko. Busy life, happy life!';
+        return 'Coding gardai chu! ðŸ’» RKO Downloader ma naya feature add garna lageko. Busy life, happy life!';
       }
       if (/\byo man\b|\byooo\b|\bbro\b|\bdai\b|\bbhai\b/.test(q)) {
-        return 'Yooo! 🤙 K cha bro? K kaam chha bhanus!';
+        return 'Yooo! ðŸ¤™ K cha bro? K kaam chha bhanus!';
       }
       if (/\bok\b|\bokay\b|\bokey\b/.test(q)) {
-        return 'Thik chha! ✅ Ramro chha. Aru ke chha?';
+        return 'Thik chha! âœ… Ramro chha. Aru ke chha?';
       }
       if (/\blove\b|\bpyar\b|\bmohabbat\b/.test(q)) {
-        return 'Mero pyar? 💜 Clean code, beautiful UI, ra smooth animations! Bas yo nai enough chha life ma! 😄';
+        return 'Mero pyar? ðŸ’œ Clean code, beautiful UI, ra smooth animations! Bas yo nai enough chha life ma! ðŸ˜„';
       }
       if (/\bsingle\b|\bcommitted\b|\brelationship\b/.test(q)) {
-        return 'Committed chhu... coding sanga! 💻 Relationship status: "In a committed relationship with JavaScript." 😂';
+        return 'Committed chhu... coding sanga! ðŸ’» Relationship status: "In a committed relationship with JavaScript." ðŸ˜‚';
       }
 
       /* Age */
       if (/\bage\b|\bkati barsha\b|\bumr\b|\bold\b|\byoung\b|\bkati janko\b/.test(q)) {
-        return 'RKO BRO is <b>24 years old</b> young! 🔥 Still building, still learning, still shipping!';
+        return 'RKO BRO is <b>24 years old</b> young! ðŸ”¥ Still building, still learning, still shipping!';
       }
       /* Price / website */
       if (/\bprice\b|\brate\b|\bcost\b|\bcharge\b|\bmoney\b|\bwebsite\b|\bweb.*make\b|\bpaise\b|\bpaisa\b/.test(q)) {
-        return '<b>Website Development Price:</b><br>💰 Basic Website: <b>1K–2K NPR</b><br>💰 Business/Dashboard: <b>2K+ NPR</b><br>Depends on features. Email <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> for exact quote!';
+        return '<b>Website Development Price:</b><br>ðŸ’° Basic Website: <b>1Kâ€“2K NPR</b><br>ðŸ’° Business/Dashboard: <b>2K+ NPR</b><br>Depends on features. Email <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a> for exact quote!';
       }
       /* WhatsApp */
       if (/\bwhatsapp\b|\bnumber\b|\bphone\b|\bcall\b|\bring\b/.test(q)) {
-        return '<b>WhatsApp:</b> <a href="https://wa.me/9779810911473" target="_blank">+977 9810911473</a> 📱<br>Direct message garna saknu huncha! Ma reply garchu. 😊';
+        return '<b>WhatsApp:</b> <a href="https://wa.me/9779810911473" target="_blank">+977 9810911473</a> ðŸ“±<br>Direct message garna saknu huncha! Ma reply garchu. ðŸ˜Š';
       }
       /* Photo */
       if (/\bphoto\b|\bpic\b|\bimage\b|\bchitra\b|\btasbir\b|\bface\b|\blook\b|\blogo\b/.test(q)) {
-        return '<b>RKO BRO:</b><br>📸 <a href="https://rko-bro-website.pages.dev/assets/portrait.jpg" target="_blank">Click here to see RKO BRO\'s photo</a> 📷<br>Yeso nai ho — Nepal ko kunai corner bata code garne! 😎';
+        return '<b>RKO BRO:</b><br>ðŸ“¸ <a href="https://rko-bro-website.pages.dev/assets/portrait.jpg" target="_blank">Click here to see RKO BRO\'s photo</a> ðŸ“·<br>Yeso nai ho â€” Nepal ko kunai corner bata code garne! ðŸ˜Ž';
       }
       /* Who */
       if (/\bwho\b|\babout\b|\bintro\b|\byourself\b|\bname\b/.test(q)) {
-        return 'I\'m <b>RKO BRO</b> (Himal Paudel) — 24, Full Stack Developer from Ghorahi, Dang, Nepal 🇳🇵. I build web apps, Android apps and streaming platforms. 🚀';
+        return 'I\'m <b>RKO BRO</b> (Himal Paudel) â€” 24, Full Stack Developer from Ghorahi, Dang, Nepal ðŸ‡³ðŸ‡µ. I build web apps, Android apps and streaming platforms. ðŸš€';
       }
       /* Skills */
       if (/\bskill\b|\btech\b|\bstack\b|\bknow\b|\blanguage\b|\btools\b/.test(q)) {
-        return '<b>My Skills:</b><br>• Frontend: React, Next.js, Tailwind CSS, JavaScript<br>• Backend: Node.js, Express, MongoDB, Cloudflare Workers<br>• Mobile: Kotlin, Android, ExoPlayer, WebView<br>• Design: Figma, Prototyping, Motion Design';
+        return '<b>My Skills:</b><br>â€¢ Frontend: React, Next.js, Tailwind CSS, JavaScript<br>â€¢ Backend: Node.js, Express, MongoDB, Cloudflare Workers<br>â€¢ Mobile: Kotlin, Android, ExoPlayer, WebView<br>â€¢ Design: Figma, Prototyping, Motion Design';
       }
       /* Projects */
       if (/\bproject\b|\bwork\b|\bbuild\b|\bapp\b|\bproduct\b|\bmade\b/.test(q)) {
-        return '<b>Featured Projects:</b><br>1. <a href="https://rko-downloader.pages.dev" target="_blank">RKO Downloader</a> — Video downloader (Android)<br>2. <a href="https://tv-97x.pages.dev" target="_blank">RKO TV</a> — Live sports streaming<br>3. Screen Mirror — Phone mirroring (coming soon)<br>4. WWE Highlights — Wrestling clips app';
+        return '<b>Featured Projects:</b><br>1. <a href="https://rko-downloader.pages.dev" target="_blank">RKO Downloader</a> â€” Video downloader (Android)<br>2. <a href="https://tv-97x.pages.dev" target="_blank">RKO TV</a> â€” Live sports streaming<br>3. Screen Mirror â€” Phone mirroring (coming soon)<br>4. WWE Highlights â€” Wrestling clips app';
       }
       /* Experience */
       if (/\bexperience\b|\bjob\b|\bcareer\b|\bjourney\b|\byear\b/.test(q)) {
-        return '<b>My Journey:</b><br>• 2024–Present: Founder & Lead Developer — RKO Ecosystem<br>• 2023–2024: Full Stack Developer — Freelance (15+ projects)<br>• 2022–2023: Frontend Developer — Remote Contract<br>• 2021–2022: Self-Taught Web Development';
+        return '<b>My Journey:</b><br>â€¢ 2024â€“Present: Founder & Lead Developer â€” RKO Ecosystem<br>â€¢ 2023â€“2024: Full Stack Developer â€” Freelance (15+ projects)<br>â€¢ 2022â€“2023: Frontend Developer â€” Remote Contract<br>â€¢ 2021â€“2022: Self-Taught Web Development';
       }
       /* Contact */
       if (/\bcontact\b|\bemail\b|\breach\b|\bhire\b|\bmail\b|\bmessage\b/.test(q)) {
-        return '<b>Contact me:</b><br>📧 <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a><br>📘 <a href="https://www.facebook.com/profile.php?id=61581151980604" target="_blank">Facebook</a><br>📸 <a href="https://www.instagram.com/himalpaudel_18" target="_blank">Instagram: himalpaudel_18</a><br>📱 WhatsApp: <a href="https://wa.me/9779810911473" target="_blank">+977 9810911473</a>';
+        return '<b>Contact me:</b><br>ðŸ“§ <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a><br>ðŸ“˜ <a href="https://www.facebook.com/profile.php?id=61581151980604" target="_blank">Facebook</a><br>ðŸ“¸ <a href="https://www.instagram.com/himalpaudel_18" target="_blank">Instagram: himalpaudel_18</a><br>ðŸ“± WhatsApp: <a href="https://wa.me/9779810911473" target="_blank">+977 9810911473</a>';
       }
       /* Location */
       if (/\bwhere\b|\blocation\b|\blive\b|\bfrom\b|\bghorahi\b|\bdang\b|\bnepal\b/.test(q)) {
-        return 'I\'m from <b>Ghorahi, Dang, Nepal</b> 🇳🇵 — a beautiful city in the mid-western region. Nepal bata nai code garchu!';
+        return 'I\'m from <b>Ghorahi, Dang, Nepal</b> ðŸ‡³ðŸ‡µ â€” a beautiful city in the mid-western region. Nepal bata nai code garchu!';
       }
       /* Education */
       if (/\beducation\b|\bstudy\b|\buniversity\b|\bcollege\b|\bschool\b|\bdegree\b/.test(q)) {
-        return 'I\'m currently pursuing <b>Civil Engineering</b> while building products on the side. Self-taught in web & mobile development! Padhai pani, coding pani! 📚💻';
+        return 'I\'m currently pursuing <b>Civil Engineering</b> while building products on the side. Self-taught in web & mobile development! Padhai pani, coding pani! ðŸ“šðŸ’»';
       }
       /* Availability */
       if (/\bavailable\b|\bhire\b|\bfreelance\b|\bopen\b|\bwork together\b/.test(q)) {
-        return 'Yes! I\'m <b>open to work</b> and available for freelance projects. Let\'s build something amazing together! 💼 Email: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a>';
+        return 'Yes! I\'m <b>open to work</b> and available for freelance projects. Let\'s build something amazing together! ðŸ’¼ Email: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a>';
       }
       /* Default */
       var defaults = [
-        'Interesting question! 🤔 Ma bujhina ki k bhannu huncha. Try asking about skills, projects, status, contact, WhatsApp!',
-        'Hmm, ma tyo bujhina! 😅 Try asking about my <b>projects</b>, <b>skills</b>, <b>status</b>, <b>contact</b>, or <b>WhatsApp</b> number!',
-        'Ma chatbot ho, ma sabai bujhina! 😄 But I know about RKO BRO — try asking about <b>skills</b>, <b>projects</b>, <b>status</b>!',
-        'Wah! Tyo chij ma chhodna sakdina! 😂 Ke asked garna milchha — skills, projects, price, WhatsApp!'
+        'Interesting question! ðŸ¤” Ma bujhina ki k bhannu huncha. Try asking about skills, projects, status, contact, WhatsApp!',
+        'Hmm, ma tyo bujhina! ðŸ˜… Try asking about my <b>projects</b>, <b>skills</b>, <b>status</b>, <b>contact</b>, or <b>WhatsApp</b> number!',
+        'Ma chatbot ho, ma sabai bujhina! ðŸ˜„ But I know about RKO BRO â€” try asking about <b>skills</b>, <b>projects</b>, <b>status</b>!',
+        'Wah! Tyo chij ma chhodna sakdina! ðŸ˜‚ Ke asked garna milchha â€” skills, projects, price, WhatsApp!'
       ];
       return defaults[Math.floor(Math.random() * defaults.length)];
     }
