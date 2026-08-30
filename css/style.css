@@ -2438,7 +2438,7 @@ body.light .stat-card .stat-n { color: #0F172A; }
 @media (pointer: coarse), (max-width: 768px) {
   .js [data-reveal] {
     transform: translateY(16px);
-    transition-duration: 0.38s, 0.38s;
+    transition-duration: 0.12s, 0.12s;
     transition-delay: 0s;
   }
 }

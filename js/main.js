@@ -312,13 +312,34 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
           ro.unobserve(en.target);
         }
       });
-      // positive bottom margin pre-triggers below the viewport so fast
-      // scrolling never shows blank text waiting to animate in
-    }, { threshold: 0.05, rootMargin: '0px 0px 18% 0px' });
+      // large positive bottom margin pre-triggers well above the viewport so
+      // fast scrolling never shows blank text waiting to animate in
+    }, { threshold: 0, rootMargin: '0px 0px 120% 0px' });
     revealEls.forEach(el => ro.observe(el));
   } else {
     revealEls.forEach(el => el.classList.add('in-view'));
   }
+
+  /* Safety net: on fast scroll the IO callback may lag behind the viewport.
+     Force any reveal element already at/above the top of the screen to show
+     immediately so blank text never lingers. */
+  let flushPending = false;
+  window.addEventListener('scroll', () => {
+    if (flushPending) return;
+    flushPending = true;
+    requestAnimationFrame(() => {
+      flushPending = false;
+      const vh = innerHeight;
+      for (let i = 0; i < revealEls.length; i++) {
+        const el = revealEls[i];
+        if (el.classList.contains('in-view')) continue;
+        // DOM order ~ vertical order; stop once below the fold
+        const top = el.getBoundingClientRect().top;
+        if (top > vh) break;
+        el.classList.add('in-view');
+      }
+    });
+  }, { passive: true });
 
   /* ---------------- Counters ---------------- */
   const easeOutQuart = t => 1 - Math.pow(1 - t, 4);
