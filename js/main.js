@@ -850,10 +850,10 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
               p.vx -= (dx / dist) * force;
               p.vy -= (dy / dist) * force;
             }
-            p.vx += (p.tx - p.x) * 0.05;
-            p.vy += (p.ty - p.y) * 0.05;
-            p.vx *= 0.85;
-            p.vy *= 0.85;
+            p.vx += (p.tx - p.x) * 0.10;
+            p.vy += (p.ty - p.y) * 0.10;
+            p.vx *= 0.80;
+            p.vy *= 0.80;
             p.x += p.vx;
             p.y += p.vy;
             ctx.beginPath();
