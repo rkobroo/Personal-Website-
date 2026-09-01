@@ -1375,11 +1375,11 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
         return 'I\'m <b>RKO BRO</b> (Himal Paudel) — 24, Full Stack Developer from Ghorahi, Dang, Nepal 🇳🇵. I build web apps, Android apps and streaming platforms. 🚀';
       }
       /* Skills */
-      if (/\bskill\b|\btech\b|\bstack\b|\bknow\b|\blanguage\b|\btools\b/.test(q)) {
+      if (/\bskills?\b|\btech\b|\bstack\b|\bknow\b|\blanguage\b|\btools\b/.test(q)) {
         return '<b>My Skills:</b><br>• Frontend: React, Next.js, Tailwind CSS, JavaScript<br>• Backend: Node.js, Express, MongoDB, Cloudflare Workers<br>• Mobile: Kotlin, Android, ExoPlayer, WebView<br>• Design: Figma, Prototyping, Motion Design';
       }
       /* Projects */
-      if (/\bproject\b|\bwork\b|\bbuild\b|\bapp\b|\bproduct\b|\bmade\b/.test(q)) {
+      if (/\bprojects?\b|\bwork\b|\bbuild\b|\bapps?\b|\bproduct\b|\bmade\b/.test(q)) {
         return '<b>Featured Projects:</b><br>1. <a href="https://rko-downloader.pages.dev" target="_blank">RKO Downloader</a> — Video downloader (Android)<br>2. <a href="https://tv-97x.pages.dev" target="_blank">RKO TV</a> — Live sports streaming<br>3. Screen Mirror — Phone mirroring (coming soon)<br>4. WWE Highlights — Wrestling clips app';
       }
       /* Experience */
