@@ -1380,7 +1380,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       }
       /* Projects */
       if (/\bprojects?\b|\bwork\b|\bbuild\b|\bapps?\b|\bproduct\b|\bmade\b/.test(q)) {
-        return '<b>Featured Projects:</b><br>1. <a href="https://rko-downloader.pages.dev" target="_blank">RKO Downloader</a> — Video downloader (Android)<br>2. <a href="https://tv-97x.pages.dev" target="_blank">RKO TV</a> — Live sports streaming<br>3. Screen Mirror — Phone mirroring (coming soon)<br>4. WWE Highlights — Wrestling clips app';
+        return '<b>Featured Projects:</b><br>1. <a href="https://rko-downloader.pages.dev" target="_blank">RKO Downloader</a> — Video downloader (Android)<br>2. <a href="https://tv-97x.pages.dev" target="_blank">RKO TV</a> — Live sports streaming<br>3. <a href="https://github.com/rkobroo/screenmirror-releases/releases/latest" target="_blank">MirrorLink (Screen Mirror)</a> — Phone mirroring to PC<br>4. WWE Highlights — Wrestling clips app';
       }
       /* Experience */
       if (/\bexperience\b|\bjob\b|\bcareer\b|\bjourney\b|\byear\b/.test(q)) {
