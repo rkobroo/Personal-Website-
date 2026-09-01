@@ -1111,7 +1111,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       if (/\bare you human\b|\bhuman ho\b|\bbot ho\b|\breal ho\b/.test(q)) return 'No, I am an AI-powered virtual assistant 🤖 built by RKO BRO to help you!';
       if (/\bhelp.*download\b|\bdownload.*video\b|\bvideo.*download\b/.test(q)) return 'Yes! 📥 Paste the video link in RKO Downloader, and it will process it instantly! ⚡ <a href="https://rko-downloader.pages.dev" target="_blank">Try it now</a>';
       if (/\bdownload.*not working\b|\bdownload.*fail\b|\bproblem.*download\b|\bnot working\b/.test(q)) return 'Please check the link 🔗 and try again. If the issue continues, contact support 📧: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a>';
-      if (/\bcontact support\b|\bsupport\b|\bhelpline\b/.test(q)) return 'You can contact us through: 📧 Email: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a><br>📱 WhatsApp: <a href="https://wa.me/9779810911473" target="_blank">+977 9810911473</a><br>📘 Facebook: <a href="https://www.facebook.com/profile.php?id=61581151980604" target="_blank">RKO BRO</a>';
+      if (/\bcontact support\b|\bsupport\b|\bhelpline\b/.test(q)) return 'You can contact us through: 📧 Email: <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a><br>📱 WhatsApp: <a href="https://wa.me/9779810911473" target="_blank">+977 9810911473</a><br>📘 Facebook: <a href="https://www.facebook.com/share/19cDdXarRS/" target="_blank">RKO BRO</a>';
       if (/\bbye\b|\bbye bye\b|\bgoodbye\b|\bsee you\b|\bmaile janchu\b|\balvida\b/.test(q)) return 'Goodbye! 👋😊 Have a great day and visit us again! 💜 RKO BRO loves you!';
 
       /* RKO TV Q&A */
@@ -1388,7 +1388,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       }
       /* Contact */
       if (/\bcontact\b|\bemail\b|\breach\b|\bhire\b|\bmail\b|\bmessage\b/.test(q)) {
-        return '<b>Contact me:</b><br>📧 <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a><br>📘 <a href="https://www.facebook.com/profile.php?id=61581151980604" target="_blank">Facebook</a><br>📸 <a href="https://www.instagram.com/himalpaudel_18" target="_blank">Instagram: himalpaudel_18</a><br>📱 WhatsApp: <a href="https://wa.me/9779810911473" target="_blank">+977 9810911473</a>';
+        return '<b>Contact me:</b><br>📧 <a href="mailto:rkobro112@gmail.com">rkobro112@gmail.com</a><br>📘 <a href="https://www.facebook.com/share/19cDdXarRS/" target="_blank">Facebook</a><br>📸 <a href="https://www.instagram.com/himalpaudel_18" target="_blank">Instagram: himalpaudel_18</a><br>📱 WhatsApp: <a href="https://wa.me/9779810911473" target="_blank">+977 9810911473</a>';
       }
       /* Location */
       if (/\bwhere\b|\blocation\b|\blive\b|\bfrom\b|\bghorahi\b|\bdang\b|\bnepal\b/.test(q)) {
