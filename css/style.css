@@ -679,6 +679,27 @@ input, textarea { font-family: inherit; }
   background: rgba(139, 92, 246, 0.14);
   box-shadow: 0 10px 28px rgba(139, 92, 246, 0.35);
 }
+/* RGB ring for the hero + contact section social icons */
+.social-btn {
+  position: relative;
+  isolation: isolate;
+}
+.social-btn::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  padding: 1.4px;
+  background: linear-gradient(90deg, #ff004c, #ff8a00, #ffe600, #22ff66, #00e5ff, #2979ff, #c85eff, #ff004c);
+  background-size: 600% 100%;
+  animation: rgbFlow 4s linear infinite;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  pointer-events: none;
+}
 
 /* Hero visual — portrait */
 .hero-visual { display: grid; place-items: center; }
@@ -878,6 +899,25 @@ input, textarea { font-family: inherit; }
   display: flex;
   justify-content: center;
   overflow: hidden;
+  position: relative;
+  isolation: isolate;
+}
+/* animated RGB ring on the hero stats strip (eg. the 3+ years box) */
+.stats-strip::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  z-index: -1;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: linear-gradient(90deg, #ff004c, #ff8a00, #ffe600, #22ff66, #00e5ff, #2979ff, #c85eff, #ff004c);
+  background-size: 600% 100%;
+  animation: rgbFlow 4s linear infinite;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite: exclude;
+  pointer-events: none;
 }
 
 .stat-item {
@@ -2581,9 +2621,14 @@ body.light .stat-card .stat-n { color: #0F172A; }
   .f-links a::before,
   .say-mail::before,
   .loc-box::before,
-  .f-social-icons a::before {
+  .f-social-icons a::before,
+  .social-btn::before,
+  .stats-strip::before {
     animation: rgbFlowSmall 4s linear infinite;
   }
+  /* the stats strip clips its ::before ring with overflow:hidden —
+     let it show on mobile only */
+  .stats-strip { overflow: visible; }
 
   /* stop promoting many static elements to their own GPU layers —
      will-change is only useful for the few things that actually move */
