@@ -2561,10 +2561,14 @@ body.light .stat-card .stat-n { color: #0F172A; }
   .nav-links { backdrop-filter: none; -webkit-backdrop-filter: none; }
 
   /* ---- EXTRA MOBILE LAG FIXES ----
-     Keep the multi-color RGB border ring visible, but STATIC. The flow
-     animation (rgbFlow) is frozen above, so each ring shows all its
-     colors yet nothing repaints per frame — removing the mobile
-     scroll-killer while keeping the RGB look. */
+     Keep the multi-color RGB border ring on SMALL boxes only (social
+     media logos, footer links/pills, hero badge, nav links) — STATIC
+     (rgbFlow frozen above, so nothing repaints per frame).
+     Hide the RGB ring on the BIG cards/buttons, which are the expensive
+     full-width layers that cause compositing cost. */
+  .card::before,
+  .rgb-btn::before,
+  .highlight-chips li::before { display: none; }
 
   /* stop promoting many static elements to their own GPU layers —
      will-change is only useful for the few things that actually move */
