@@ -45,8 +45,10 @@
     -webkit-backdrop-filter: none;
   }
 
-  /* stop infinite compositing of huge blurred layers while scrolling */
-  .orb, .portrait-halo { animation: none; }
+  /* stop infinite compositing of huge blurred layers while scrolling —
+     fully remove the static-blur layers too (GPU memory + repaint cost) */
+  .orb, .portrait-halo { display: none; }
+  .grain { display: none; }
 
   /* full-width navbar blur repaints every frame - solid bar instead */
   .navbar.scrolled {
@@ -2557,6 +2559,50 @@ body.light .stat-card .stat-n { color: #0F172A; }
      navbar.scrolled is already solid here, and .nav-links keeps a single blur */
   .navbar { backdrop-filter: none; -webkit-backdrop-filter: none; }
   .nav-links { backdrop-filter: none; -webkit-backdrop-filter: none; }
+
+  /* ---- EXTRA MOBILE LAG FIXES ----
+     Remove the animated RGB border ring on every card. It is powered by
+     mask-composite + a 600% background gradient, which forces the browser
+     to recomposite each card on every frame — a big mobile scroll-killer.
+     The card gradient fill is kept, only the moving ring is dropped. */
+  .card::before,
+  .rgb-btn::before,
+  .highlight-chips li::before,
+  .hero-badge::before,
+  .hamburger::before,
+  .nav-links a:not(.btn)::before,
+  .nav-cv::before,
+  .f-links a::before,
+  .say-mail::before,
+  .loc-box::before,
+  .f-social-icons a::before,
+  .map-overlay::before { display: none; }
+
+  /* stop promoting many static elements to their own GPU layers —
+     will-change is only useful for the few things that actually move */
+  .skill-cat,
+  .project-card,
+  .card,
+  .glass,
+  .cursor-glow,
+  .scroll-progress { will-change: auto; }
+
+  /* Reduce backdrop-filter cost: blur(SOMETHING) reads the whole layer
+     behind an element every frame. On phones use a solid/near-solid fill
+     instead so the GPU never has to re-blur the page while scrolling. */
+  .card,
+  .glass,
+  .hero-badge,
+  .social-btn,
+  .mini-chip,
+  .float-chip,
+  .chatbot-panel,
+  .scroll-pill,
+  .btn-outline {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(13, 17, 34, 0.94);
+  }
 }
 
 /* render below-fold sections only when near the viewport
