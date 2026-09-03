@@ -2634,10 +2634,10 @@ body.light .stat-card .stat-n { color: #0F172A; }
    (about/skills/projects excluded — their absolute particle canvas
    mis-renders under content-visibility:auto, causing the watermark
    to show only partway) */
-.experience, .blog, .status-section, .dl-stats, .contact {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 900px;
-}
+/* NOTE: content-visibility was removed because it causes a visible dark/
+   blank flash when fast-scrolling on mobile. The GPU savings it gave are
+   now handled by the other mobile optimizations (no orbs/grain/RGB
+   borders/will-change, reduced backdrop-filter). */
 
 /* ---------- Enhanced Timeline ---------- */
 .tl-item { position: relative; }
