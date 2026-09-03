@@ -2561,14 +2561,12 @@ body.light .stat-card .stat-n { color: #0F172A; }
   .nav-links { backdrop-filter: none; -webkit-backdrop-filter: none; }
 
   /* ---- EXTRA MOBILE LAG FIXES ----
-     RGB ring is kept OFF on the big cards/buttons (those are the
-     expensive full-width layers), but kept ANIMATED (flowing) on the
-     small boxes — social media logos, footer links/pills, hero badge,
-     nav items (home/projects/contact) & the CV button. These small
-     elements have a tiny repaint area, so the flow is cheap. */
-  .card::before,
-  .rgb-btn::before,
-  .highlight-chips li::before { display: none; }
+     Big cards/buttons keep their RGB ring but STATIC — the global
+     rgbFlow freeze above freezes their motion, so they show the
+     multi-color ring with no repaint-per-frame cost.
+     The small boxes ANIMATE (flowing) — social media logos, footer
+     links/pills, hero badge, nav items & the CV button. Their tiny
+     repaint area keeps the flow cheap. */
 
   /* re-enable the RGB flow animation on the small boxes — the global
      rgbFlow freeze above is replaced by a truly-flowing keyframe here,
