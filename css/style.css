@@ -2589,7 +2589,9 @@ body.light .stat-card .stat-n { color: #0F172A; }
 
   /* Reduce backdrop-filter cost: blur(SOMETHING) reads the whole layer
      behind an element every frame. On phones use a solid/near-solid fill
-     instead so the GPU never has to re-blur the page while scrolling. */
+     instead so the GPU never has to re-blur the page while scrolling.
+     bg must be light enough to read as a "card" and not leave a dark
+     smear, but opaque enough to hide the page behind it. */
   .card,
   .glass,
   .hero-badge,
@@ -2601,7 +2603,30 @@ body.light .stat-card .stat-n { color: #0F172A; }
   .btn-outline {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    background: rgba(13, 17, 34, 0.94);
+    background: rgba(15, 23, 42, 0.82);
+  }
+  /* keep the standard card/glass elements looking like panel — the shared
+     .card/.glass both get the fill above; light-mode uses a light fill */
+  body.light .card,
+  body.light .glass,
+  body.light .hero-badge,
+  body.light .social-btn,
+  body.light .mini-chip,
+  body.light .float-chip,
+  body.light .btn-outline {
+    background: rgba(255, 255, 255, 0.9);
+  }
+  /* these transparent-FROSTED cards would otherwise show dark voids without
+     backdrop blur — give them a proper solid panel background */
+  .dl-card,
+  .blog-card,
+  .status-card {
+    background: rgba(15, 23, 42, 0.82);
+  }
+  body.light .dl-card,
+  body.light .blog-card,
+  body.light .status-card {
+    background: rgba(255, 255, 255, 0.9);
   }
 }
 
