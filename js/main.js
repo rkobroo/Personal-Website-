@@ -138,8 +138,7 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
       }
 
       // link pass - optimized from O(n²) to near-O(n) with a spatial grid.
-      // LINKS are skipped entirely on touch devices (mobile lag fix).
-      if (!coarsePointer) {
+      if (true) {
         const CELL = LINK_DIST;
         const grid = new Map();
         for (let i = 0; i < parts.length; i++) {
