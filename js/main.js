@@ -1019,8 +1019,10 @@ if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'functio
 
   /* ============================================================
      FEATURE 5: Page Transition — fade sections on scroll
+     Desktop only. On touch devices the fade-out flips to opacity
+     0.3 while fast-scrolling, which shows as a dark flash.
      ============================================================ */
-  if ('IntersectionObserver' in window && !reduced) {
+  if ('IntersectionObserver' in window && !reduced && finePointer) {
     var fadeSections = $$('main section[id]');
     var fadeObs = new IntersectionObserver(function(entries) {
       entries.forEach(function(en) {
