@@ -71,7 +71,7 @@ if (lowRamDevice) document.documentElement.classList.add('low-ram');
 
 /* ---------------- Particle field ---------------- */
 const canvas = $('#particles');
-if (canvas && !reduced && !lowRamDevice && typeof canvas.getContext === 'function') {
+if (canvas && !reduced && typeof canvas.getContext === 'function') {
     const ctx = canvas.getContext('2d');
     const COLORS = ['139,92,246', '59,130,246', '6,182,212'];
     const LINK_DIST = 130;
