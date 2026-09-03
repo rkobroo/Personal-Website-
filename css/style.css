@@ -2561,14 +2561,31 @@ body.light .stat-card .stat-n { color: #0F172A; }
   .nav-links { backdrop-filter: none; -webkit-backdrop-filter: none; }
 
   /* ---- EXTRA MOBILE LAG FIXES ----
-     Keep the multi-color RGB border ring on SMALL boxes only (social
-     media logos, footer links/pills, hero badge, nav links) — STATIC
-     (rgbFlow frozen above, so nothing repaints per frame).
-     Hide the RGB ring on the BIG cards/buttons, which are the expensive
-     full-width layers that cause compositing cost. */
+     RGB ring is kept OFF on the big cards/buttons (those are the
+     expensive full-width layers), but kept ANIMATED (flowing) on the
+     small boxes — social media logos, footer links/pills, hero badge,
+     nav items (home/projects/contact) & the CV button. These small
+     elements have a tiny repaint area, so the flow is cheap. */
   .card::before,
   .rgb-btn::before,
   .highlight-chips li::before { display: none; }
+
+  /* re-enable the RGB flow animation on the small boxes — the global
+     rgbFlow freeze above is replaced by a truly-flowing keyframe here,
+     so these small rings animate while the big ones stay off */
+  @keyframes rgbFlowSmall {
+    to { background-position: 600% 0; }
+  }
+  .hero-badge::before,
+  .hamburger::before,
+  .nav-links a:not(.btn)::before,
+  .nav-cv::before,
+  .f-links a::before,
+  .say-mail::before,
+  .loc-box::before,
+  .f-social-icons a::before {
+    animation: rgbFlowSmall 4s linear infinite;
+  }
 
   /* stop promoting many static elements to their own GPU layers —
      will-change is only useful for the few things that actually move */
