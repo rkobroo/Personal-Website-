@@ -2561,22 +2561,10 @@ body.light .stat-card .stat-n { color: #0F172A; }
   .nav-links { backdrop-filter: none; -webkit-backdrop-filter: none; }
 
   /* ---- EXTRA MOBILE LAG FIXES ----
-     Remove the animated RGB border ring on every card. It is powered by
-     mask-composite + a 600% background gradient, which forces the browser
-     to recomposite each card on every frame — a big mobile scroll-killer.
-     The card gradient fill is kept, only the moving ring is dropped. */
-  .card::before,
-  .rgb-btn::before,
-  .highlight-chips li::before,
-  .hero-badge::before,
-  .hamburger::before,
-  .nav-links a:not(.btn)::before,
-  .nav-cv::before,
-  .f-links a::before,
-  .say-mail::before,
-  .loc-box::before,
-  .f-social-icons a::before,
-  .map-overlay::before { display: none; }
+     Keep the multi-color RGB border ring visible, but STATIC. The flow
+     animation (rgbFlow) is frozen above, so each ring shows all its
+     colors yet nothing repaints per frame — removing the mobile
+     scroll-killer while keeping the RGB look. */
 
   /* stop promoting many static elements to their own GPU layers —
      will-change is only useful for the few things that actually move */
