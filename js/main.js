@@ -1417,22 +1417,21 @@ if (canvas && !reduced && typeof canvas.getContext === 'function') {
   /* ---------------- Background music player ---------------- */
   const bgMusic = $('#bgMusic');
   const musicToggle = $('#musicToggle');
-  const musicWrap = $('#musicWrap');
   if (bgMusic && musicToggle) {
     musicToggle.addEventListener('click', function() {
       if (bgMusic.paused) {
         const p = bgMusic.play();
         if (p && p.then) p.catch(() => {}); /* ignore autoplay rejections */
-        musicWrap.classList.add('music-on');
+        musicToggle.classList.add('music-on');
         musicToggle.setAttribute('aria-pressed', 'true');
       } else {
         bgMusic.pause();
-        musicWrap.classList.remove('music-on');
+        musicToggle.classList.remove('music-on');
         musicToggle.setAttribute('aria-pressed', 'false');
       }
     });
     bgMusic.addEventListener('pause', function() {
-      musicWrap.classList.remove('music-on');
+      musicToggle.classList.remove('music-on');
       musicToggle.setAttribute('aria-pressed', 'false');
     });
   }
