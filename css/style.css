@@ -1817,6 +1817,7 @@ body.light .stat-card .stat-n { color: #0F172A; }
    backgrounds so they are intentionally NOT overridden. */
 body.light .skill-cat h3,
 body.light .project-body h3,
+body.light .project-features b,
 body.light .tl-head h3,
 body.light .about-bio strong,
 body.light .personal-head h3,
@@ -2843,10 +2844,10 @@ section.fade-in {
 /* ---------- Background music player ---------- */
 .music-toggle {
   position: relative;
-  width: 44px; height: 44px;
+  width: 36px; height: 36px;
   flex-shrink: 0;
   border: none;
-  border-radius: 12px;
+  border-radius: 10px;
   padding: 0;
   cursor: pointer;
   color: #fff;
@@ -2856,6 +2857,7 @@ section.fade-in {
   box-shadow: 0 6px 18px rgba(139, 92, 246, 0.4);
   display: grid;
   place-items: center;
+  overflow: hidden;
   transition: transform 0.3s var(--ease-out), box-shadow 0.3s ease;
 }
 .music-toggle:hover {
@@ -2867,7 +2869,7 @@ section.fade-in {
   align-items: flex-end;
   justify-content: center;
   gap: 2.5px;
-  height: 18px;
+  height: 16px;
   width: 100%;
 }
 .music-eq i {
@@ -2882,12 +2884,12 @@ section.fade-in {
 .music-eq i:nth-child(4) { animation-delay: 0.45s; }
 @keyframes eqBar {
   0%, 100% { height: 5px; }
-  50% { height: 18px; }
+  50% { height: 16px; }
 }
 .music-on .music-eq { display: flex; }
 .music-on .music-icon-off { display: none; }
 @media (pointer: coarse), (max-width: 768px) {
-  .music-toggle { width: 38px; height: 38px; border-radius: 10px; }
+  .music-toggle { width: 34px; height: 34px; border-radius: 9px; }
 }
 
 .chatbot-panel {
