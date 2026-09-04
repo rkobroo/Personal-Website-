@@ -654,14 +654,16 @@ if (canvas && !reduced && typeof canvas.getContext === 'function') {
 
   /* ---- Scroll Progress + Back to Top handled by unified onScroll() above ---- */
 
-  /* ---- Dark / Light Mode ---- */
-  var savedTheme = localStorage.getItem('theme') || 'dark';
-  if (savedTheme === 'light') document.body.classList.add('light');
+  /* ---- Dark / Light Mode ----
+     Always start in dark mode on every visit (ignore any previously
+     saved "light" preference). The toggle still works within the session,
+     but the choice is not remembered across visits. */
+  localStorage.removeItem('theme');
+  document.body.classList.remove('light');
   var themeBtn = $('#themeToggle');
   if (themeBtn) {
     themeBtn.addEventListener('click', function() {
       document.body.classList.toggle('light');
-      localStorage.setItem('theme', document.body.classList.contains('light') ? 'light' : 'dark');
     });
   }
 
